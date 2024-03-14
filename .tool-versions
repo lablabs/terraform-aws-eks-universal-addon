@@ -1,0 +1,6 @@
+terraform 1.5.7
+terraform-docs 0.17.0
+tflint 0.50.3
+checkov 3.2.37
+awscli 2.15.29
+pre-commit 3.6.2

@@ -1,0 +1,18 @@
+formatter: markdown table
+
+header-from: docs/.header.md
+footer-from: docs/.footer.md
+
+output:
+  file: README.md
+  mode: replace
+  template: |-
+    {{ .Content }}
+    {{- printf "\n" -}}
+
+sections:
+  hide:
+    - providers
+
+sort:
+  by: required
