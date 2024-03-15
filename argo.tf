@@ -30,7 +30,7 @@ locals {
 }
 
 resource "kubernetes_manifest" "this" {
-  count = var.enabled && var.argo_enabled && !var.argo_helm_enabled ? 1 : 0
+  count = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == false ? 1 : 0
 
   manifest = {
     apiVersion = var.argo_apiversion

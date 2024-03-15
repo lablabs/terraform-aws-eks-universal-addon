@@ -1,9 +1,9 @@
 locals {
-  irsa_role_create         = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
+  irsa_role_create         = var.enabled == true && var.rbac_create == true && var.service_account_create == true && var.irsa_role_create == true
   irsa_role_name_prefix    = try(coalesce(var.irsa_role_name_prefix, var.helm_release_name), "")
-  irsa_role_name           = trim("${local.irsa_role_name_prefix}-irsa-${var.helm_chart_name}", "-")
-  irsa_policy_enabled      = var.irsa_policy_enabled && length(var.irsa_policy) > 0
-  irsa_assume_role_enabled = var.irsa_assume_role_enabled && length(var.irsa_assume_role_arn) > 0
+  irsa_role_name           = try(trim("${local.irsa_role_name_prefix}-${var.helm_chart_name}", "-"), "")
+  irsa_policy_enabled      = var.irsa_policy_enabled == true && try(length(var.irsa_policy) > 0, false)
+  irsa_assume_role_enabled = var.irsa_assume_role_enabled == true && try(length(var.irsa_assume_role_arn) > 0, false)
 }
 
 data "aws_iam_policy_document" "this_assume" {

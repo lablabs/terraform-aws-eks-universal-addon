@@ -1,9 +1,0 @@
-docs
-helm
-argo.tf
-argo-helm.tf
-helm.tf
-iam.tf
-outputs.tf
-README.md
-main.tf

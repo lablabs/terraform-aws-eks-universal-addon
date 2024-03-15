@@ -1,5 +1,5 @@
 resource "helm_release" "this" {
-  count            = var.enabled && !var.argo_enabled ? 1 : 0
+  count            = var.enabled == true && var.argo_enabled == false ? 1 : 0
   chart            = var.helm_chart_name
   create_namespace = var.helm_create_namespace
   namespace        = var.namespace
@@ -34,9 +34,9 @@ resource "helm_release" "this" {
   description                = var.helm_description
   lint                       = var.helm_lint
 
-  values = [
+  values = compact([
     var.values
-  ]
+  ])
 
   dynamic "set" {
     for_each = var.settings

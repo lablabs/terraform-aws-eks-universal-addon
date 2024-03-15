@@ -1,10 +1,10 @@
 locals {
-  helm_argo_application_enabled      = var.enabled && var.argo_enabled && var.argo_helm_enabled
-  helm_argo_application_wait_enabled = local.helm_argo_application_enabled && length(keys(var.argo_kubernetes_manifest_wait_fields)) > 0
-  helm_argo_application_values = [
+  helm_argo_application_enabled      = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == true
+  helm_argo_application_wait_enabled = local.helm_argo_application_enabled && try(length(keys(var.argo_kubernetes_manifest_wait_fields)) > 0, false)
+  helm_argo_application_values = compact([
     one(data.utils_deep_merge_yaml.argo_helm_values[*].output),
     var.argo_helm_values
-  ]
+  ])
 }
 
 data "utils_deep_merge_yaml" "argo_helm_values" {

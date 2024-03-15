@@ -22,4 +22,6 @@ jobs:
           source_repo_path: lablabs/terraform-aws-eks-universal-addon
           upstream_branch: main
           pr_labels: kind/sync
-          is_pr_cleanup: true
+          pr_branch_name_prefix: "feat/universal-addon-sync"
+          pr_title: "feat(sync): sync universal-addon changes"
+          pr_commit_msg: "feat(sync): sync universal-addon changes"

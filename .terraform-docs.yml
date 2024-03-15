@@ -1,7 +1,18 @@
 formatter: markdown table
 
-header-from: docs/.header.md
+header-from: main.tf
 footer-from: docs/.footer.md
+
+content: |-
+  {{ .Header }}
+  {{ include "docs/.content.md" }}
+  {{ .Requirements }}
+  {{ .Providers }}
+  {{ .Modules }}
+  {{ .Resources }}
+  {{ .Inputs }}
+  {{ .Outputs }}
+  {{ .Footer }}
 
 output:
   file: README.md
