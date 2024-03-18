@@ -3,8 +3,9 @@ module "addon" {
   # tflint-ignore: terraform_module_pinned_source
   source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git?ref=main"
 
+  enabled = var.enabled
+
   # variable priority var.* (provided by the module user) > local.addon.* (universal addon default override) > default (universal addon default)
-  enabled   = local.addon.enabled
   namespace = var.namespace != null ? var.namespace : try(local.addon.namespace, local.addon.name)
 
   helm_release_name               = var.helm_release_name != null ? var.helm_release_name : try(local.addon.helm_release_name, local.addon.name)

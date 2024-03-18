@@ -8,8 +8,6 @@
  */
 locals {
   addon = {
-    enabled = true
-
     name = "universal-addon"
 
     helm_chart_name    = "raw"
