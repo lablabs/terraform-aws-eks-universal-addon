@@ -1,5 +1,6 @@
 # IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 module "addon" {
+  # tflint-ignore: terraform_module_pinned_source
   source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git?ref=main"
 
   # variable priority var.* (provided by the module user) > local.addon.* (universal addon default override) > default (universal addon default)
