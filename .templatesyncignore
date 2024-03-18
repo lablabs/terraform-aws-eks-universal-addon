@@ -1,0 +1,10 @@
+examples
+helm
+argo.tf
+argo-helm.tf
+helm.tf
+iam.tf
+main.tf
+outputs.tf
+README.md
+.secrets.baseline
