@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 permissions:
-    contents: write
-    pull-requests: write
+  contents: write
+  pull-requests: write
 
 jobs:
   universal-addon:
@@ -25,3 +25,8 @@ jobs:
           pr_branch_name_prefix: "feat/universal-addon-sync"
           pr_title: "feat(sync): sync universal-addon changes"
           pr_commit_msg: "feat(sync): sync universal-addon changes"
+          is_allow_hooks: true
+          hooks: >
+            precommit:
+              commands:
+                - cp examples/basic/addon.tf .

@@ -2,7 +2,7 @@
 module "addon" {
   source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git?ref=main"
 
-  # variable priority var (provided by the module user) > local (universal addon default override) > default (universal addon default)
+  # variable priority var.* (provided by the module user) > local.addon.* (universal addon default override) > default (universal addon default)
   enabled   = local.addon.enabled
   namespace = var.namespace != null ? var.namespace : try(local.addon.namespace, local.addon.name)
 
