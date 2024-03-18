@@ -1,21 +1,49 @@
-/**
- * # AWS EKS Universal Addon Terraform module
- *
- * A Terraform module to deploy the universal addon on Amazon EKS cluster.
- *
- * [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/validate.yaml)
- * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/pre-commit.yml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/pre-commit.yml)
- */
-locals {
-  addon = {
-    name = "universal-addon"
+module "addon_installation_disabled" {
+  source = "../integration"
 
-    helm_chart_name    = "raw"
-    helm_chart_version = "0.1.0"
-    helm_repo_url      = "https://lablabs.github.io"
+  enabled = false
+}
 
-    values = yamlencode({
-      # add default values here
-    })
+module "addon_installation_helm" {
+  source = "../integration"
+
+  enabled           = true
+  argo_enabled      = false
+  argo_helm_enabled = false
+
+  values = yamlencode({
+    # insert sample values here
+  })
+}
+
+# Please, see README.md and Argo Kubernetes deployment method for implications of using Kubernetes installation method
+module "addon_installation_argo_kubernetes" {
+  source = "../integration"
+
+  enabled           = true
+  argo_enabled      = true
+  argo_helm_enabled = false
+
+  values = yamlencode({
+    # insert sample values here
+  })
+
+  argo_sync_policy = {
+    automated   = {}
+    syncOptions = ["CreateNamespace=true"]
+  }
+}
+
+
+module "addon_installation_argo_helm" {
+  source = "../integration"
+
+  enabled           = true
+  argo_enabled      = true
+  argo_helm_enabled = true
+
+  argo_sync_policy = {
+    automated   = {}
+    syncOptions = ["CreateNamespace=true"]
   }
 }

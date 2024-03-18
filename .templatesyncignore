@@ -1,4 +1,5 @@
-examples
+examples/integration
+examples/basic/main.tf
 helm
 argo.tf
 argo-helm.tf
