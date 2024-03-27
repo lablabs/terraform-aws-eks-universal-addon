@@ -1,19 +1,5 @@
-output "helm_release_metadata" {
-  description = "Helm release attributes"
-  value       = try(helm_release.this[0].metadata, {})
-}
-
-output "helm_release_application_metadata" {
-  description = "ArgoCD Application Helm release attributes"
-  value       = try(helm_release.argo_application[0].metadata, {})
-}
-
-output "kubernetes_application_attributes" {
-  description = "ArgoCD Kubernetes manifest attributes"
-  value       = try(kubernetes_manifest.this[0], {})
-}
-
-output "iam_role_attributes" {
-  description = "IAM role attributes"
-  value       = try(aws_iam_role.this[0], {})
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
+output "addon" {
+  description = "The addon module outputs"
+  value       = module.addon
 }

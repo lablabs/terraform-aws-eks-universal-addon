@@ -1,11 +1,6 @@
-examples/integration
+modules
 examples/basic/main.tf
-helm
-argo.tf
-argo-helm.tf
-helm.tf
-iam.tf
 main.tf
-outputs.tf
+variables.tf
 README.md
 .secrets.baseline

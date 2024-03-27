@@ -1,0 +1,428 @@
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
+variable "enabled" {
+  type        = bool
+  default     = true
+  description = "Variable indicating whether deployment is enabled"
+}
+
+# ================ common variables (required) ================
+
+variable "helm_chart_name" {
+  type        = string
+  default     = null
+  description = "Helm chart name to be installed. Defaults to `local.addon.name` (required)."
+}
+
+variable "helm_chart_version" {
+  type        = string
+  default     = null
+  description = "Version of the Helm chart. Defaults to `local.addon.helm_chart_version` (required)."
+}
+
+variable "helm_release_name" {
+  type        = string
+  default     = null
+  description = "Helm release name. Defaults to `local.addon.name` (required)."
+}
+
+variable "helm_repo_url" {
+  type        = string
+  default     = null
+  description = "Helm repository. Defaults to `local.addon.helm_repo_url` (required)."
+}
+
+variable "helm_create_namespace" {
+  type        = bool
+  default     = null
+  description = "Create the namespace if it does not yet exist. Defaults to `true`."
+}
+
+variable "namespace" {
+  type        = string
+  default     = null
+  description = "The Kubernetes Namespace in which the Helm chart will be installed. Defaults to `local.addon.name` (required)."
+}
+
+variable "settings" {
+  type        = map(any)
+  default     = null
+  description = "Additional Helm sets which will be passed to the Helm chart values. Defaults to `{}`."
+}
+
+variable "values" {
+  type        = string
+  default     = null
+  description = "Additional yaml encoded values which will be passed to the Helm chart. Defaults to `\"\"`."
+}
+
+# ================ IRSA variables (optional) ================
+
+
+variable "cluster_identity_oidc_issuer" {
+  type        = string
+  default     = null
+  description = "The OIDC Identity issuer for the cluster. Defaults to `\"\"`."
+}
+
+variable "cluster_identity_oidc_issuer_arn" {
+  type        = string
+  default     = null
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account. Defaults to `\"\"`."
+}
+
+variable "rbac_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create and use RBAC resources. Defaults to `true`."
+}
+
+variable "service_account_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create Service Account. Defaults to `true`."
+}
+
+variable "service_account_name" {
+  type        = string
+  default     = null
+  description = "The Kubernetes Service Account name. Defaults to `local.addon.name` (required)."
+}
+
+variable "irsa_role_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create IRSA role and annotate service account. Defaults to `true`."
+}
+
+variable "irsa_policy_enabled" {
+  type        = bool
+  default     = null
+  description = "Whether to create opinionated policy to allow AWS operations. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`."
+}
+
+variable "irsa_policy" {
+  type        = string
+  default     = null
+  description = "Policy to be attached to the default role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `\"\"`."
+}
+
+variable "irsa_assume_role_enabled" {
+  type        = bool
+  default     = null
+  description = "Whether IRSA is allowed to assume role defined by `irsa_assume_role_arn`. Mutually exclusive with `irsa_policy_enabled`. Defaults to `false`."
+}
+
+variable "irsa_assume_role_arn" {
+  type        = string
+  default     = null
+  description = "Assume role ARN. Assume role must be enabled. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `\"\"`."
+}
+
+variable "irsa_additional_policies" {
+  type        = map(string)
+  default     = null
+  description = "Map of the additional policies to be attached to default role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`."
+}
+
+variable "irsa_role_name_prefix" {
+  type        = string
+  default     = null
+  description = "IRSA role name prefix. Defaults to `\"$${local.addon.name}-irsa\"`."
+}
+
+variable "irsa_tags" {
+  type        = map(string)
+  default     = null
+  description = "IRSA resources tags. Defaults to `{}`."
+}
+
+# ================ argo variables (required) ================
+
+variable "argo_namespace" {
+  type        = string
+  default     = null
+  description = "Namespace to deploy ArgoCD application CRD to. Defaults to `\"argo\"`."
+}
+
+variable "argo_enabled" {
+  type        = bool
+  default     = null
+  description = "If set to true, the module will be deployed as ArgoCD application, otherwise it will be deployed as a Helm release. Defaults to `false`."
+}
+
+variable "argo_helm_enabled" {
+  type        = bool
+  default     = null
+  description = "If set to true, the ArgoCD Application manifest will be deployed using Kubernetes provider as a Helm release. Otherwise it'll be deployed as a Kubernetes manifest. See README for more info. Defaults to `false`."
+}
+
+variable "argo_helm_wait_timeout" {
+  type        = string
+  default     = null
+  description = "Timeout for ArgoCD Application Helm release wait job. Defaults to `\"10m\"`."
+}
+
+variable "argo_helm_wait_node_selector" {
+  type        = map(string)
+  default     = null
+  description = "Node selector for ArgoCD Application Helm release wait job. Defaults to `{}`."
+}
+
+variable "argo_helm_wait_tolerations" {
+  type        = list(any)
+  default     = null
+  description = "Tolerations for ArgoCD Application Helm release wait job. Defaults to `[]`."
+}
+
+variable "argo_helm_wait_backoff_limit" {
+  type        = number
+  default     = null
+  description = "Backoff limit for ArgoCD Application Helm release wait job. Defaults to `6`."
+}
+
+variable "argo_destination_server" {
+  type        = string
+  default     = null
+  description = "Destination server for ArgoCD Application. Defaults to `\"https://kubernetes.default.svc\"`."
+}
+
+variable "argo_project" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application project. Defaults to `default`."
+}
+
+variable "argo_info" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default     = null
+  description = "ArgoCD info manifest parameter. Defaults to `[{name=\"terraform\",value=true}]`."
+}
+
+variable "argo_sync_policy" {
+  type        = any
+  default     = null
+  description = "ArgoCD syncPolicy manifest parameter. Defaults to `{}`."
+}
+
+variable "argo_metadata" {
+  type        = any
+  default     = null
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters. Defaults to `{finalizers=[\"resources-finalizer.argocd.argoproj.io\"]}`."
+}
+
+variable "argo_apiversion" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application apiVersion. Defaults to `\"argoproj.io/v1alpha1\"`."
+}
+
+variable "argo_spec" {
+  type        = any
+  default     = null
+  description = "ArgoCD Application spec configuration. Override or create additional spec parameters. Defaults to `{}`."
+}
+
+variable "argo_helm_values" {
+  type        = string
+  default     = null
+  description = "Value overrides to use when deploying ArgoCD Application object with Helm. Defaults to `\"\"`."
+}
+
+# ================ argo kubernetes manifest variables (required) ================
+
+variable "argo_kubernetes_manifest_computed_fields" {
+  type        = list(string)
+  default     = null
+  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
+}
+
+variable "argo_kubernetes_manifest_field_manager_name" {
+  type        = string
+  default     = null
+  description = "The name of the field manager to use when applying the Kubernetes manifest resource. Defaults to `\"Terraform\"`."
+}
+
+variable "argo_kubernetes_manifest_field_manager_force_conflicts" {
+  type        = bool
+  default     = null
+  description = "Forcibly override any field manager conflicts when applying the kubernetes manifest resource. Defaults to `false`."
+}
+
+variable "argo_kubernetes_manifest_wait_fields" {
+  type        = map(string)
+  default     = null
+  description = "A map of fields and a corresponding regular expression with a pattern to wait for. The provider will wait until the field matches the regular expression. Use * for any value. Defaults to `{}`."
+}
+
+# ================ Helm release variables (required) ================
+
+variable "helm_repo_key_file" {
+  type        = string
+  default     = null
+  description = "Helm repositories cert key file. Defaults to `\"\"`."
+}
+
+variable "helm_repo_cert_file" {
+  type        = string
+  default     = null
+  description = "Helm repositories cert file. Defaults to `\"\"`."
+}
+
+variable "helm_repo_ca_file" {
+  type        = string
+  default     = null
+  description = "Helm repositories CA cert file. Defaults to `\"\"`."
+}
+
+variable "helm_repo_username" {
+  type        = string
+  default     = null
+  description = "Username for HTTP basic authentication against the Helm repository. Defaults to `\"\"`."
+}
+
+variable "helm_repo_password" {
+  type        = string
+  default     = null
+  description = "Password for HTTP basic authentication against the Helm repository. Defaults to `\"\"`."
+}
+
+variable "helm_devel" {
+  type        = bool
+  default     = null
+  description = "Use Helm chart development versions, too. Equivalent to version '>0.0.0-0'. If version is set, this is ignored. Defaults to `false`."
+}
+
+variable "helm_package_verify" {
+  type        = bool
+  default     = null
+  description = "Verify the package before installing it. Helm uses a provenance file to verify the integrity of the chart; this must be hosted alongside the chart. Defaults to `false`."
+}
+
+variable "helm_keyring" {
+  type        = string
+  default     = null
+  description = "Location of public keys used for verification. Used only if `helm_package_verify` is `true`. Defaults to `\"~/.gnupg/pubring.gpg\"`."
+}
+
+variable "helm_timeout" {
+  type        = number
+  default     = null
+  description = "Time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks). Defaults to `300`."
+}
+
+variable "helm_disable_webhooks" {
+  type        = bool
+  default     = null
+  description = "Prevent Helm chart hooks from running. Defaults to `false`."
+}
+
+variable "helm_reset_values" {
+  type        = bool
+  default     = null
+  description = "When upgrading, reset the values to the ones built into the Helm chart. Defaults to `false`."
+}
+
+variable "helm_reuse_values" {
+  type        = bool
+  default     = null
+  description = "When upgrading, reuse the last Helm release's values and merge in any overrides. If 'helm_reset_values' is specified, this is ignored. Defaults to `false`."
+}
+
+variable "helm_force_update" {
+  type        = bool
+  default     = null
+  description = "Force Helm resource update through delete/recreate if needed. Defaults to `false`."
+}
+
+variable "helm_recreate_pods" {
+  type        = bool
+  default     = null
+  description = "Perform pods restart during Helm upgrade/rollback. Defaults to `false`."
+}
+
+variable "helm_cleanup_on_fail" {
+  type        = bool
+  default     = null
+  description = "Allow deletion of new resources created in this Helm upgrade when upgrade fails. Defaults to `false`."
+}
+
+variable "helm_release_max_history" {
+  type        = number
+  default     = null
+  description = "Maximum number of release versions stored per release. Defaults to `0`."
+}
+
+variable "helm_atomic" {
+  type        = bool
+  default     = null
+  description = "If set, installation process purges chart on fail. The wait flag will be set automatically if atomic is used. Defaults to `false`."
+}
+
+variable "helm_wait" {
+  type        = bool
+  default     = null
+  description = "Will wait until all Helm release resources are in a ready state before marking the release as successful. It will wait for as long as timeout. Defaults to `false`."
+}
+
+variable "helm_wait_for_jobs" {
+  type        = bool
+  default     = null
+  description = "If wait is enabled, will wait until all Helm Jobs have been completed before marking the release as successful. It will wait for as long as timeout. Defaults to `false`."
+}
+
+variable "helm_skip_crds" {
+  type        = bool
+  default     = null
+  description = "If set, no CRDs will be installed before Helm release. Defaults to `false`."
+}
+
+variable "helm_render_subchart_notes" {
+  type        = bool
+  default     = null
+  description = "If set, render Helm subchart notes along with the parent. Defaults to `true`."
+}
+
+variable "helm_disable_openapi_validation" {
+  type        = bool
+  default     = null
+  description = "If set, the installation process will not validate rendered Helm templates against the Kubernetes OpenAPI Schema. Defaults to `false`."
+}
+
+variable "helm_dependency_update" {
+  type        = bool
+  default     = null
+  description = "Runs Helm dependency update before installing the chart. Defaults to `false`."
+}
+
+variable "helm_replace" {
+  type        = bool
+  default     = null
+  description = "Re-use the given name of Helm release, only if that name is a deleted release which remains in the history. This is unsafe in production. Defaults to `false`."
+}
+
+variable "helm_description" {
+  type        = string
+  default     = null
+  description = "Set Helm release description attribute (visible in the history). Defaults to `\"\"`."
+}
+
+variable "helm_lint" {
+  type        = bool
+  default     = null
+  description = "Run the Helm chart linter during the plan. Defaults to `false`."
+}
+
+variable "helm_set_sensitive" {
+  type        = map(any)
+  default     = null
+  description = "Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff. Defaults to `{}`."
+}
+
+variable "helm_postrender" {
+  type        = map(any)
+  default     = null
+  description = "Value block with a path to a binary file to run after Helm renders the manifest which can alter the manifest contents. Defaults to `{}`."
+}

@@ -1,11 +1,11 @@
 module "addon_installation_disabled" {
-  source = "../integration"
+  source = "../../"
 
   enabled = false
 }
 
 module "addon_installation_helm" {
-  source = "../integration"
+  source = "../../"
 
   enabled           = true
   argo_enabled      = false
@@ -18,7 +18,7 @@ module "addon_installation_helm" {
 
 # Please, see README.md and Argo Kubernetes deployment method for implications of using Kubernetes installation method
 module "addon_installation_argo_kubernetes" {
-  source = "../integration"
+  source = "../../"
 
   enabled           = true
   argo_enabled      = true
@@ -36,7 +36,7 @@ module "addon_installation_argo_kubernetes" {
 
 
 module "addon_installation_argo_helm" {
-  source = "../integration"
+  source = "../../"
 
   enabled           = true
   argo_enabled      = true

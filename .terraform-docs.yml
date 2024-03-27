@@ -10,6 +10,7 @@ content: |-
   {{ .Providers }}
   {{ .Modules }}
   {{ .Resources }}
+  {{ include "docs/.inputs.md" }}
   {{ .Inputs }}
   {{ .Outputs }}
   {{ .Footer }}
@@ -27,3 +28,7 @@ sections:
 
 sort:
   by: required
+
+settings:
+  default: false
+  required: false

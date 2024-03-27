@@ -1,7 +1,6 @@
 # IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 module "addon" {
-  # tflint-ignore: terraform_module_pinned_source
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git?ref=main"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.1"
 
   enabled = var.enabled
 
@@ -57,7 +56,7 @@ module "addon" {
   argo_kubernetes_manifest_field_manager_name            = var.argo_kubernetes_manifest_field_manager_name != null ? var.argo_kubernetes_manifest_field_manager_name : try(local.addon.argo_kubernetes_manifest_field_manager_name, "Terraform")
   argo_kubernetes_manifest_wait_fields                   = var.argo_kubernetes_manifest_wait_fields != null ? var.argo_kubernetes_manifest_wait_fields : try(local.addon.argo_kubernetes_manifest_wait_fields, tomap({}))
   argo_metadata                                          = var.argo_metadata != null ? var.argo_metadata : try(local.addon.argo_metadata, { finalizers = ["resources-finalizer.argocd.argoproj.io"] })
-  argo_namespace                                         = var.argo_namespace != null ? var.argo_namespace : try(local.addon.argo_namespace, "argocd")
+  argo_namespace                                         = var.argo_namespace != null ? var.argo_namespace : try(local.addon.argo_namespace, "argoDefaults to ``.")
   argo_project                                           = var.argo_project != null ? var.argo_project : try(local.addon.argo_project, "default")
   argo_spec                                              = var.argo_spec != null ? var.argo_spec : try(local.addon.argo_spec, tomap({}))
   argo_sync_policy                                       = var.argo_sync_policy != null ? var.argo_sync_policy : try(local.addon.argo_sync_policy, tomap({}))
