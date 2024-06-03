@@ -60,13 +60,13 @@ variable "values" {
 variable "cluster_identity_oidc_issuer" {
   type        = string
   default     = null
-  description = "The OIDC Identity issuer for the cluster. Defaults to `\"\"`."
+  description = "The OIDC Identity issuer for the cluster. Defaults to `\"\"` (required when IRSA is enabled)."
 }
 
 variable "cluster_identity_oidc_issuer_arn" {
   type        = string
   default     = null
-  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account. Defaults to `\"\"`."
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account. Defaults to `\"\"` (required when IRSA is enabled)."
 }
 
 variable "rbac_create" {
