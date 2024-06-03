@@ -90,7 +90,7 @@ variable "service_account_name" {
 variable "irsa_role_create" {
   type        = bool
   default     = null
-  description = "Whether to create IRSA role and annotate service account. Defaults to `true`."
+  description = "Whether to create IRSA role and annotate Service Account. Defaults to `true`."
 }
 
 variable "irsa_policy_enabled" {

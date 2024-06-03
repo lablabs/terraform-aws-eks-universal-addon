@@ -32,17 +32,6 @@ Deploy Helm chart as ArgoCD Application via Kubernetes manifest resource (set `e
 ### Argo Helm
 Deploy Helm chart as ArgoCD Application via Helm resource (set `enabled = true`, `argo_enabled = true` and `argo_helm_enabled = true`)
 
-## AWS IAM resources
-
-### IRSA role
-To disable creation of IRSA role, set `irsa_role_create = false`.
-
-### IRSA role policy
-To disable creation of IRSA role and IRSA policy, set `irsa_role_create = false` and `irsa_policy_enabled = false`, respectively.
-
-### IRSA role another role assuming
-To assume role set `irsa_assume_role_enabled = true` and specify `irsa_assume_role_arn` variable.
-
 ## Examples
 
 See [Basic example](examples/basic/README.md) for further information.
@@ -132,7 +121,7 @@ See [Basic example](examples/basic/README.md) for further information.
 | <a name="input_irsa_assume_role_enabled"></a> [irsa\_assume\_role\_enabled](#input\_irsa\_assume\_role\_enabled) | Whether IRSA is allowed to assume role defined by `irsa_assume_role_arn`. Mutually exclusive with `irsa_policy_enabled`. Defaults to `false`. | `bool` |
 | <a name="input_irsa_policy"></a> [irsa\_policy](#input\_irsa\_policy) | Policy to be attached to the default role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `""`. | `string` |
 | <a name="input_irsa_policy_enabled"></a> [irsa\_policy\_enabled](#input\_irsa\_policy\_enabled) | Whether to create IAM policy specified by `irsa_policy`. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`. | `bool` |
-| <a name="input_irsa_role_create"></a> [irsa\_role\_create](#input\_irsa\_role\_create) | Whether to create IRSA role and annotate service account. Defaults to `true`. | `bool` |
+| <a name="input_irsa_role_create"></a> [irsa\_role\_create](#input\_irsa\_role\_create) | Whether to create IRSA role and annotate Service Account. Defaults to `true`. | `bool` |
 | <a name="input_irsa_role_name_prefix"></a> [irsa\_role\_name\_prefix](#input\_irsa\_role\_name\_prefix) | IRSA role name prefix. Defaults to `"${local.addon.name}-irsa"`. | `string` |
 | <a name="input_irsa_tags"></a> [irsa\_tags](#input\_irsa\_tags) | IRSA resources tags. Defaults to `{}`. | `map(string)` |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The Kubernetes Namespace in which the Helm chart will be installed. Defaults to `local.addon.name` (required). | `string` |
