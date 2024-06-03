@@ -96,7 +96,7 @@ variable "irsa_role_create" {
 variable "irsa_policy_enabled" {
   type        = bool
   default     = null
-  description = "Whether to create opinionated policy to allow AWS operations. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`."
+  description = "Whether to create IAM policy specified by `irsa_policy`. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`."
 }
 
 variable "irsa_policy" {
@@ -114,7 +114,7 @@ variable "irsa_assume_role_enabled" {
 variable "irsa_assume_role_arn" {
   type        = string
   default     = null
-  description = "Assume role ARN. Assume role must be enabled. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `\"\"`."
+  description = "Assume role ARN. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `\"\"`."
 }
 
 variable "irsa_additional_policies" {
