@@ -1,9 +1,9 @@
 locals {
   irsa_role_create         = var.enabled == true && var.rbac_create == true && var.service_account_create == true && var.irsa_role_create == true
-  irsa_role_name_prefix    = try(coalesce(var.irsa_role_name_prefix, var.helm_release_name), "")
-  irsa_role_name           = try(trim("${local.irsa_role_name_prefix}-${var.helm_chart_name}", "-"), "")
+  irsa_role_name_prefix    = try(coalesce(var.irsa_role_name_prefix), "")
+  irsa_role_name           = try(trim("${local.irsa_role_name_prefix}-${var.irsa_role_name}", "-"), "")
   irsa_policy_enabled      = var.irsa_policy_enabled == true && try(length(var.irsa_policy) > 0, false)
-  irsa_assume_role_enabled = var.irsa_assume_role_enabled == true && try(length(var.irsa_assume_role_arn) > 0, false)
+  irsa_assume_role_enabled = var.irsa_assume_role_enabled == true && try(length(var.irsa_assume_role_arns) > 0, false)
 }
 
 data "aws_iam_policy_document" "this_assume" {
@@ -14,19 +14,16 @@ data "aws_iam_policy_document" "this_assume" {
     actions = [
       "sts:AssumeRole"
     ]
-    resources = [
-      var.irsa_assume_role_arn
-    ]
+    resources = var.irsa_assume_role_arns
   }
 }
 
 resource "aws_iam_policy" "this" {
   count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
 
-  name        = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
-  path        = "/"
-  description = "Policy for ${var.helm_release_name}"
-  policy      = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_assume[0].json : var.irsa_policy
+  name   = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
+  path   = "/"
+  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_assume[0].json : var.irsa_policy
 
   tags = var.irsa_tags
 }
@@ -48,7 +45,7 @@ data "aws_iam_policy_document" "this_irsa" {
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
 
       values = [
-        "system:serviceaccount:${var.namespace}:${var.service_account_name}",
+        "system:serviceaccount:${var.service_account_namespace}:${var.service_account_name}",
       ]
     }
   }

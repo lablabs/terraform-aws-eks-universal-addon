@@ -12,8 +12,3 @@ output "kubernetes_application_attributes" {
   description = "ArgoCD Kubernetes manifest attributes"
   value       = try(kubernetes_manifest.this[0], {})
 }
-
-output "iam_role_attributes" {
-  description = "IAM role attributes"
-  value       = try(aws_iam_role.this[0], {})
-}

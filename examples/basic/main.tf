@@ -43,7 +43,6 @@ module "addon_installation_argo_kubernetes" {
   }
 }
 
-
 module "addon_installation_argo_helm" {
   source = "../../"
 

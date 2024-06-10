@@ -5,7 +5,7 @@ footer-from: docs/.footer.md
 
 content: |-
   {{ .Header }}
-  {{ include "docs/.content.md" }}
+  {{ include "docs/.addon.md" }}
   {{ .Requirements }}
   {{ .Providers }}
   {{ .Modules }}

@@ -1,14 +1,21 @@
 # IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
+locals {
+  addon_namespace         = var.namespace != null ? var.namespace : try(local.addon.namespace, local.addon.name)
+  addon_helm_release_name = var.helm_release_name != null ? var.helm_release_name : try(local.addon.helm_release_name, local.addon.name)
+  addon_helm_chart_name   = var.helm_chart_name != null ? var.helm_chart_name : try(local.addon.helm_chart_name, local.addon.name)
+}
+
 module "addon" {
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.2"
+  #   source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.2"
+  source = "./modules/addon"
 
   enabled = var.enabled
 
   # variable priority var.* (provided by the module user) > local.addon.* (universal addon default override) > default (universal addon default)
-  namespace = var.namespace != null ? var.namespace : try(local.addon.namespace, local.addon.name)
+  namespace = local.addon_namespace
 
-  helm_release_name               = var.helm_release_name != null ? var.helm_release_name : try(local.addon.helm_release_name, local.addon.name)
-  helm_chart_name                 = var.helm_chart_name != null ? var.helm_chart_name : try(local.addon.helm_chart_name, local.addon.name)
+  helm_release_name               = local.addon_helm_release_name
+  helm_chart_name                 = local.addon_helm_chart_name
   helm_chart_version              = var.helm_chart_version != null ? var.helm_chart_version : local.addon.helm_chart_version
   helm_atomic                     = var.helm_atomic != null ? var.helm_atomic : try(local.addon.helm_atomic, false)
   helm_cleanup_on_fail            = var.helm_cleanup_on_fail != null ? var.helm_cleanup_on_fail : try(local.addon.helm_cleanup_on_fail, false)
@@ -61,30 +68,20 @@ module "addon" {
   argo_spec                                              = var.argo_spec != null ? var.argo_spec : try(local.addon.argo_spec, tomap({}))
   argo_sync_policy                                       = var.argo_sync_policy != null ? var.argo_sync_policy : try(local.addon.argo_sync_policy, tomap({}))
 
-  cluster_identity_oidc_issuer     = var.cluster_identity_oidc_issuer != null ? var.cluster_identity_oidc_issuer : try(local.addon.cluster_identity_oidc_issuer, "")
-  cluster_identity_oidc_issuer_arn = var.cluster_identity_oidc_issuer_arn != null ? var.cluster_identity_oidc_issuer_arn : try(local.addon.cluster_identity_oidc_issuer_arn, "")
-  irsa_role_create                 = var.irsa_role_create != null ? var.irsa_role_create : try(local.addon.irsa_role_create, true)
-  irsa_additional_policies         = var.irsa_additional_policies != null ? var.irsa_additional_policies : try(local.addon.irsa_additional_policies, tomap({}))
-  irsa_assume_role_arn             = var.irsa_assume_role_arn != null ? var.irsa_assume_role_arn : try(local.addon.irsa_assume_role_arn, "")
-  irsa_assume_role_enabled         = var.irsa_assume_role_enabled != null ? var.irsa_assume_role_enabled : try(local.addon.irsa_assume_role_enabled, false)
-  irsa_policy                      = var.irsa_policy != null ? var.irsa_policy : try(local.addon.irsa_policy, "")
-  irsa_policy_enabled              = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : try(local.addon.irsa_policy_enabled, false)
-  irsa_role_name_prefix            = var.irsa_role_name_prefix != null ? var.irsa_role_name_prefix : try(local.addon.irsa_role_name_prefix, "${local.addon.name}-irsa")
-  irsa_tags                        = var.irsa_tags != null ? var.irsa_tags : try(local.addon.irsa_tags, tomap({}))
-
-  rbac_create            = var.rbac_create != null ? var.rbac_create : try(local.addon.rbac_create, true)
-  service_account_create = var.service_account_create != null ? var.service_account_create : try(local.addon.service_account_create, true)
-  service_account_name   = var.service_account_name != null ? var.service_account_name : try(local.addon.service_account_name, local.addon.name)
-
   settings = var.settings != null ? var.settings : try(local.addon.settings, tomap({}))
   values   = one(data.utils_deep_merge_yaml.values[*].output)
 }
 
 data "utils_deep_merge_yaml" "values" {
-  count = var.enabled == true ? 1 : 0
+  count = var.enabled ? 1 : 0
 
   input = compact([
-    try(local.addon.values, ""),
+    try(local.addon_values, ""),
     var.values
   ])
+}
+
+output "addon" {
+  description = "The addon module outputs"
+  value       = module.addon
 }

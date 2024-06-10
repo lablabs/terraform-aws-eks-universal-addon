@@ -6,18 +6,25 @@
  * [![Terraform validate](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/validate.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/validate.yaml)
  * [![pre-commit](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/lablabs/terraform-aws-eks-universal-addon/actions/workflows/pre-commit.yaml)
  */
-# FIXME: update addon docs above
+# FIXME config: update addon docs above
 locals {
-  # FIXME: add addon configuration here
+  # FIXME config: add addon configuration here
   addon = {
     name = "universal-addon"
 
     helm_chart_name    = "raw"
     helm_chart_version = "0.1.0"
     helm_repo_url      = "https://lablabs.github.io"
+  }
 
-    values = yamlencode({
-      # FIXME: add default values here or remove `values` if not needed
-    })
+  addon_values = yamlencode({
+    # FIXME config: add default values here or remove if not needed
+  })
+
+  # FIXME config: add addon IRSA configuration here or remove if not needed
+  addon_irsa = {
+    (local.addon.name) = {
+      # FIXME: add default IRSA overrides here or leave empty if not needed, but make sure to keep at least one key
+    }
   }
 }
