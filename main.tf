@@ -17,14 +17,14 @@ locals {
     helm_repo_url      = "https://lablabs.github.io"
   }
 
-  addon_values = yamlencode({
-    # FIXME config: add default values here or remove if not needed
-  })
-
   # FIXME config: add addon IRSA configuration here or remove if not needed
   addon_irsa = {
     (local.addon.name) = {
       # FIXME: add default IRSA overrides here or leave empty if not needed, but make sure to keep at least one key
     }
   }
+
+  addon_values = yamlencode({
+    # FIXME config: add default values here or remove if not needed
+  })
 }
