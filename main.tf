@@ -20,7 +20,7 @@ locals {
   # FIXME config: add addon IRSA configuration here or remove if not needed
   addon_irsa = {
     (local.addon.name) = {
-      # FIXME: add default IRSA overrides here or leave empty if not needed, but make sure to keep at least one key
+      # FIXME config: add default IRSA overrides here or leave empty if not needed, but make sure to keep at least one key
     }
   }
 
