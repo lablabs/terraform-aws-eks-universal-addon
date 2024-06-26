@@ -56,22 +56,10 @@ variable "irsa_role_name" {
   description = "IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to addon Helm chart name."
 }
 
-variable "irsa_policy_enabled" {
-  type        = bool
-  default     = null
-  description = "Whether to create IAM policy specified by `irsa_policy`. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`."
-}
-
-variable "irsa_policy" {
-  type        = string
-  default     = null
-  description = "Policy to be attached to the default role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `\"\"`."
-}
-
 variable "irsa_assume_role_enabled" {
   type        = bool
   default     = null
-  description = "Whether IRSA is allowed to assume role defined by `irsa_assume_role_arns`. Mutually exclusive with `irsa_policy_enabled`. Defaults to `false`."
+  description = "Whether IRSA is allowed to assume role defined by `irsa_assume_role_arn`. Defaults to `false`."
 }
 
 variable "irsa_assume_role_arns" {
@@ -80,10 +68,16 @@ variable "irsa_assume_role_arns" {
   description = "List of ARNs assumable by the IRSA role. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `\"\"`."
 }
 
+variable "irsa_permissions_boundary" {
+  type        = string
+  default     = null
+  description = "ARN of the policy that is used to set the permissions boundary for the IRSA role. Defaults to `null`."
+}
+
 variable "irsa_additional_policies" {
   type        = map(string)
   default     = null
-  description = "Map of the additional policies to be attached to default role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`."
+  description = "Map of the additional policies to be attached to IRSA role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`."
 }
 
 variable "irsa_tags" {

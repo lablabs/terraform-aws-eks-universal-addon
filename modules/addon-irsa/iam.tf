@@ -2,7 +2,6 @@ locals {
   irsa_role_create         = var.enabled == true && var.rbac_create == true && var.service_account_create == true && var.irsa_role_create == true
   irsa_role_name_prefix    = try(coalesce(var.irsa_role_name_prefix), "")
   irsa_role_name           = try(trim("${local.irsa_role_name_prefix}-${var.irsa_role_name}", "-"), "")
-  irsa_policy_enabled      = var.irsa_policy_enabled == true && try(length(var.irsa_policy) > 0, false)
   irsa_assume_role_enabled = var.irsa_assume_role_enabled == true && try(length(var.irsa_assume_role_arns) > 0, false)
 }
 
@@ -19,11 +18,11 @@ data "aws_iam_policy_document" "this_assume" {
 }
 
 resource "aws_iam_policy" "this" {
-  count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
+  count = local.irsa_role_create && local.irsa_assume_role_enabled ? 1 : 0
 
   name   = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
-  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_assume[0].json : var.irsa_policy
+  policy = data.aws_iam_policy_document.this_assume[0].json
 
   tags = var.irsa_tags
 }
@@ -52,14 +51,15 @@ data "aws_iam_policy_document" "this_irsa" {
 }
 
 resource "aws_iam_role" "this" {
-  count              = local.irsa_role_create ? 1 : 0
-  name               = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy = data.aws_iam_policy_document.this_irsa[0].json
-  tags               = var.irsa_tags
+  count                = local.irsa_role_create ? 1 : 0
+  name                 = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
+  assume_role_policy   = data.aws_iam_policy_document.this_irsa[0].json
+  permissions_boundary = var.irsa_permissions_boundary
+  tags                 = var.irsa_tags
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  count      = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
+  count      = local.irsa_role_create && local.irsa_assume_role_enabled ? 1 : 0
   role       = aws_iam_role.this[0].name
   policy_arn = aws_iam_policy.this[0].arn
 }
