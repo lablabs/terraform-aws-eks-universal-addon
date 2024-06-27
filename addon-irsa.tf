@@ -18,10 +18,11 @@ module "addon-irsa" {
   irsa_role_name_prefix = var.irsa_role_name_prefix != null ? var.irsa_role_name_prefix : try(each.value.irsa_role_name_prefix, "${each.key}-irsa")
   irsa_role_name        = var.irsa_role_name != null ? var.irsa_role_name : try(each.value.irsa_role_name, local.addon_helm_chart_name)
 
-  irsa_assume_role_arns    = var.irsa_assume_role_arns != null ? var.irsa_assume_role_arns : try(each.value.irsa_assume_role_arns, [])
-  irsa_assume_role_enabled = var.irsa_assume_role_enabled != null ? var.irsa_assume_role_enabled : try(each.value.irsa_assume_role_enabled, false)
-
-  irsa_permissions_boundary = var.irsa_permissions_boundary != null ? var.irsa_permissions_boundary : try(each.value.irsa_permissions_boundary, null)
+  irsa_policy_enabled       = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : try(each.value.irsa_policy_enabled, false)
+  irsa_policy               = var.irsa_policy != null ? var.irsa_policy : try(each.value.irsa_policy, "")
+  irsa_assume_role_enabled  = var.irsa_assume_role_enabled != null ? var.irsa_assume_role_enabled : try(each.value.irsa_assume_role_enabled, false)
+  irsa_assume_role_arns     = var.irsa_assume_role_arns != null ? var.irsa_assume_role_arns : try(each.value.irsa_assume_role_arns, [])
+  irsa_permissions_boundary = var.irsa_permissions_boundary != null ? var.irsa_permissions_boundary : try(each.value.irsa_permissions_boundary, "")
   irsa_additional_policies  = var.irsa_additional_policies != null ? var.irsa_additional_policies : try(each.value.irsa_additional_policies, tomap({}))
 
   irsa_tags = var.irsa_tags != null ? var.irsa_tags : try(each.value.irsa_tags, tomap({}))
