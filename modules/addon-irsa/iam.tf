@@ -44,9 +44,12 @@ data "aws_iam_policy_document" "this_irsa" {
       test     = var.irsa_assume_role_policy_condition_test
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
 
-      values = [
-        "system:serviceaccount:${var.service_account_namespace}:${var.service_account_name}",
-      ]
+      values = concat(
+        [
+          "system:serviceaccount:${var.service_account_namespace}:${var.service_account_name}",
+        ],
+        var.irsa_assume_role_policy_additional_condition_values
+      )
     }
   }
 }
