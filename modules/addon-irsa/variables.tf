@@ -101,3 +101,15 @@ variable "irsa_tags" {
   default     = null
   description = "IRSA resources tags. Defaults to `{}`."
 }
+
+variable "irsa_assume_role_policy_condition_test" {
+  type        = string
+  default     = "StringEquals"
+  description = "Which condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+}
+
+variable "irsa_assume_role_policy_additional_condition_values" {
+  type        = list(string)
+  default     = []
+  description = "Additional values for the assume role trust policy condition. Defaults to `[]`."
+}
