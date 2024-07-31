@@ -32,13 +32,13 @@ variable "service_account_create" {
 
 variable "service_account_name" {
   type        = string
-  default     = null
+  default     = ""
   description = "The Kubernetes Service Account name. Defaults to addon name."
 }
 
 variable "service_account_namespace" {
   type        = string
-  default     = null
+  default     = ""
   description = "The Kubernetes Service Account namespace. Defaults to addon namespace."
 }
 
