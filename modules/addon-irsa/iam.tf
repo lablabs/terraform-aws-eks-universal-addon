@@ -4,6 +4,8 @@ locals {
   irsa_role_name           = try(trim("${local.irsa_role_name_prefix}-${var.irsa_role_name}", "-"), "")
   irsa_policy_enabled      = var.irsa_policy_enabled == true && try(length(var.irsa_policy) > 0, false)
   irsa_assume_role_enabled = var.irsa_assume_role_enabled == true && try(length(var.irsa_assume_role_arns) > 0, false)
+
+  irsa_assume_role_policy_condition_values = length(var.irsa_assume_role_policy_condition_values) > 0 ? var.irsa_assume_role_policy_condition_values : ["system:serviceaccount:${var.service_account_namespace}:${var.service_account_name}"]
 }
 
 data "aws_iam_policy_document" "this_assume" {
@@ -44,12 +46,7 @@ data "aws_iam_policy_document" "this_irsa" {
       test     = var.irsa_assume_role_policy_condition_test
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
 
-      values = concat(
-        [
-          "system:serviceaccount:${var.service_account_namespace}:${var.service_account_name}",
-        ],
-        var.irsa_assume_role_policy_additional_condition_values
-      )
+      values = local.irsa_assume_role_policy_condition_values
     }
   }
 }

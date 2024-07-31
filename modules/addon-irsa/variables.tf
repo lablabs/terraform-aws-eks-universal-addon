@@ -105,11 +105,11 @@ variable "irsa_tags" {
 variable "irsa_assume_role_policy_condition_test" {
   type        = string
   default     = "StringEquals"
-  description = "Which condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`."
 }
 
-variable "irsa_assume_role_policy_additional_condition_values" {
+variable "irsa_assume_role_policy_condition_values" {
   type        = list(string)
   default     = []
-  description = "Additional values for the assume role trust policy condition. Defaults to `[]`."
+  description = "Specifies the values for the assume role trust policy condition. Defaults to an empty list (`[]`). Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored."
 }
