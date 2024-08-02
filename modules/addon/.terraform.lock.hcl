@@ -5,7 +5,9 @@ provider "registry.terraform.io/cloudposse/utils" {
   version     = "1.19.2"
   constraints = ">= 0.17.0"
   hashes = [
+    "h1:gqYR81ADrA9HeWCMnEOg/x9RIMce6dwOXOC/DxjsYto=",
     "h1:yy3kB4scsoyM81yyyUMPxuJXeFvexBL5KMrCKrjrUkE=",
+    "h1:zeLrxuXDYEA5+hArYpigYKZJiIB57WQ3nn7VGTc0QDc=",
     "zh:1002d1c3f458b569119b31eb2f732c093922b7f86aa59d999d77c3f3ca297f53",
     "zh:367ca0d95bf24db1ff6632da94affe1ac0b51679e00f6ca3f1b8f927b9724c3b",
     "zh:3e48ef23e276d18a88405926f39b476d40fb543859f2fcfc316f70501071c1ed",
@@ -27,6 +29,8 @@ provider "registry.terraform.io/hashicorp/aws" {
   version     = "5.42.0"
   constraints = "~> 5.0"
   hashes = [
+    "h1:0lkSSlK45Qil9fO1kFy8RXVC/k6qfC4LDZIaCKnWcUc=",
+    "h1:Gwe5HXZYD/3M5j6LwKhp8amb1SraCR9p+G96d381RVc=",
     "h1:Yxsj34z606m8wssYDHyleuBlQ9i+94MHwRs38thQPZU=",
     "zh:0fb12bd56a3ad777b29f957c56dd2119776dbc01b6074458f597990e368c82de",
     "zh:16e99c13bef6e3777f67c240c916f57c01c9c142254cfb2720e08281ff906447",
@@ -50,7 +54,9 @@ provider "registry.terraform.io/hashicorp/helm" {
   version     = "2.12.1"
   constraints = ">= 2.6.0"
   hashes = [
+    "h1:7wfYOAeSEchHB8idNl+2jf+OkFi9zFSOLWkEZFuTCik=",
     "h1:aBfcqM4cbywa7TAxfT1YoFS+Cst9waerlm4XErFmJlk=",
+    "h1:sgYI7lwGqJqPopY3NGmhb1eQ0YbH8PIXaAZAmnJrAvw=",
     "zh:1d623fb1662703f2feb7860e3c795d849c77640eecbc5a776784d08807b15004",
     "zh:253a5bc62ba2c4314875139e3fbd2feaad5ef6b0fb420302a474ab49e8e51a38",
     "zh:282358f4ad4f20d0ccaab670b8645228bfad1c03ac0d0df5889f0aea8aeac01a",
@@ -70,7 +76,9 @@ provider "registry.terraform.io/hashicorp/kubernetes" {
   version     = "2.27.0"
   constraints = ">= 2.20.0"
   hashes = [
+    "h1:/3kLyOR2jTaWS1MKso4xAztrocGBMxi8yVadWiqSWOg=",
     "h1:GzU0FzYAT/+IgAhnSBcFH3bT+4I5N6oSga6iZgNJAus=",
+    "h1:TrlG/sofnDv8kAbzKOD5pIPeUiI5VQY61NuWH+cItDw=",
     "zh:3bdba30ae67c55dc7e9a317ac0da3b208ea7926fe9c2f0ae6587ee88dcc58d1f",
     "zh:3f35138a831c00b188d2ffee27111dd0cf59afad2dd5653ed9e67d59646de12c",
     "zh:64066d18f6ae9a316c2bc840ef3e641d7ab94e1ea3a41d12523e77345ad442ef",
