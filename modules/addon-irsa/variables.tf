@@ -111,5 +111,5 @@ variable "irsa_assume_role_policy_condition_test" {
 variable "irsa_assume_role_policy_condition_values" {
   type        = list(string)
   default     = []
-  description = "Specifies the values for the assume role trust policy condition. Defaults to an empty list (`[]`). Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored."
+  description = "Specifies the values for the assume role trust policy condition. Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. If this variable is left as the default, `local.irsa_assume_role_policy_condition_values_default` is used instead, which is a list containing a single value. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored."
 }
