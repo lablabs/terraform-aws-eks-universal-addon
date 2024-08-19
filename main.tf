@@ -25,6 +25,6 @@ locals {
   }
 
   addon_values = yamlencode({
-    # FIXME config: add default values here or remove if not needed
+    # FIXME config: add default values here
   })
 }

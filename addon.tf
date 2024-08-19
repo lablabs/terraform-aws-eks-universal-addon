@@ -6,7 +6,7 @@ locals {
 }
 
 module "addon" {
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.4"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.6"
 
   enabled = var.enabled
 
@@ -75,7 +75,7 @@ data "utils_deep_merge_yaml" "values" {
   count = var.enabled ? 1 : 0
 
   input = compact([
-    try(local.addon_values, ""),
+    local.addon_values,
     var.values
   ])
 }
