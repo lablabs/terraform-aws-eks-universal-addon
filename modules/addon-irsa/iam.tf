@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "this_irsa" {
       test     = var.irsa_assume_role_policy_condition_test
       variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
 
-      values = coalesce(var.irsa_assume_role_policy_condition_values, local.irsa_assume_role_policy_condition_values_default)
+      values = coalescelist(var.irsa_assume_role_policy_condition_values, local.irsa_assume_role_policy_condition_values_default)
     }
   }
 }
