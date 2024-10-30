@@ -24,6 +24,13 @@ locals {
     }
   }
 
+  # FIXME config: add addon OIDC configuration here or remove if not needed
+  addon_oidc = {
+    (local.addon.name) = {
+      # FIXME config: add default OIDC overrides here or leave empty if not needed, but make sure to keep at least one key
+    }
+  }
+
   addon_values = yamlencode({
     # FIXME config: add default values here
   })
