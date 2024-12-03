@@ -1,5 +1,10 @@
+output "oidc_provider_enabled" {
+  description = "Whether oidc provider is enabled"
+  value       = local.oidc_provider_create
+}
+
 output "oidc_role_enabled" {
-  description = "Whether is oidc role enabled"
+  description = "Whether oidc role is enabled"
   value       = local.oidc_role_create
 }
 

@@ -6,6 +6,12 @@ variable "enabled" {
 
 # ================ oidc variables (optional) ================
 
+variable "oidc_provider_create" {
+  type        = bool
+  default     = null
+  description = "Whether to create oidc provider. Defaults to `true`. Set to false if you want to disable default oidc provider when oidc_custom_provider_arn is set"
+}
+
 variable "oidc_role_create" {
   type        = bool
   default     = null
@@ -105,5 +111,5 @@ variable "oidc_openid_thumbprints" {
 variable "oidc_custom_provider_arn" {
   type        = string
   default     = null
-  description = "Specifies a custom OIDC provider ARN. If provided, the module will not create a default OIDC provider. Defaults to `\"\"`."
+  description = "Specifies a custom OIDC provider ARN. If specified, overrides provider created by this module. If set, it is recommended to disable default OIDC provider creation by setting var.oidc_provider_create to false. Defaults to `\"\"`."
 }
