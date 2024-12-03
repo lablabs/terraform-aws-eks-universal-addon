@@ -1,10 +1,12 @@
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.7"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.9"
 
   enabled = var.enabled
 
+  oidc_provider_create  = var.oidc_provider_create != null ? var.oidc_provider_create : try(each.value.oidc_provider_create, true)
   oidc_role_create      = var.oidc_role_create != null ? var.oidc_role_create : try(each.value.oidc_role_create, true)
   oidc_role_name_prefix = var.oidc_role_name_prefix != null ? var.oidc_role_name_prefix : try(each.value.oidc_role_name_prefix, "${each.key}-oidc")
   oidc_role_name        = var.oidc_role_name != null ? var.oidc_role_name : try(each.value.oidc_role_name, local.addon_helm_chart_name)
