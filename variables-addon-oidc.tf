@@ -100,7 +100,7 @@ variable "oidc_openid_provider_url" {
 
 variable "oidc_openid_thumbprints" {
   type        = list(string)
-  default     = []
+  default     = null
   description = "List of thumbprints of the OIDC provider's server certificate. Defaults to `[]`."
 }
 
