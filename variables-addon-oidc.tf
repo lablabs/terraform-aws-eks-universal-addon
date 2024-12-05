@@ -4,7 +4,7 @@
 variable "oidc_provider_create" {
   type        = bool
   default     = null
-  description = "Whether to create oidc provider. Defaults to `true`. Set to false if you want to disable default oidc provider when oidc_custom_provider_arn is set"
+  description = "Whether to create OIDC provider. Defaults to `true`. Set to `false` if you want to disable default OIDC provider when `oidc_custom_provider_arn` is set."
 }
 
 variable "oidc_role_create" {
