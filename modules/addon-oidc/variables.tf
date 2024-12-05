@@ -9,7 +9,7 @@ variable "enabled" {
 variable "oidc_provider_create" {
   type        = bool
   default     = null
-  description = "Whether to create OIDC provider. Defaults to `true`. Set to false if you want to disable default OIDC provider when oidc_custom_provider_arn is set"
+  description = "Whether to create OIDC provider. Defaults to `true`. Set to false if you want to disable default OIDC provider when oidc_custom_provider_arn is set."
 }
 
 variable "oidc_role_create" {
@@ -75,7 +75,7 @@ variable "oidc_tags" {
 variable "oidc_assume_role_policy_condition_test" {
   type        = string
   default     = "StringLike"
-  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringLike`."
 }
 
 variable "oidc_assume_role_policy_condition_values" {
