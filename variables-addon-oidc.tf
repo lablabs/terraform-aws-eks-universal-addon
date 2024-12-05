@@ -71,7 +71,7 @@ variable "oidc_tags" {
 variable "oidc_assume_role_policy_condition_test" {
   type        = string
   default     = null
-  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringLike`."
 }
 
 variable "oidc_assume_role_policy_condition_values" {
