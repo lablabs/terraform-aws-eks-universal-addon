@@ -100,7 +100,7 @@ variable "oidc_assume_role_policy_condition_variable" {
 variable "oidc_custom_provider_arn" {
   type        = string
   default     = null
-  description = "Specifies a custom OIDC provider ARN. If specified, overrides provider created by this module. If set, it is recommended to disable default OIDC provider creation by setting var.oidc_provider_create to false. Defaults to `\"\"`."
+  description = "Specifies a custom OIDC provider ARN. If specified, overrides OIDC provider created by this module. If set, it is recommended to disable default OIDC provider creation by setting `oidc_provider_create` to `false`. Defaults to `\"\"`."
 }
 
 variable "oidc_tags" {
