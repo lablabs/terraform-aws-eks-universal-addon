@@ -1,5 +1,5 @@
 locals {
-  oidc_provider_create     = var.enabled == true && var.oidc_provider_create == true #  var.oidc_provider_create == true
+  oidc_provider_create     = var.enabled == true && var.oidc_provider_create == true
   oidc_role_create         = var.enabled == true && var.oidc_role_create == true
   oidc_role_name_prefix    = try(coalesce(var.oidc_role_name_prefix), "")
   oidc_role_name           = try(trim("${local.oidc_role_name_prefix}-${var.oidc_role_name}", "-"), "")
