@@ -77,7 +77,7 @@ variable "irsa_assume_role_enabled" {
 variable "irsa_assume_role_arns" {
   type        = list(string)
   default     = null
-  description = "List of ARNs assumable by the IRSA role. Applied only if `irsa_assume_role_enabled` is `true`."
+  description = "List of ARNs assumable by the IRSA role. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `[]`."
 }
 
 variable "irsa_permissions_boundary" {
@@ -96,4 +96,16 @@ variable "irsa_tags" {
   type        = map(string)
   default     = null
   description = "IRSA resources tags. Defaults to `{}`."
+}
+
+variable "irsa_assume_role_policy_condition_test" {
+  type        = string
+  default     = null
+  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+}
+
+variable "irsa_assume_role_policy_condition_values" {
+  type        = list(string)
+  default     = null
+  description = "Specifies the values for the assume role trust policy condition. Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. If this variable is left as the default, `local.irsa_assume_role_policy_condition_values_default` is used instead, which is a list containing a single value. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored."
 }
