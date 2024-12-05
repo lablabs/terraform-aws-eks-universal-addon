@@ -88,7 +88,7 @@ variable "oidc_assume_role_policy_condition_variable" {
 
 variable "oidc_openid_client_ids" {
   type        = list(string)
-  default     = []
+  default     = null
   description = "List of OpenID Connect client IDs that are allowed to assume the OIDC provider. Defaults to `[]`."
 }
 
