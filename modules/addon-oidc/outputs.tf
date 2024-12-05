@@ -1,5 +1,5 @@
 output "oidc_provider_enabled" {
-  description = "Whether oidc provider is enabled"
+  description = "Whether OIDC provider is enabled"
   value       = local.oidc_provider_create
 }
 
