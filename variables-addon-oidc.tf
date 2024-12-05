@@ -76,7 +76,7 @@ variable "oidc_assume_role_policy_condition_test" {
 
 variable "oidc_assume_role_policy_condition_values" {
   type        = list(string)
-  default     = []
+  default     = null
   description = "Specifies the values for the assume role trust policy condition. Defaults to `[]`."
 }
 
