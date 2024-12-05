@@ -1,10 +1,12 @@
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.7"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.9"
 
   enabled = var.enabled
 
+  oidc_provider_create  = var.oidc_provider_create != null ? var.oidc_provider_create : try(each.value.oidc_provider_create, true)
   oidc_role_create      = var.oidc_role_create != null ? var.oidc_role_create : try(each.value.oidc_role_create, true)
   oidc_role_name_prefix = var.oidc_role_name_prefix != null ? var.oidc_role_name_prefix : try(each.value.oidc_role_name_prefix, "${each.key}-oidc")
   oidc_role_name        = var.oidc_role_name != null ? var.oidc_role_name : try(each.value.oidc_role_name, local.addon_helm_chart_name)
@@ -20,7 +22,7 @@ module "addon-oidc" {
   oidc_openid_thumbprints                    = var.oidc_openid_thumbprints != null ? var.oidc_openid_thumbprints : try(each.value.oidc_openid_thumbprints, [])
   oidc_assume_role_policy_condition_variable = var.oidc_assume_role_policy_condition_variable != null ? var.oidc_assume_role_policy_condition_variable : try(each.value.oidc_assume_role_policy_condition_variable, "")
   oidc_assume_role_policy_condition_values   = var.oidc_assume_role_policy_condition_values != null ? var.oidc_assume_role_policy_condition_values : try(each.value.oidc_assume_role_policy_condition_values, [])
-  oidc_assume_role_policy_condition_test     = var.oidc_assume_role_policy_condition_test != null ? var.oidc_assume_role_policy_condition_test : try(each.value.oidc_assume_role_policy_condition_test, "")
+  oidc_assume_role_policy_condition_test     = var.oidc_assume_role_policy_condition_test != null ? var.oidc_assume_role_policy_condition_test : try(each.value.oidc_assume_role_policy_condition_test, "StringLike")
   oidc_custom_provider_arn                   = var.oidc_custom_provider_arn != null ? var.oidc_custom_provider_arn : try(each.value.oidc_custom_provider_arn, "")
 
   oidc_tags = var.oidc_tags != null ? var.oidc_tags : try(each.value.oidc_tags, tomap({}))
