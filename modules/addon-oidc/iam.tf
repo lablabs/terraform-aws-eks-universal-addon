@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "this_oidc" {
 
     principals {
       type        = "Federated"
-      identifiers = [coalesce(var.oidc_custom_provider_arn, try(aws_iam_openid_connect_provider.this[0].arn, ""))]
+      identifiers = [coalesce(var.oidc_custom_provider_arn, one(aws_iam_openid_connect_provider.this[*].arn))]
     }
 
     condition {
