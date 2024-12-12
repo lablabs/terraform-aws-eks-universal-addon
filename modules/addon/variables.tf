@@ -6,6 +6,12 @@ variable "enabled" {
 
 # ================ common variables (required) ================
 
+variable "helm_enabled" {
+  type        = bool
+  default     = null
+  description = "Set to false to prevent installation of the module via Helm release. Defaults to `true`."
+}
+
 variable "helm_chart_name" {
   type        = string
   default     = null
