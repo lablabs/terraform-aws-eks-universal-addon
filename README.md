@@ -49,7 +49,7 @@ See [basic example](examples/basic) for further information.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.6 |
+| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.11 |
 | <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.8 |
 | <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | v0.0.9 |
 ## Resources
@@ -95,6 +95,7 @@ See [basic example](examples/basic) for further information.
 | <a name="input_helm_devel"></a> [helm\_devel](#input\_helm\_devel) | Use Helm chart development versions, too. Equivalent to version '>0.0.0-0'. If version is set, this is ignored. Defaults to `false`. | `bool` |
 | <a name="input_helm_disable_openapi_validation"></a> [helm\_disable\_openapi\_validation](#input\_helm\_disable\_openapi\_validation) | If set, the installation process will not validate rendered Helm templates against the Kubernetes OpenAPI Schema. Defaults to `false`. | `bool` |
 | <a name="input_helm_disable_webhooks"></a> [helm\_disable\_webhooks](#input\_helm\_disable\_webhooks) | Prevent Helm chart hooks from running. Defaults to `false`. | `bool` |
+| <a name="input_helm_enabled"></a> [helm\_enabled](#input\_helm\_enabled) | Set to false to prevent installation of the module via Helm release. Defaults to `true`. | `bool` |
 | <a name="input_helm_force_update"></a> [helm\_force\_update](#input\_helm\_force\_update) | Force Helm resource update through delete/recreate if needed. Defaults to `false`. | `bool` |
 | <a name="input_helm_keyring"></a> [helm\_keyring](#input\_helm\_keyring) | Location of public keys used for verification. Used only if `helm_package_verify` is `true`. Defaults to `"~/.gnupg/pubring.gpg"`. | `string` |
 | <a name="input_helm_lint"></a> [helm\_lint](#input\_helm\_lint) | Run the Helm chart linter during the plan. Defaults to `false`. | `bool` |

@@ -6,13 +6,14 @@ locals {
 }
 
 module "addon" {
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.6"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.11"
 
   enabled = var.enabled
 
   # variable priority var.* (provided by the module user) > local.addon.* (universal addon default override) > default (universal addon default)
   namespace = local.addon_namespace
 
+  helm_enabled                    = var.helm_enabled != null ? var.helm_enabled : try(local.addon.helm_enabled, true)
   helm_release_name               = local.addon_helm_release_name
   helm_chart_name                 = local.addon_helm_chart_name
   helm_chart_version              = var.helm_chart_version != null ? var.helm_chart_version : local.addon.helm_chart_version
