@@ -27,13 +27,13 @@ variable "service_account_create" {
 variable "service_account_name" {
   type        = string
   default     = null
-  description = "The Kubernetes Service Account name. Defaults to the addon name. Defaults to ``."
+  description = "The Kubernetes Service Account name. Defaults to the addon name. Defaults to `\"\"`."
 }
 
 variable "service_account_namespace" {
   type        = string
   default     = null
-  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to ``."
+  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `\"\"`."
 }
 
 variable "irsa_role_create" {
@@ -45,13 +45,13 @@ variable "irsa_role_create" {
 variable "irsa_role_name_prefix" {
   type        = string
   default     = null
-  description = "IRSA role name prefix. Defaults to addon IRSA component name (if provided) with `irsa` suffix. Defaults to ``."
+  description = "IRSA role name prefix. Defaults to addon IRSA component name (if provided) with `irsa` suffix. Defaults to `\"\"`."
 }
 
 variable "irsa_role_name" {
   type        = string
   default     = null
-  description = "IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to ``."
+  description = "IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to `\"\"`."
 }
 
 variable "irsa_policy_enabled" {
@@ -63,7 +63,7 @@ variable "irsa_policy_enabled" {
 variable "irsa_policy" {
   type        = string
   default     = null
-  description = "Policy to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`. Defaults to ``."
+  description = "Policy to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `\"\"`."
 }
 
 variable "irsa_assume_role_enabled" {

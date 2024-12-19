@@ -51,7 +51,7 @@ variable "settings" {
 variable "values" {
   type        = string
   default     = null
-  description = "Additional YAML encoded values which will be passed to the Helm chart. Defaults to ``."
+  description = "Additional YAML encoded values which will be passed to the Helm chart. Defaults to `\"\"`."
 }
 
 variable "argo_namespace" {
@@ -141,7 +141,7 @@ variable "argo_spec" {
 variable "argo_helm_values" {
   type        = string
   default     = null
-  description = "Value overrides to use when deploying ArgoCD Application object with Helm. Defaults to ``."
+  description = "Value overrides to use when deploying ArgoCD Application object with Helm. Defaults to `\"\"`."
 }
 
 variable "argo_kubernetes_manifest_computed_fields" {
@@ -171,31 +171,31 @@ variable "argo_kubernetes_manifest_wait_fields" {
 variable "helm_repo_key_file" {
   type        = string
   default     = null
-  description = "Helm repositories cert key file. Defaults to ``."
+  description = "Helm repositories cert key file. Defaults to `\"\"`."
 }
 
 variable "helm_repo_cert_file" {
   type        = string
   default     = null
-  description = "Helm repositories cert file. Defaults to ``."
+  description = "Helm repositories cert file. Defaults to `\"\"`."
 }
 
 variable "helm_repo_ca_file" {
   type        = string
   default     = null
-  description = "Helm repositories CA cert file. Defaults to ``."
+  description = "Helm repositories CA cert file. Defaults to `\"\"`."
 }
 
 variable "helm_repo_username" {
   type        = string
   default     = null
-  description = "Username for HTTP basic authentication against the Helm repository. Defaults to ``."
+  description = "Username for HTTP basic authentication against the Helm repository. Defaults to `\"\"`."
 }
 
 variable "helm_repo_password" {
   type        = string
   default     = null
-  description = "Password for HTTP basic authentication against the Helm repository. Defaults to ``."
+  description = "Password for HTTP basic authentication against the Helm repository. Defaults to `\"\"`."
 }
 
 variable "helm_devel" {
@@ -315,7 +315,7 @@ variable "helm_replace" {
 variable "helm_description" {
   type        = string
   default     = null
-  description = "Set Helm release description attribute (visible in the history). Defaults to ``."
+  description = "Set Helm release description attribute (visible in the history). Defaults to `\"\"`."
 }
 
 variable "helm_lint" {
