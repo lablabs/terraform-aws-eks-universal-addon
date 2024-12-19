@@ -5,7 +5,7 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
       - id: detect-aws-credentials
-        args: ['--allow-missing-credentials']
+        args: ["--allow-missing-credentials"]
       - id: detect-private-key
       - id: end-of-file-fixer
 
@@ -25,14 +25,23 @@ repos:
       - id: terraform_validate
       - id: terraform_checkov
         args:
-          - '--args=--skip-check CKV_TF_1' #CKV_TF_1: "Ensure Terraform module sources use a commit hash"
+          - "--args=--skip-check CKV_TF_1" #CKV_TF_1: "Ensure Terraform module sources use a commit hash"
       - id: terraform_docs
         args:
-          - '--args=--config=.terraform-docs.yml'
+          - "--args=--config=.terraform-docs.yml"
 
   - repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
       - id: detect-secrets
-        args: ['--baseline', '.secrets.baseline']
+        args: ["--baseline", ".secrets.baseline"]
         exclude: terraform.tfstate
+
+  - repo: local
+    hooks:
+      - id: sync-variables
+        name: Sync module variables
+        entry: scripts/sync-variables.py
+        language: system
+        types: [python]
+        always_run: true
