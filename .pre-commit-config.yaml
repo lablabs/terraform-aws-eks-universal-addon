@@ -41,7 +41,8 @@ repos:
     hooks:
       - id: sync-variables
         name: Sync module variables
-        entry: scripts/sync-variables.py
+        entry: ./scripts/sync-variables.py
         language: system
         types: [python]
         always_run: true
+        pass_filenames: false

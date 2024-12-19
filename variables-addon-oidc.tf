@@ -9,7 +9,7 @@ variable "oidc_provider_create" {
 variable "oidc_custom_provider_arn" {
   type        = string
   default     = null
-  description = "Specifies a custom OIDC provider ARN. Defaults to ``."
+  description = "Specifies a custom OIDC provider ARN. Defaults to `\"\"`."
 }
 
 variable "oidc_role_create" {
@@ -21,13 +21,13 @@ variable "oidc_role_create" {
 variable "oidc_role_name_prefix" {
   type        = string
   default     = null
-  description = "OIDC role name prefix. Defaults to addon OIDC component name (if provided) with `oidc` suffix. Defaults to ``."
+  description = "OIDC role name prefix. Defaults to addon OIDC component name (if provided) with `oidc` suffix. Defaults to `\"\"`."
 }
 
 variable "oidc_role_name" {
   type        = string
   default     = null
-  description = "OIDC role name. The value is prefixed by `var.oidc_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to ``."
+  description = "OIDC role name. The value is prefixed by `var.oidc_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to `\"\"`."
 }
 
 variable "oidc_policy_enabled" {
@@ -39,7 +39,7 @@ variable "oidc_policy_enabled" {
 variable "oidc_policy" {
   type        = string
   default     = null
-  description = "Policy to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`. Defaults to ``."
+  description = "Policy to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`. Defaults to `\"\"`."
 }
 
 variable "oidc_assume_role_enabled" {
@@ -87,7 +87,7 @@ variable "oidc_assume_role_policy_condition_values" {
 variable "oidc_assume_role_policy_condition_variable" {
   type        = string
   default     = null
-  description = "Specifies the variable to use for the assume role trust policy. Defaults to ``."
+  description = "Specifies the variable to use for the assume role trust policy. Defaults to `\"\"`."
 }
 
 variable "oidc_openid_client_ids" {
@@ -99,7 +99,7 @@ variable "oidc_openid_client_ids" {
 variable "oidc_openid_provider_url" {
   type        = string
   default     = null
-  description = "OIDC provider URL. Defaults to ``."
+  description = "OIDC provider URL. Defaults to `\"\"`."
 }
 
 variable "oidc_openid_thumbprints" {
