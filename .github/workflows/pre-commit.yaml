@@ -18,8 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: asdf-vm/actions/install@v3
-      - uses: actions/setup-python@v4
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
         with:
-          cache: "pip"
-      - run: pip install -r requirements.txt
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
       - uses: pre-commit/action@v3.0.1
