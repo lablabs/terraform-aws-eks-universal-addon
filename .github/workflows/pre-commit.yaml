@@ -17,7 +17,27 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - uses: asdf-vm/actions/install@v3
+
+      - name: Cache ASDF
+        uses: actions/cache@v4
+        id: asdf-cache
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
+          restore-keys: ${{ runner.os }}-asdf-
+
+      - name: Setup ASDF
+        uses: asdf-vm/actions/setup@v3
+        if: ${{ steps.asdf-cache.outputs.cache-hit == 'true' }}
+
+      - name: Install ASDF
+        uses: asdf-vm/actions/install@v3
+        if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
+
+      - name: Reshim installed ASDF tools
+        shell: bash
+        run: asdf reshim
+
       - name: Cache pip dependencies
         uses: actions/cache@v4
         with:
@@ -25,6 +45,8 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+
       - name: Install Python dependencies
         run: pip install -r requirements.txt
+
       - uses: pre-commit/action@v3.0.1
