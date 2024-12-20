@@ -111,7 +111,7 @@ variable "argo_project" {
 variable "argo_info" {
   type        = list(any)
   default     = null
-  description = "ArgoCD Application manifest info parameter. Defaults to `[{'name': 'terraform', 'value': 'true'}]`."
+  description = "ArgoCD Application manifest info parameter. Defaults to `[{\"name\": \"terraform\", \"value\": \"true\"}]`."
 }
 
 variable "argo_sync_policy" {
@@ -123,7 +123,7 @@ variable "argo_sync_policy" {
 variable "argo_metadata" {
   type        = any
   default     = null
-  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters. Defaults to `{'finalizers': ['resources-finalizer.argocd.argoproj.io']}`."
+  description = "ArgoCD Application metadata configuration. Override or create additional metadata parameters. Defaults to `{\"finalizers\": [\"resources-finalizer.argocd.argoproj.io\"]}`."
 }
 
 variable "argo_apiversion" {
@@ -147,7 +147,7 @@ variable "argo_helm_values" {
 variable "argo_kubernetes_manifest_computed_fields" {
   type        = list(string)
   default     = null
-  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `['metadata.labels', 'metadata.annotations', 'metadata.finalizers']`."
+  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply. Defaults to `[\"metadata.labels\", \"metadata.annotations\", \"metadata.finalizers\"]`."
 }
 
 variable "argo_kubernetes_manifest_field_manager_name" {
