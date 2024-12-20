@@ -2,7 +2,8 @@
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.9"
+  # source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.9"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=feat/align-irsa-variables"
 
   enabled = var.enabled
 
@@ -15,14 +16,14 @@ module "addon-oidc" {
   oidc_policy                                = var.oidc_policy != null ? var.oidc_policy : try(each.value.oidc_policy, "")
   oidc_assume_role_enabled                   = var.oidc_assume_role_enabled != null ? var.oidc_assume_role_enabled : try(each.value.oidc_assume_role_enabled, false)
   oidc_assume_role_arns                      = var.oidc_assume_role_arns != null ? var.oidc_assume_role_arns : try(each.value.oidc_assume_role_arns, [])
-  oidc_permissions_boundary                  = var.oidc_permissions_boundary != null ? var.oidc_permissions_boundary : try(each.value.oidc_permissions_boundary, "") # tflint-ignore: aws_iam_role_invalid_permissions_boundary
+  oidc_permissions_boundary                  = var.oidc_permissions_boundary != null ? var.oidc_permissions_boundary : try(each.value.oidc_permissions_boundary, null)
   oidc_additional_policies                   = var.oidc_additional_policies != null ? var.oidc_additional_policies : try(each.value.oidc_additional_policies, tomap({}))
   oidc_openid_client_ids                     = var.oidc_openid_client_ids != null ? var.oidc_openid_client_ids : try(each.value.oidc_openid_client_ids, [])
   oidc_openid_provider_url                   = var.oidc_openid_provider_url != null ? var.oidc_openid_provider_url : try(each.value.oidc_openid_provider_url, "")
   oidc_openid_thumbprints                    = var.oidc_openid_thumbprints != null ? var.oidc_openid_thumbprints : try(each.value.oidc_openid_thumbprints, [])
   oidc_assume_role_policy_condition_variable = var.oidc_assume_role_policy_condition_variable != null ? var.oidc_assume_role_policy_condition_variable : try(each.value.oidc_assume_role_policy_condition_variable, "")
   oidc_assume_role_policy_condition_values   = var.oidc_assume_role_policy_condition_values != null ? var.oidc_assume_role_policy_condition_values : try(each.value.oidc_assume_role_policy_condition_values, [])
-  oidc_assume_role_policy_condition_test     = var.oidc_assume_role_policy_condition_test != null ? var.oidc_assume_role_policy_condition_test : try(each.value.oidc_assume_role_policy_condition_test, "StringLike")
+  oidc_assume_role_policy_condition_test     = var.oidc_assume_role_policy_condition_test != null ? var.oidc_assume_role_policy_condition_test : try(each.value.oidc_assume_role_policy_condition_test, "StringEquals")
   oidc_custom_provider_arn                   = var.oidc_custom_provider_arn != null ? var.oidc_custom_provider_arn : try(each.value.oidc_custom_provider_arn, "")
 
   oidc_tags = var.oidc_tags != null ? var.oidc_tags : try(each.value.oidc_tags, tomap({}))

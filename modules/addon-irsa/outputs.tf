@@ -1,5 +1,5 @@
 output "irsa_role_enabled" {
-  description = "Whether is IRSA role enabled"
+  description = "Whether IRSA role is enabled"
   value       = local.irsa_role_create
 }
 
