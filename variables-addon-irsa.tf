@@ -81,7 +81,7 @@ variable "irsa_assume_role_arns" {
 variable "irsa_permissions_boundary" {
   type        = string
   default     = null
-  description = "ARN of the policy that is used to set the permissions boundary for the IRSA role."
+  description = "ARN of the policy that is used to set the permissions boundary for the IRSA role. Defaults to `null`."
 }
 
 variable "irsa_additional_policies" {

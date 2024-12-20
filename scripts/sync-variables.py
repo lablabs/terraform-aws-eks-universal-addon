@@ -23,7 +23,10 @@ def filter_terraform_default(value):
         if value == "":
             return '\\"\\"'
 
-    return value
+    if value == None:
+        return 'null'
+
+    return re.sub(r'\'', r'\\"', str(value))
 
 def get_template():
     env = Environment(loader=FileSystemLoader("."))
@@ -37,7 +40,7 @@ def get_template():
 variable "{{ name }}" {
   type        = {{ spec.type | terraform_type }}
   default     = null
-  description = "{{ spec.description }}{% if spec.default is defined and spec.default != None %} Defaults to `{{ spec.default | terraform_default }}`.{% endif %}"
+  description = "{{ spec.description }}{% if spec.default is defined %} Defaults to `{{ spec.default | terraform_default }}`.{% endif %}"
 }
 {%- endif %}
 {%- endfor %}

@@ -236,7 +236,7 @@ variable "helm_reset_values" {
 variable "helm_reuse_values" {
   type        = bool
   default     = false
-  description = "When upgrading, reuse the last Helm release's values and merge in any overrides. If `var.helm_reset_values` is specified, this is ignored."
+  description = "When upgrading, reuse the last Helm release's values and merge in any overrides. If `helm_reset_values` is specified, this is ignored."
 }
 
 variable "helm_force_update" {

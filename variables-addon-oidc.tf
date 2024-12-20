@@ -57,7 +57,7 @@ variable "oidc_assume_role_arns" {
 variable "oidc_permissions_boundary" {
   type        = string
   default     = null
-  description = "ARN of the policy that is used to set the permissions boundary for the OIDC role."
+  description = "ARN of the policy that is used to set the permissions boundary for the OIDC role. Defaults to `null`."
 }
 
 variable "oidc_additional_policies" {

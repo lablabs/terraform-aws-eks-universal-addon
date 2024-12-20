@@ -1,8 +1,7 @@
 locals {
   oidc_provider_create     = var.enabled && var.oidc_provider_create
   oidc_role_create         = var.enabled && var.oidc_role_create
-  oidc_role_name_prefix    = coalesce(var.oidc_role_name_prefix, "${module.label.id}-oidc")
-  oidc_role_name           = trim("${local.oidc_role_name_prefix}-${var.oidc_role_name}", "-")
+  oidc_role_name           = trim("${var.oidc_role_name_prefix}-${var.oidc_role_name}", "-")
   oidc_policy_enabled      = var.oidc_policy_enabled && length(var.oidc_policy) > 0
   oidc_assume_role_enabled = var.oidc_assume_role_enabled && length(var.oidc_assume_role_arns) > 0
 }

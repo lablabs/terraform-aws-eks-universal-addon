@@ -7,7 +7,7 @@ variable "enabled" {
 variable "oidc_provider_create" {
   type        = bool
   default     = true
-  description = "Whether to create OIDC provider. Set to `false` if you want to disable default OIDC provider when `var.oidc_custom_provider_arn` is set."
+  description = "Whether to create OIDC provider. Set to `false` if you want to disable default OIDC provider when `oidc_custom_provider_arn` is set."
 }
 
 variable "oidc_custom_provider_arn" {
@@ -25,13 +25,13 @@ variable "oidc_role_create" {
 variable "oidc_role_name_prefix" {
   type        = string
   default     = ""
-  description = "OIDC role name prefix. Defaults to addon OIDC component name (if provided) with `oidc` suffix."
+  description = "OIDC role name prefix."
 }
 
 variable "oidc_role_name" {
   type        = string
   default     = ""
-  description = "OIDC role name. The value is prefixed by `var.oidc_role_name_prefix`. Defaults to the addon Helm chart name."
+  description = "OIDC role name. The value is prefixed by `oidc_role_name_prefix`."
 }
 
 variable "oidc_policy_enabled" {
@@ -43,7 +43,7 @@ variable "oidc_policy_enabled" {
 variable "oidc_policy" {
   type        = string
   default     = ""
-  description = "Policy to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`."
+  description = "AWS IAM policy JSON document to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`."
 }
 
 variable "oidc_assume_role_enabled" {
@@ -78,7 +78,7 @@ variable "oidc_tags" {
 
 variable "oidc_assume_role_policy_condition_test" {
   type        = string
-  default     = "StringLike"
+  default     = "StringEquals"
   description = "Specifies the condition test to use for the assume role trust policy."
 }
 

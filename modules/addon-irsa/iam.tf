@@ -1,7 +1,6 @@
 locals {
   irsa_role_create         = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
-  irsa_role_name_prefix    = coalesce(var.irsa_role_name_prefix, "${module.label.id}-irsa")
-  irsa_role_name           = trim("${local.irsa_role_name_prefix}-${var.irsa_role_name}", "-")
+  irsa_role_name           = trim("${var.irsa_role_name_prefix}-${var.irsa_role_name}", "-")
   irsa_policy_enabled      = var.irsa_policy_enabled && length(var.irsa_policy) > 0
   irsa_assume_role_enabled = var.irsa_assume_role_enabled && length(var.irsa_assume_role_arns) > 0
   irsa_assume_role_policy_condition_values_default = length(var.service_account_namespace) > 0 && length(var.service_account_name) > 0 ? [

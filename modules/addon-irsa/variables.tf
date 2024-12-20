@@ -47,13 +47,13 @@ variable "irsa_role_create" {
 variable "irsa_role_name_prefix" {
   type        = string
   default     = ""
-  description = "IRSA role name prefix. Defaults to addon IRSA component name (if provided) with `irsa` suffix."
+  description = "IRSA role name prefix."
 }
 
 variable "irsa_role_name" {
   type        = string
   default     = ""
-  description = "IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to the addon Helm chart name."
+  description = "IRSA role name. The value is prefixed by `irsa_role_name_prefix`."
 }
 
 variable "irsa_policy_enabled" {
@@ -65,7 +65,7 @@ variable "irsa_policy_enabled" {
 variable "irsa_policy" {
   type        = string
   default     = ""
-  description = "Policy to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`."
+  description = "AWS IAM policy JSON document to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`."
 }
 
 variable "irsa_assume_role_enabled" {
