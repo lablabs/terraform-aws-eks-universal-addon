@@ -6,8 +6,7 @@ locals {
 }
 
 module "addon" {
-  # source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.11"
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=feat/align-irsa-variables-module"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.12"
 
   enabled = var.enabled
 
