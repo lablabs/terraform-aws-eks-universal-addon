@@ -49,9 +49,9 @@ See [basic example](examples/basic) for further information.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | feat/align-irsa-variables |
-| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | feat/align-irsa-variables |
-| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | feat/align-irsa-variables |
+| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | feat/align-irsa-variables-module |
+| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | feat/align-irsa-variables-module |
+| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | feat/align-irsa-variables-module |
 ## Resources
 
 | Name | Type |
@@ -113,7 +113,7 @@ See [basic example](examples/basic) for further information.
 | <a name="input_helm_repo_url"></a> [helm\_repo\_url](#input\_helm\_repo\_url) | Helm repository (required). | `string` |
 | <a name="input_helm_repo_username"></a> [helm\_repo\_username](#input\_helm\_repo\_username) | Username for HTTP basic authentication against the Helm repository. Defaults to `""`. | `string` |
 | <a name="input_helm_reset_values"></a> [helm\_reset\_values](#input\_helm\_reset\_values) | When upgrading, reset the values to the ones built into the Helm chart. Defaults to `false`. | `bool` |
-| <a name="input_helm_reuse_values"></a> [helm\_reuse\_values](#input\_helm\_reuse\_values) | When upgrading, reuse the last Helm release's values and merge in any overrides. If `var.helm_reset_values` is specified, this is ignored. Defaults to `false`. | `bool` |
+| <a name="input_helm_reuse_values"></a> [helm\_reuse\_values](#input\_helm\_reuse\_values) | When upgrading, reuse the last Helm release's values and merge in any overrides. If `helm_reset_values` is specified, this is ignored. Defaults to `false`. | `bool` |
 | <a name="input_helm_set_sensitive"></a> [helm\_set\_sensitive](#input\_helm\_set\_sensitive) | Value block with custom sensitive values to be merged with the values yaml that won't be exposed in the plan's diff. Defaults to `{}`. | `map(any)` |
 | <a name="input_helm_skip_crds"></a> [helm\_skip\_crds](#input\_helm\_skip\_crds) | If set, no CRDs will be installed before Helm release. Defaults to `false`. | `bool` |
 | <a name="input_helm_timeout"></a> [helm\_timeout](#input\_helm\_timeout) | Time in seconds to wait for any individual Kubernetes operation (like Jobs for hooks). Defaults to `300`. | `number` |
@@ -125,11 +125,11 @@ See [basic example](examples/basic) for further information.
 | <a name="input_irsa_assume_role_policy_condition_test"></a> [irsa\_assume\_role\_policy\_condition\_test](#input\_irsa\_assume\_role\_policy\_condition\_test) | Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`. | `string` |
 | <a name="input_irsa_assume_role_policy_condition_values"></a> [irsa\_assume\_role\_policy\_condition\_values](#input\_irsa\_assume\_role\_policy\_condition\_values) | Specifies the values for the assume role trust policy condition. Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. If this variable is left as the default, `local.irsa_assume_role_policy_condition_values_default` is used instead, which is a list containing a single value. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored. Defaults to `[]`. | `list(string)` |
 | <a name="input_irsa_permissions_boundary"></a> [irsa\_permissions\_boundary](#input\_irsa\_permissions\_boundary) | ARN of the policy that is used to set the permissions boundary for the IRSA role. Defaults to `null`. | `string` |
-| <a name="input_irsa_policy"></a> [irsa\_policy](#input\_irsa\_policy) | Policy to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `""`. | `string` |
+| <a name="input_irsa_policy"></a> [irsa\_policy](#input\_irsa\_policy) | AWS IAM policy JSON document to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `""`. | `string` |
 | <a name="input_irsa_policy_enabled"></a> [irsa\_policy\_enabled](#input\_irsa\_policy\_enabled) | Whether to create IAM policy specified by `irsa_policy`. Mutually exclusive with `irsa_assume_role_enabled`. Defaults to `false`. | `bool` |
 | <a name="input_irsa_role_create"></a> [irsa\_role\_create](#input\_irsa\_role\_create) | Whether to create IRSA role and annotate Service Account. Defaults to `true`. | `bool` |
-| <a name="input_irsa_role_name"></a> [irsa\_role\_name](#input\_irsa\_role\_name) | IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to `""`. | `string` |
-| <a name="input_irsa_role_name_prefix"></a> [irsa\_role\_name\_prefix](#input\_irsa\_role\_name\_prefix) | IRSA role name prefix. Defaults to addon IRSA component name (if provided) with `irsa` suffix. Defaults to `""`. | `string` |
+| <a name="input_irsa_role_name"></a> [irsa\_role\_name](#input\_irsa\_role\_name) | IRSA role name. The value is prefixed by `irsa_role_name_prefix`. Either `irsa_role_name` or `irsa_role_name_prefix` must be set. Defaults to `""`. | `string` |
+| <a name="input_irsa_role_name_prefix"></a> [irsa\_role\_name\_prefix](#input\_irsa\_role\_name\_prefix) | IRSA role name prefix. Either `irsa_role_name_prefix` or `irsa_role_name` must be set. Defaults to `""`. | `string` |
 | <a name="input_irsa_tags"></a> [irsa\_tags](#input\_irsa\_tags) | IRSA resources tags. Defaults to `{}`. | `map(string)` |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | The Kubernetes Namespace in which the Helm chart will be installed (required). | `string` |
 | <a name="input_oidc_additional_policies"></a> [oidc\_additional\_policies](#input\_oidc\_additional\_policies) | Map of the additional policies to be attached to OIDC role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`. | `map(string)` |
@@ -143,12 +143,12 @@ See [basic example](examples/basic) for further information.
 | <a name="input_oidc_openid_provider_url"></a> [oidc\_openid\_provider\_url](#input\_oidc\_openid\_provider\_url) | OIDC provider URL. Defaults to `""`. | `string` |
 | <a name="input_oidc_openid_thumbprints"></a> [oidc\_openid\_thumbprints](#input\_oidc\_openid\_thumbprints) | List of thumbprints of the OIDC provider's server certificate. Defaults to `[]`. | `list(string)` |
 | <a name="input_oidc_permissions_boundary"></a> [oidc\_permissions\_boundary](#input\_oidc\_permissions\_boundary) | ARN of the policy that is used to set the permissions boundary for the OIDC role. Defaults to `null`. | `string` |
-| <a name="input_oidc_policy"></a> [oidc\_policy](#input\_oidc\_policy) | Policy to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`. Defaults to `""`. | `string` |
+| <a name="input_oidc_policy"></a> [oidc\_policy](#input\_oidc\_policy) | AWS IAM policy JSON document to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`. Defaults to `""`. | `string` |
 | <a name="input_oidc_policy_enabled"></a> [oidc\_policy\_enabled](#input\_oidc\_policy\_enabled) | Whether to create IAM policy specified by `oidc_policy`. Mutually exclusive with `oidc_assume_role_enabled`. Defaults to `false`. | `bool` |
-| <a name="input_oidc_provider_create"></a> [oidc\_provider\_create](#input\_oidc\_provider\_create) | Whether to create OIDC provider. Set to `false` if you want to disable default OIDC provider when `var.oidc_custom_provider_arn` is set. Defaults to `true`. | `bool` |
+| <a name="input_oidc_provider_create"></a> [oidc\_provider\_create](#input\_oidc\_provider\_create) | Whether to create OIDC provider. Set to `false` if you want to disable default OIDC provider when `oidc_custom_provider_arn` is set. Defaults to `true`. | `bool` |
 | <a name="input_oidc_role_create"></a> [oidc\_role\_create](#input\_oidc\_role\_create) | Whether to create OIDC role. Defaults to `true`. | `bool` |
-| <a name="input_oidc_role_name"></a> [oidc\_role\_name](#input\_oidc\_role\_name) | OIDC role name. The value is prefixed by `var.oidc_role_name_prefix`. Defaults to the addon Helm chart name. Defaults to `""`. | `string` |
-| <a name="input_oidc_role_name_prefix"></a> [oidc\_role\_name\_prefix](#input\_oidc\_role\_name\_prefix) | OIDC role name prefix. Defaults to addon OIDC component name (if provided) with `oidc` suffix. Defaults to `""`. | `string` |
+| <a name="input_oidc_role_name"></a> [oidc\_role\_name](#input\_oidc\_role\_name) | OIDC role name. The value is prefixed by `oidc_role_name_prefix`. Either `oidc_role_name` or `oidc_role_name_prefix` must be set. Defaults to `""`. | `string` |
+| <a name="input_oidc_role_name_prefix"></a> [oidc\_role\_name\_prefix](#input\_oidc\_role\_name\_prefix) | OIDC role name prefix. Either `oidc_role_name_prefix` or `oidc_role_name` must be set. Defaults to `""`. | `string` |
 | <a name="input_oidc_tags"></a> [oidc\_tags](#input\_oidc\_tags) | OIDC resources tags. Defaults to `{}`. | `map(string)` |
 | <a name="input_rbac_create"></a> [rbac\_create](#input\_rbac\_create) | Whether to create and use RBAC resources. Defaults to `true`. | `bool` |
 | <a name="input_service_account_create"></a> [service\_account\_create](#input\_service\_account\_create) | Whether to create Service Account. Defaults to `true`. | `bool` |
