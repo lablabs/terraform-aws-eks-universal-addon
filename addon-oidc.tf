@@ -2,7 +2,7 @@
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.9"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.12"
 
   enabled = var.enabled
 
@@ -15,7 +15,7 @@ module "addon-oidc" {
   oidc_policy                                = var.oidc_policy != null ? var.oidc_policy : try(each.value.oidc_policy, "")
   oidc_assume_role_enabled                   = var.oidc_assume_role_enabled != null ? var.oidc_assume_role_enabled : try(each.value.oidc_assume_role_enabled, false)
   oidc_assume_role_arns                      = var.oidc_assume_role_arns != null ? var.oidc_assume_role_arns : try(each.value.oidc_assume_role_arns, [])
-  oidc_permissions_boundary                  = var.oidc_permissions_boundary != null ? var.oidc_permissions_boundary : try(each.value.oidc_permissions_boundary, "") # tflint-ignore: aws_iam_role_invalid_permissions_boundary
+  oidc_permissions_boundary                  = var.oidc_permissions_boundary != null ? var.oidc_permissions_boundary : try(each.value.oidc_permissions_boundary, null)
   oidc_additional_policies                   = var.oidc_additional_policies != null ? var.oidc_additional_policies : try(each.value.oidc_additional_policies, tomap({}))
   oidc_openid_client_ids                     = var.oidc_openid_client_ids != null ? var.oidc_openid_client_ids : try(each.value.oidc_openid_client_ids, [])
   oidc_openid_provider_url                   = var.oidc_openid_provider_url != null ? var.oidc_openid_provider_url : try(each.value.oidc_openid_provider_url, "")

@@ -1,29 +1,33 @@
 # IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 
-# ================ oidc variables (optional) ================
-
 variable "oidc_provider_create" {
   type        = bool
   default     = null
-  description = "Whether to create OIDC provider. Defaults to `true`. Set to false if you want to disable default OIDC provider when oidc_custom_provider_arn is set."
+  description = "Whether to create OIDC provider. Set to `false` if you want to disable default OIDC provider when `oidc_custom_provider_arn` is set. Defaults to `true`."
+}
+
+variable "oidc_custom_provider_arn" {
+  type        = string
+  default     = null
+  description = "Specifies a custom OIDC provider ARN. Defaults to `\"\"`."
 }
 
 variable "oidc_role_create" {
   type        = bool
   default     = null
-  description = "Whether to create OIDC role and annotate Service Account. Defaults to `true`."
+  description = "Whether to create OIDC role. Defaults to `true`."
 }
 
 variable "oidc_role_name_prefix" {
   type        = string
   default     = null
-  description = "OIDC role name prefix. Defaults to addon OIDC component name with `oidc` suffix."
+  description = "OIDC role name prefix. Either `oidc_role_name_prefix` or `oidc_role_name` must be set. Defaults to `\"\"`."
 }
 
 variable "oidc_role_name" {
   type        = string
   default     = null
-  description = "OIDC role name. The value is prefixed by `var.oidc_role_name_prefix`. Defaults to addon Helm chart name."
+  description = "OIDC role name. The value is prefixed by `oidc_role_name_prefix`. Either `oidc_role_name` or `oidc_role_name_prefix` must be set. Defaults to `\"\"`."
 }
 
 variable "oidc_policy_enabled" {
@@ -35,7 +39,7 @@ variable "oidc_policy_enabled" {
 variable "oidc_policy" {
   type        = string
   default     = null
-  description = "Policy to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`."
+  description = "AWS IAM policy JSON document to be attached to the OIDC role. Applied only if `oidc_policy_enabled` is `true`. Defaults to `\"\"`."
 }
 
 variable "oidc_assume_role_enabled" {
@@ -53,7 +57,7 @@ variable "oidc_assume_role_arns" {
 variable "oidc_permissions_boundary" {
   type        = string
   default     = null
-  description = "ARN of the policy that is used to set the permissions boundary for the OIDC role. Defaults to `\"\"`."
+  description = "ARN of the policy that is used to set the permissions boundary for the OIDC role. Defaults to `null`."
 }
 
 variable "oidc_additional_policies" {
@@ -102,10 +106,4 @@ variable "oidc_openid_thumbprints" {
   type        = list(string)
   default     = null
   description = "List of thumbprints of the OIDC provider's server certificate. Defaults to `[]`."
-}
-
-variable "oidc_custom_provider_arn" {
-  type        = string
-  default     = null
-  description = "Specifies a custom OIDC provider ARN. If specified, overrides provider created by this module. If set, it is recommended to disable default OIDC provider creation by setting var.oidc_provider_create to false. Defaults to `\"\"`."
 }

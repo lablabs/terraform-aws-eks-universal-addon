@@ -1,7 +1,5 @@
 # IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
 
-# ================ IRSA variables (optional) ================
-
 variable "cluster_identity_oidc_issuer" {
   type        = string
   default     = null
@@ -29,13 +27,13 @@ variable "service_account_create" {
 variable "service_account_name" {
   type        = string
   default     = null
-  description = "The Kubernetes Service Account name. Defaults to addon name."
+  description = "The Kubernetes Service Account name. Defaults to the addon name. Defaults to `\"\"`."
 }
 
 variable "service_account_namespace" {
   type        = string
   default     = null
-  description = "The Kubernetes Service Account namespace. Defaults to addon namespace."
+  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `\"\"`."
 }
 
 variable "irsa_role_create" {
@@ -47,13 +45,13 @@ variable "irsa_role_create" {
 variable "irsa_role_name_prefix" {
   type        = string
   default     = null
-  description = "IRSA role name prefix. Defaults to addon IRSA component name with `irsa` suffix."
+  description = "IRSA role name prefix. Either `irsa_role_name_prefix` or `irsa_role_name` must be set. Defaults to `\"\"`."
 }
 
 variable "irsa_role_name" {
   type        = string
   default     = null
-  description = "IRSA role name. The value is prefixed by `var.irsa_role_name_prefix`. Defaults to addon Helm chart name."
+  description = "IRSA role name. The value is prefixed by `irsa_role_name_prefix`. Either `irsa_role_name` or `irsa_role_name_prefix` must be set. Defaults to `\"\"`."
 }
 
 variable "irsa_policy_enabled" {
@@ -65,7 +63,7 @@ variable "irsa_policy_enabled" {
 variable "irsa_policy" {
   type        = string
   default     = null
-  description = "Policy to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`."
+  description = "AWS IAM policy JSON document to be attached to the IRSA role. Applied only if `irsa_policy_enabled` is `true`. Defaults to `\"\"`."
 }
 
 variable "irsa_assume_role_enabled" {
@@ -77,13 +75,13 @@ variable "irsa_assume_role_enabled" {
 variable "irsa_assume_role_arns" {
   type        = list(string)
   default     = null
-  description = "List of ARNs assumable by the IRSA role. Applied only if `irsa_assume_role_enabled` is `true`."
+  description = "List of ARNs assumable by the IRSA role. Applied only if `irsa_assume_role_enabled` is `true`. Defaults to `[]`."
 }
 
 variable "irsa_permissions_boundary" {
   type        = string
   default     = null
-  description = "ARN of the policy that is used to set the permissions boundary for the IRSA role. Defaults to `\"\"`."
+  description = "ARN of the policy that is used to set the permissions boundary for the IRSA role. Defaults to `null`."
 }
 
 variable "irsa_additional_policies" {
@@ -96,4 +94,16 @@ variable "irsa_tags" {
   type        = map(string)
   default     = null
   description = "IRSA resources tags. Defaults to `{}`."
+}
+
+variable "irsa_assume_role_policy_condition_test" {
+  type        = string
+  default     = null
+  description = "Specifies the condition test to use for the assume role trust policy. Defaults to `StringEquals`."
+}
+
+variable "irsa_assume_role_policy_condition_values" {
+  type        = list(string)
+  default     = null
+  description = "Specifies the values for the assume role trust policy condition. Each entry in this list must follow the required format `system:serviceaccount:$service_account_namespace:$service_account_name`. If this variable is left as the default, `local.irsa_assume_role_policy_condition_values_default` is used instead, which is a list containing a single value. Note that if this list is defined, the `service_account_name` and `service_account_namespace` variables are ignored. Defaults to `[]`."
 }
