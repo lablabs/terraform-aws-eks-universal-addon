@@ -5,24 +5,32 @@ on:
     - cron: '0 0 * * *' # every day at midnight
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-  actions: write
-
 jobs:
   universal-addon:
     if: github.repository != 'lablabs/terraform-aws-eks-universal-addon'
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App token
+        id: template-sync-app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.LARA_TEMPLATE_SYNC_APP_ID }}
+          private-key: ${{ secrets.LARA_TEMPLATE_SYNC_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.template-sync-app-token.outputs.token }}
 
       - name: actions-template-sync
         uses: AndreasAugustin/actions-template-sync@v2
         with:
+          github_token: ${{ steps.template-sync-app-token.outputs.token }}
           source_repo_path: lablabs/terraform-aws-eks-universal-addon
           upstream_branch: main
           pr_labels: kind/sync
           pr_branch_name_prefix: "feat/universal-addon-sync"
           pr_title: "feat(sync): sync universal-addon changes"
           pr_commit_msg: "feat(sync): sync universal-addon changes"
+          is_pr_cleanup: true
+          is_keep_branch_on_pr_cleanup: true
