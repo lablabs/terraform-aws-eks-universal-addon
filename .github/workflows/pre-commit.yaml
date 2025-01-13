@@ -13,9 +13,10 @@ on:
 jobs:
   pre-commit:
     runs-on: ubuntu-24.04
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Install OS dependencies
+        run: sudo apt-get install -y libsqlite3-dev libbz2-dev # TODO remove once https://github.com/actions/runner-images/issues/11279 is resolved
+
       - uses: actions/checkout@v4
 
       - name: Cache ASDF
@@ -25,6 +26,14 @@ jobs:
           path: ~/.asdf/
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
           restore-keys: ${{ runner.os }}-asdf-
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip/
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Setup ASDF
         uses: asdf-vm/actions/setup@v3
@@ -37,14 +46,6 @@ jobs:
       - name: Reshim installed ASDF tools
         shell: bash
         run: asdf reshim
-
-      - name: Cache pip dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '.pre-commit-config.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
 
       - name: Install pip dependencies
         run: pip install -r requirements.txt
