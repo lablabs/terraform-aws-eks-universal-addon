@@ -35,6 +35,14 @@ jobs:
           key: ${{ runner.os }}-asdf-${{ hashFiles('.tool-versions') }}
           restore-keys: ${{ runner.os }}-asdf-
 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip/
+          key: ${{ runner.os }}-pip-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Setup ASDF
         uses: asdf-vm/actions/setup@v3
         if: ${{ steps.asdf-cache.outputs.cache-hit == 'true' }}
