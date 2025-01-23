@@ -1,5 +1,6 @@
 resource "helm_release" "this" {
-  count            = var.enabled == true && var.helm_enabled == true && var.argo_enabled == false ? 1 : 0
+  count = var.enabled == true && var.helm_enabled == true && var.argo_enabled == false ? 1 : 0
+
   chart            = var.helm_chart_name
   create_namespace = var.helm_create_namespace
   namespace        = var.namespace

@@ -33,6 +33,8 @@ resource "helm_release" "argo_application" {
   name      = var.helm_release_name
   namespace = var.argo_namespace
 
+  max_history = var.helm_release_max_history
+
   values = local.helm_argo_application_values
 }
 
