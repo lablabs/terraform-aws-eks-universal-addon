@@ -12,9 +12,6 @@ jobs:
     if: github.repository != 'lablabs/terraform-aws-eks-universal-addon'
     runs-on: ubuntu-24.04
     steps:
-      - name: Install OS dependencies
-        run: sudo apt-get install -y libsqlite3-dev # TODO remove once https://github.com/actions/runner-images/issues/11279 is resolved
-
       - name: Generate GitHub App token
         id: template-sync-app-token
         uses: actions/create-github-app-token@v1
