@@ -55,9 +55,9 @@ jobs:
       - name: Sync universal-addon template
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          github_token: ${{ steps.template-sync-app-token.outputs.token }}
           source_repo_path: lablabs/terraform-aws-eks-universal-addon
           upstream_branch: main
+          target_gh_token: ${{ steps.template-sync-app-token.outputs.token }}
           pr_labels: kind/sync
           pr_branch_name_prefix: "feat/universal-addon-sync"
           pr_title: "feat(sync): sync universal-addon changes"
