@@ -4,3 +4,5 @@ main.tf
 variables.tf
 README.md
 .secrets.baseline
+.github/workflows/renovate.yaml
+renovate.json

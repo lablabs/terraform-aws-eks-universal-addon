@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "group:allNonMajor"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "enabledManagers": [
+    "github-actions"
+  ],
+  "pinDigests": true
+}

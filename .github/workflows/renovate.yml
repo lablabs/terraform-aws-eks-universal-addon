@@ -1,0 +1,12 @@
+name: Renovate
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 4 * * *
+
+jobs:
+  call-workflow:
+    name: lara-tools
+    uses: lablabs/lara-tools/.github/workflows/renovate.yml@2a856acfc11c3d2b73ed08a8c8f636874a5ea37e # v0.1.0
+    secrets: inherit # pragma: allowlist secret
