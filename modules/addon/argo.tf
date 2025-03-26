@@ -44,21 +44,26 @@ locals {
 resource "kubernetes_manifest" "this" {
   count = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == false ? 1 : 0
 
-  manifest = {
-    apiVersion = var.argo_apiversion
-    kind       = "Application"
-    metadata = merge(
-      local.argo_application_metadata,
-      {
-        name      = local.argo_application_name
-        namespace = var.argo_namespace
-      },
-    )
-    spec = merge(
-      local.argo_application_spec,
-      var.argo_spec
-    )
-  }
+  manifest = merge(
+    {
+      apiVersion = var.argo_apiversion
+      kind       = "Application"
+      metadata = merge(
+        local.argo_application_metadata,
+        {
+          name      = local.argo_application_name
+          namespace = var.argo_namespace
+        },
+      )
+      spec = merge(
+        local.argo_application_spec,
+        var.argo_spec
+      )
+    },
+    length(var.argo_operation) > 0 ? {
+      operation = var.argo_operation
+    } : {},
+  )
 
   computed_fields = var.argo_kubernetes_manifest_computed_fields
 

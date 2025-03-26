@@ -182,6 +182,12 @@ variable "argo_spec" {
   description = "ArgoCD Application spec configuration. Override or create additional spec parameters."
 }
 
+variable "argo_operation" {
+  type        = any
+  default     = {}
+  description = "ArgoCD Application manifest operation parameter."
+}
+
 variable "argo_helm_values" {
   type        = string
   default     = ""
