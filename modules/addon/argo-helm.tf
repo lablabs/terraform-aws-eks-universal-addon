@@ -111,19 +111,18 @@ resource "kubernetes_job" "helm_argo_application_wait" {
           for_each = var.argo_kubernetes_manifest_wait_fields
 
           content {
-            name    = "${lower(replace(container.key, ".", "-"))}-${md5(jsonencode(local.helm_argo_application_values))}" # md5 suffix is a workaround for https://github.com/hashicorp/terraform-provider-kubernetes/issues/1325
-            image   = "bitnami/kubectl:latest"
-            command = ["/bin/bash", "-ecx"]
+            name  = "${lower(replace(container.key, ".", "-"))}-${md5(jsonencode(local.helm_argo_application_values))}" # md5 suffix is a workaround for https://github.com/hashicorp/terraform-provider-kubernetes/issues/1325
+            image = "registry.k8s.io/kubectl:v${trim(var.argo_helm_wait_kubectl_version, "v")}"
             # Waits for ArgoCD Application to be "Healthy", see https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#wait
-            #   i.e. kubectl wait --for=jsonpath='{.status.sync.status}'=Healthy application.argoproj.io <$addon-name>
+            #   i.e. kubectl wait --for=jsonpath={.status.sync.status}=Healthy application.argoproj.io <$addon-name>
             args = [
-              <<-EOT
-              kubectl wait \
-                --namespace ${var.argo_namespace} \
-                --for=jsonpath='{.${container.key}}'=${container.value} \
-                --timeout=${var.argo_helm_wait_timeout} \
-                application.argoproj.io ${var.helm_release_name}
-              EOT
+              "wait",
+              "--namespace=${var.argo_namespace}",
+              "--for=jsonpath={.${container.key}}=${container.value}",
+              "--timeout=${var.argo_helm_wait_timeout}",
+              "--v=1", # https://kubernetes.io/docs/reference/kubectl/quick-reference/#kubectl-output-verbosity-and-debugging
+              "application.argoproj.io",
+              var.helm_release_name
             ]
           }
         }

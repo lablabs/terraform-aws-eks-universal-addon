@@ -6,7 +6,21 @@
     "dependencies"
   ],
   "enabledManagers": [
-    "github-actions"
+    "github-actions",
+    "custom.regex"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "\\.tf$"
+      ],
+      "matchStrings": [
+        "default\\s*=\\s*[\"']?(?<currentValue>.*?)[\"']?\\s*#\\s*renovate:\\s*datasource=(?<datasource>.*?)\\s*depName=(?<depName>.*?)(?:^|\\r\\n|\\r|\\n|$)"
+      ],
+      "datasourceTemplate": "{{datasource}}",
+      "depNameTemplate": "{{depName}}"
+    }
   ],
   "pinDigests": true
 }
