@@ -10,6 +10,10 @@ on:
       - main
       - master
 
+env:
+  # renovate: datasource=github-releases depName=asdf-vm/asdf
+  ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0
+
 jobs:
   pre-commit:
     runs-on: ubuntu-24.04
@@ -36,7 +40,7 @@ jobs:
         uses: asdf-vm/actions/install@05e0d2ed97b598bfce82fd30daf324ae0c4570e6 # v3.0.2
         if: ${{ steps.asdf-cache.outputs.cache-hit != 'true' }}
         with:
-          asdf_branch: v0.15.0
+          asdf_branch: ${{ env.ASDF_VERSION }}
 
       - name: Reshim installed ASDF tools
         shell: bash
