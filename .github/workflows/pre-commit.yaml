@@ -12,7 +12,7 @@ on:
 
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
-  ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0
+  ASDF_VERSION: cbe8c6bd37196db5651c701daaa1cfcfcd08f3ec # v0.16.7
 
 jobs:
   pre-commit:
