@@ -95,6 +95,12 @@ variable "argo_helm_wait_backoff_limit" {
   description = "Backoff limit for ArgoCD Application Helm release wait job."
 }
 
+variable "argo_helm_wait_kubectl_version" {
+  type        = string
+  default     = "1.32.3" # renovate: datasource=github-releases depName=kubernetes/kubernetes
+  description = "Version of kubectl to use for ArgoCD Application wait job."
+}
+
 variable "argo_destination_server" {
   type        = string
   default     = "https://kubernetes.default.svc"
