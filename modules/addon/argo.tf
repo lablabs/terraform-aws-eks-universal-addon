@@ -1,16 +1,28 @@
 locals {
+  argo_application_source_helm_enabled      = var.argo_source_type == "helm" ? true : false
+  argo_application_source_kustomize_enabled = var.argo_source_type == "kustomize" ? true : false
+  argo_application_source_directory_enabled = var.argo_source_type == "directory" ? true : false
+
+  argo_application_name = local.argo_application_source_helm_enabled ? var.helm_release_name : var.argo_name
   argo_application_metadata = {
     labels      = try(var.argo_metadata.labels, {}),
     annotations = try(var.argo_metadata.annotations, {}),
     finalizers  = try(var.argo_metadata.finalizers, [])
   }
-  argo_application_values = {
+  argo_application_spec = {
     project = var.argo_project
     source = {
-      repoURL        = var.helm_repo_url
-      chart          = var.helm_chart_name
-      targetRevision = var.helm_chart_version
-      helm = merge(
+      repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
+      targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
+
+      # Kustomize or directory source
+      path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
+      kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
+      directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
+
+      # Helm source
+      chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
+      helm = local.argo_application_source_helm_enabled ? merge(
         {
           releaseName = var.helm_release_name
           values      = var.values
@@ -18,7 +30,7 @@ locals {
         length(var.settings) > 0 ? {
           parameters = [for k, v in var.settings : tomap({ forceString = true, name = k, value = v })]
         } : {}
-      )
+      ) : null
     }
     destination = {
       server    = var.argo_destination_server
@@ -38,12 +50,12 @@ resource "kubernetes_manifest" "this" {
     metadata = merge(
       local.argo_application_metadata,
       {
-        name      = var.helm_release_name
+        name      = local.argo_application_name
         namespace = var.argo_namespace
       },
     )
     spec = merge(
-      local.argo_application_values,
+      local.argo_application_spec,
       var.argo_spec
     )
   }
