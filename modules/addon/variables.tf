@@ -60,7 +60,7 @@ variable "values" {
 variable "argo_name" {
   type        = string
   default     = null
-  description = "Name of the ArgoCD Application. Required if `argo_source_type` is set to `kustomize` or `directory`."
+  description = "Name of the ArgoCD Application. Required if `argo_source_type` is set to `kustomize` or `directory`.  If `argo_source_type` is set to `helm`, ArgoCD Application name will equal `helm_release_name`."
 }
 
 variable "argo_namespace" {
