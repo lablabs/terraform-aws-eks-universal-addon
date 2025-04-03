@@ -15,7 +15,7 @@ data "utils_deep_merge_yaml" "argo_helm_values" {
       apiVersion = var.argo_apiversion
     }),
     yamlencode({
-      spec = local.argo_application_values
+      spec = local.argo_application_spec
     }),
     yamlencode({
       spec = var.argo_spec
@@ -30,7 +30,7 @@ resource "helm_release" "argo_application" {
   count = local.helm_argo_application_enabled ? 1 : 0
 
   chart     = "${path.module}/helm/argocd-application"
-  name      = var.helm_release_name
+  name      = local.argo_application_name
   namespace = var.argo_namespace
 
   max_history = var.helm_release_max_history
@@ -42,7 +42,7 @@ resource "kubernetes_role" "helm_argo_application_wait" {
   count = local.helm_argo_application_wait_enabled ? 1 : 0
 
   metadata {
-    name        = "${var.helm_release_name}-argo-application-wait"
+    name        = "${local.argo_application_name}-argo-application-wait"
     namespace   = var.argo_namespace
     labels      = local.argo_application_metadata.labels
     annotations = local.argo_application_metadata.annotations
@@ -59,7 +59,7 @@ resource "kubernetes_role_binding" "helm_argo_application_wait" {
   count = local.helm_argo_application_wait_enabled ? 1 : 0
 
   metadata {
-    name        = "${var.helm_release_name}-argo-application-wait"
+    name        = "${local.argo_application_name}-argo-application-wait"
     namespace   = var.argo_namespace
     labels      = local.argo_application_metadata.labels
     annotations = local.argo_application_metadata.annotations
@@ -82,7 +82,7 @@ resource "kubernetes_service_account" "helm_argo_application_wait" {
   count = local.helm_argo_application_wait_enabled ? 1 : 0
 
   metadata {
-    name        = "${var.helm_release_name}-argo-application-wait"
+    name        = "${local.argo_application_name}-argo-application-wait"
     namespace   = var.argo_namespace
     labels      = local.argo_application_metadata.labels
     annotations = local.argo_application_metadata.annotations
@@ -93,7 +93,7 @@ resource "kubernetes_job" "helm_argo_application_wait" {
   count = local.helm_argo_application_wait_enabled ? 1 : 0
 
   metadata {
-    generate_name = "${var.helm_release_name}-argo-application-wait-"
+    generate_name = "${local.argo_application_name}-argo-application-wait-"
     namespace     = var.argo_namespace
     labels        = local.argo_application_metadata.labels
     annotations   = local.argo_application_metadata.annotations
@@ -124,7 +124,7 @@ resource "kubernetes_job" "helm_argo_application_wait" {
               "--timeout=${var.argo_helm_wait_timeout}",
               "--v=1", # https://kubernetes.io/docs/reference/kubectl/quick-reference/#kubectl-output-verbosity-and-debugging
               "application.argoproj.io",
-              var.helm_release_name
+              local.argo_application_name
             ]
           }
         }

@@ -12,22 +12,26 @@ variable "helm_enabled" {
 
 variable "helm_chart_name" {
   type        = string
-  description = "Helm chart name to be installed (required)."
+  default     = null
+  description = "Helm chart name to be installed. Required if `argo_source_type` is set to `helm`."
 }
 
 variable "helm_chart_version" {
   type        = string
-  description = "Version of the Helm chart (required)."
+  default     = null
+  description = "Version of the Helm chart. Required if `argo_source_type` is set to `helm`."
 }
 
 variable "helm_release_name" {
   type        = string
-  description = "Helm release name (required)."
+  default     = null
+  description = "Helm release name. Required if `argo_source_type` is set to `helm`."
 }
 
 variable "helm_repo_url" {
   type        = string
-  description = "Helm repository (required)."
+  default     = null
+  description = "Helm repository. Required if `argo_source_type` is set to `helm`."
 }
 
 variable "helm_create_namespace" {
@@ -44,7 +48,7 @@ variable "namespace" {
 variable "settings" {
   type        = map(any)
   default     = {}
-  description = "Additional Helm sets which will be passed to the Helm chart values."
+  description = "Additional Helm sets which will be passed to the Helm chart values or Kustomize or directory configuration which will be passed to ArgoCD Application source."
 }
 
 variable "values" {
@@ -53,10 +57,16 @@ variable "values" {
   description = "Additional YAML encoded values which will be passed to the Helm chart."
 }
 
+variable "argo_name" {
+  type        = string
+  default     = null
+  description = "Name of the ArgoCD Application. Required if `argo_source_type` is set to `kustomize` or `directory`.  If `argo_source_type` is set to `helm`, ArgoCD Application name will equal `helm_release_name`."
+}
+
 variable "argo_namespace" {
   type        = string
   default     = "argo"
-  description = "Namespace to deploy ArgoCD Application CRD to."
+  description = "Namespace to deploy ArgoCD Application to."
 }
 
 variable "argo_enabled" {
@@ -99,6 +109,35 @@ variable "argo_helm_wait_kubectl_version" {
   type        = string
   default     = "1.32.3" # renovate: datasource=github-releases depName=kubernetes/kubernetes
   description = "Version of kubectl to use for ArgoCD Application wait job."
+}
+
+variable "argo_source_type" {
+  type        = string
+  default     = "helm"
+  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`."
+
+  validation {
+    condition     = contains(["helm", "kustomize", "directory"], var.argo_source_type)
+    error_message = "Source type must be either `helm`, `kustomize`, or `directory`."
+  }
+}
+
+variable "argo_source_repo_url" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source repo URL. Required if `argo_source_type` is set to `kustomize` or `directory`."
+}
+
+variable "argo_source_target_revision" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source target revision. Required if `argo_source_type` is set to `kustomize` or `directory`."
+}
+
+variable "argo_source_path" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source path. Required if `argo_source_type` is set to `kustomize` or `directory`."
 }
 
 variable "argo_destination_server" {
