@@ -2,7 +2,7 @@
 module "addon-irsa" {
   for_each = local.addon_irsa
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa?ref=v0.0.12"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa?ref=v0.0.13"
 
   enabled = var.enabled
 
@@ -16,7 +16,7 @@ module "addon-irsa" {
 
   irsa_role_create      = var.irsa_role_create != null ? var.irsa_role_create : try(each.value.irsa_role_create, true)
   irsa_role_name_prefix = var.irsa_role_name_prefix != null ? var.irsa_role_name_prefix : try(each.value.irsa_role_name_prefix, "${each.key}-irsa")
-  irsa_role_name        = var.irsa_role_name != null ? var.irsa_role_name : try(each.value.irsa_role_name, local.addon_helm_chart_name)
+  irsa_role_name        = var.irsa_role_name != null ? var.irsa_role_name : try(each.value.irsa_role_name, local.addon_name)
 
   irsa_policy_enabled       = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : try(each.value.irsa_policy_enabled, false)
   irsa_policy               = var.irsa_policy != null ? var.irsa_policy : try(each.value.irsa_policy, "")
