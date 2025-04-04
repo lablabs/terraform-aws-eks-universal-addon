@@ -4,6 +4,31 @@ locals {
   argo_application_source_directory_enabled = var.argo_source_type == "directory" ? true : false
 
   argo_application_name = local.argo_application_source_helm_enabled ? var.helm_release_name : var.argo_name
+  argo_application_source = {
+    repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
+    targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
+
+    # Helm source
+    chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
+    helm = local.argo_application_source_helm_enabled ? merge(
+      {
+        releaseName = var.helm_release_name
+        values      = var.values
+      },
+      length(var.settings) > 0 ? {
+        parameters = [for k, v in var.settings : tomap({ forceString = true, name = k, value = v })]
+      } : {}
+    ) : null
+
+    # Kustomize or directory source
+    path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
+    kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
+    directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
+  }
+  argo_application_source_normalized = {
+    for k, v in local.argo_application_source : k => v if v != null # remove null values to avoid empty keys confusing ArgoCD source type
+  }
+
   argo_application_metadata = {
     labels      = try(var.argo_metadata.labels, {}),
     annotations = try(var.argo_metadata.annotations, {}),
@@ -11,27 +36,7 @@ locals {
   }
   argo_application_spec = {
     project = var.argo_project
-    source = {
-      repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
-      targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
-
-      # Kustomize or directory source
-      path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
-      kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
-      directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
-
-      # Helm source
-      chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
-      helm = local.argo_application_source_helm_enabled ? merge(
-        {
-          releaseName = var.helm_release_name
-          values      = var.values
-        },
-        length(var.settings) > 0 ? {
-          parameters = [for k, v in var.settings : tomap({ forceString = true, name = k, value = v })]
-        } : {}
-      ) : null
-    }
+    source  = local.argo_application_source_normalized
     destination = {
       server    = var.argo_destination_server
       namespace = var.namespace
