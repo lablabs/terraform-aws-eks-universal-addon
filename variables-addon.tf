@@ -9,25 +9,25 @@ variable "helm_enabled" {
 variable "helm_chart_name" {
   type        = string
   default     = null
-  description = "Helm chart name to be installed (required)."
+  description = "Helm chart name to be installed. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
 }
 
 variable "helm_chart_version" {
   type        = string
   default     = null
-  description = "Version of the Helm chart (required)."
+  description = "Version of the Helm chart. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
 }
 
 variable "helm_release_name" {
   type        = string
   default     = null
-  description = "Helm release name (required)."
+  description = "Helm release name. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
 }
 
 variable "helm_repo_url" {
   type        = string
   default     = null
-  description = "Helm repository (required)."
+  description = "Helm repository. Required if `argo_source_type` is set to `helm`. Defaults to `null`."
 }
 
 variable "helm_create_namespace" {
@@ -45,7 +45,7 @@ variable "namespace" {
 variable "settings" {
   type        = map(any)
   default     = null
-  description = "Additional Helm sets which will be passed to the Helm chart values. Defaults to `{}`."
+  description = "Additional Helm sets which will be passed to the Helm chart values or Kustomize or directory configuration which will be passed to ArgoCD Application source. Defaults to `{}`."
 }
 
 variable "values" {
@@ -54,10 +54,16 @@ variable "values" {
   description = "Additional YAML encoded values which will be passed to the Helm chart. Defaults to `\"\"`."
 }
 
+variable "argo_name" {
+  type        = string
+  default     = null
+  description = "Name of the ArgoCD Application. Required if `argo_source_type` is set to `kustomize` or `directory`.  If `argo_source_type` is set to `helm`, ArgoCD Application name will equal `helm_release_name`. Defaults to `null`."
+}
+
 variable "argo_namespace" {
   type        = string
   default     = null
-  description = "Namespace to deploy ArgoCD Application CRD to. Defaults to `argo`."
+  description = "Namespace to deploy ArgoCD Application to. Defaults to `argo`."
 }
 
 variable "argo_enabled" {
@@ -94,6 +100,36 @@ variable "argo_helm_wait_backoff_limit" {
   type        = number
   default     = null
   description = "Backoff limit for ArgoCD Application Helm release wait job. Defaults to `6`."
+}
+
+variable "argo_helm_wait_kubectl_version" {
+  type        = string
+  default     = null
+  description = "Version of kubectl to use for ArgoCD Application wait job. Defaults to `1.32.3`."
+}
+
+variable "argo_source_type" {
+  type        = string
+  default     = null
+  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`. Defaults to `helm`."
+}
+
+variable "argo_source_repo_url" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source repo URL. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
+}
+
+variable "argo_source_target_revision" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source target revision. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
+}
+
+variable "argo_source_path" {
+  type        = string
+  default     = null
+  description = "ArgoCD Application source path. Required if `argo_source_type` is set to `kustomize` or `directory`. Defaults to `null`."
 }
 
 variable "argo_destination_server" {
@@ -136,6 +172,12 @@ variable "argo_spec" {
   type        = any
   default     = null
   description = "ArgoCD Application spec configuration. Override or create additional spec parameters. Defaults to `{}`."
+}
+
+variable "argo_operation" {
+  type        = any
+  default     = null
+  description = "ArgoCD Application manifest operation parameter. Defaults to `{}`."
 }
 
 variable "argo_helm_values" {
