@@ -12,7 +12,7 @@ on:
 
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
-  ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0
+  ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0 # pragma: allowlist secret
 
 jobs:
   pre-commit:
