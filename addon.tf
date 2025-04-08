@@ -53,7 +53,7 @@ module "addon" {
   helm_wait                       = var.helm_wait != null ? var.helm_wait : try(local.addon.helm_wait, false)
   helm_wait_for_jobs              = var.helm_wait_for_jobs != null ? var.helm_wait_for_jobs : try(local.addon.helm_wait_for_jobs, false)
 
-  argo_source_type            = var.argo_source_type != null ? var.argo_source_type : try(local.addon.argo_source_type, "helm")
+  argo_source_type            = local.addon_argo_source_type
   argo_source_repo_url        = var.argo_source_repo_url != null ? var.argo_source_repo_url : try(local.addon.argo_source_repo_url, null)
   argo_source_target_revision = var.argo_source_target_revision != null ? var.argo_source_target_revision : try(local.addon.argo_source_target_revision, null)
   argo_source_path            = var.argo_source_path != null ? var.argo_source_path : try(local.addon.argo_source_path, null)
