@@ -19,7 +19,7 @@ module "addon" {
   namespace = local.addon_namespace
 
   helm_enabled                    = var.helm_enabled != null ? var.helm_enabled : try(local.addon.helm_enabled, true)
-  helm_release_name               = local.addon_argo_source_helm_enabled ? local.addon_helm_release_name : null
+  helm_release_name               = local.addon_name
   helm_chart_name                 = var.helm_chart_name != null ? var.helm_chart_name : try(local.addon.helm_chart_name, local.addon.name)
   helm_chart_version              = var.helm_chart_version != null ? var.helm_chart_version : try(local.addon.helm_chart_version, null)
   helm_atomic                     = var.helm_atomic != null ? var.helm_atomic : try(local.addon.helm_atomic, false)
@@ -74,7 +74,7 @@ module "addon" {
   argo_kubernetes_manifest_field_manager_name            = var.argo_kubernetes_manifest_field_manager_name != null ? var.argo_kubernetes_manifest_field_manager_name : try(local.addon.argo_kubernetes_manifest_field_manager_name, "Terraform")
   argo_kubernetes_manifest_wait_fields                   = var.argo_kubernetes_manifest_wait_fields != null ? var.argo_kubernetes_manifest_wait_fields : try(local.addon.argo_kubernetes_manifest_wait_fields, tomap({}))
   argo_metadata                                          = var.argo_metadata != null ? var.argo_metadata : try(local.addon.argo_metadata, { finalizers = ["resources-finalizer.argocd.argoproj.io"] })
-  argo_name                                              = !local.addon_argo_source_helm_enabled ? local.addon_argo_name : null
+  argo_name                                              = local.addon_name
   argo_namespace                                         = var.argo_namespace != null ? var.argo_namespace : try(local.addon.argo_namespace, "argo")
   argo_project                                           = var.argo_project != null ? var.argo_project : try(local.addon.argo_project, "default")
   argo_spec                                              = var.argo_spec != null ? var.argo_spec : try(local.addon.argo_spec, tomap({}))
