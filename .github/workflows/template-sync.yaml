@@ -38,13 +38,19 @@ jobs:
       - name: Sync universal-addon template
         uses: AndreasAugustin/actions-template-sync@bcb94410a4f1dffdfe5eaabc8234c3b8e76ebc5b # v2.5.1
         with:
+          source_gh_token: ${{ steps.template-sync-app-token.outputs.token }}
           source_repo_path: lablabs/terraform-aws-eks-universal-addon
           upstream_branch: main
+
           target_gh_token: ${{ steps.template-sync-app-token.outputs.token }}
+
+          git_remote_pull_params: --allow-unrelated-histories --squash --strategy=recursive --no-tags -X theirs
+
           pr_labels: kind/sync
           pr_branch_name_prefix: "feat/universal-addon-sync"
           pr_title: "feat(sync): sync universal-addon changes"
           pr_commit_msg: "feat(sync): sync universal-addon changes"
+
           is_pr_cleanup: true
 
       - name: Setup ASDF
