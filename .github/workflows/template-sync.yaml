@@ -5,8 +5,7 @@ on:
   schedule:
     - cron: '0 0 * * *' # every day at midnight
 
-permissions:
-  contents: read
+permissions: {}
 
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
