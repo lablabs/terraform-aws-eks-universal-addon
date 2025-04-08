@@ -13,6 +13,7 @@ locals {
     helm = local.argo_application_source_helm_enabled ? merge(
       {
         releaseName = var.helm_release_name
+        skipCrds    = var.helm_skip_crds
         values      = var.values
       },
       length(var.settings) > 0 ? {
