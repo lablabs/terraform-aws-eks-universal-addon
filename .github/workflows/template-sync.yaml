@@ -7,6 +7,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: pre-commit
+  cancel-in-progress: false
+
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
   ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0 # pragma: allowlist secret
@@ -77,7 +81,7 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Update README.md
-        run: pre-commit run --show-diff-on-failure --color=always terraform_docs --all-files
+        run: pre-commit run --show-diff-on-failure --color=always terraform_docs --all-files || true
 
       - name: Commit and push README.md
         uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9.1.4

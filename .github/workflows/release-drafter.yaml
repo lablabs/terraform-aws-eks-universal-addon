@@ -1,9 +1,5 @@
 name: Release drafter
 
-permissions:
-  contents: write
-  pull-requests: read
-
 on:
   push:
     branches:
@@ -16,6 +12,10 @@ on:
       - reopened
       - synchronize
       - labeled
+
+permissions:
+  contents: write
+  pull-requests: read
 
 jobs:
   release-drafter:
