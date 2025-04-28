@@ -15,7 +15,7 @@ module "addon-pod-identity" {
   service_account_namespace = var.pi_service_account_namespace != null ? var.pi_service_account_namespace : try(each.value.pi_service_account_namespace, local.addon_namespace)
 
   pod_identity_role_create      = var.pod_identity_role_create != null ? var.pod_identity_role_create : try(each.value.pod_identity_role_create, true)
-  pod_identity_role_name_prefix = var.pod_identity_role_name_prefix != null ? var.pod_identity_role_name_prefix : try(each.value.pod_identity_role_name_prefix, "${each.key}-pod-identity")
+  pod_identity_role_name_prefix = var.pod_identity_role_name_prefix != null ? var.pod_identity_role_name_prefix : try(each.value.pod_identity_role_name_prefix, "${each.key}-epi")
   pod_identity_role_name        = var.pod_identity_role_name != null ? var.pod_identity_role_name : try(each.value.pod_identity_role_name, local.addon_name)
 
   pod_identity_policy_enabled       = var.pod_identity_policy_enabled != null ? var.pod_identity_policy_enabled : try(each.value.pod_identity_policy_enabled, false)
