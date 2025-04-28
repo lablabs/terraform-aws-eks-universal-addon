@@ -5,32 +5,6 @@ variable "cluster_name" {
   description = "The name of the cluster"
 }
 
-# TODO: Do I need this?
-variable "pi_rbac_create" {
-  type        = bool
-  default     = null
-  description = "Whether to create and use RBAC resources. Defaults to `true`."
-}
-
-# TODO: Do I need this?
-variable "pi_service_account_create" {
-  type        = bool
-  default     = null
-  description = "Whether to create Service Account. Defaults to `true`."
-}
-
-variable "pi_service_account_name" {
-  type        = string
-  default     = null
-  description = "The Kubernetes Service Account name. Defaults to the addon name. Defaults to `\"\"`."
-}
-
-variable "pi_service_account_namespace" {
-  type        = string
-  default     = null
-  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `\"\"`."
-}
-
 variable "pod_identity_role_create" {
   type        = bool
   default     = null

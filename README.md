@@ -60,7 +60,7 @@ See [basic example](examples/basic) for further information.
 |------|------|
 | [utils_deep_merge_yaml.values](https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml) | data source |
 > [!IMPORTANT]
-> Variables defined in [variables-addon[-irsa|oidc].tf](variables-addon.tf) defaults to `null` to have them overridable by the addon configuration defined though the [`local.addon[_irsa|oidc].*`](main.tf) local variable with the default values defined in [addon[-irsa|oidc].tf](addon.tf).
+> Variables defined in [variables-addon[-irsa|-oidc|pod-identity].tf](variables-addon.tf) defaults to `null` to have them overridable by the addon configuration defined though the [`local.addon[_irsa|_oidc|_pod_identity].*`](main.tf) local variable with the default values defined in [addon[-irsa|-oidc|-pod-identity].tf](addon.tf).
 ## Inputs
 
 | Name | Description | Type |
@@ -160,10 +160,6 @@ See [basic example](examples/basic) for further information.
 | <a name="input_oidc_role_name"></a> [oidc\_role\_name](#input\_oidc\_role\_name) | OIDC role name. The value is prefixed by `oidc_role_name_prefix`. Either `oidc_role_name` or `oidc_role_name_prefix` must be set. Defaults to `""`. | `string` |
 | <a name="input_oidc_role_name_prefix"></a> [oidc\_role\_name\_prefix](#input\_oidc\_role\_name\_prefix) | OIDC role name prefix. Either `oidc_role_name_prefix` or `oidc_role_name` must be set. Defaults to `""`. | `string` |
 | <a name="input_oidc_tags"></a> [oidc\_tags](#input\_oidc\_tags) | OIDC resources tags. Defaults to `{}`. | `map(string)` |
-| <a name="input_pi_rbac_create"></a> [pi\_rbac\_create](#input\_pi\_rbac\_create) | Whether to create and use RBAC resources. Defaults to `true`. | `bool` |
-| <a name="input_pi_service_account_create"></a> [pi\_service\_account\_create](#input\_pi\_service\_account\_create) | Whether to create Service Account. Defaults to `true`. | `bool` |
-| <a name="input_pi_service_account_name"></a> [pi\_service\_account\_name](#input\_pi\_service\_account\_name) | The Kubernetes Service Account name. Defaults to the addon name. Defaults to `""`. | `string` |
-| <a name="input_pi_service_account_namespace"></a> [pi\_service\_account\_namespace](#input\_pi\_service\_account\_namespace) | The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `""`. | `string` |
 | <a name="input_pod_identity_additional_policies"></a> [pod\_identity\_additional\_policies](#input\_pod\_identity\_additional\_policies) | Map of the additional policies to be attached to pod identity role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`. | `map(string)` |
 | <a name="input_pod_identity_assume_role_arns"></a> [pod\_identity\_assume\_role\_arns](#input\_pod\_identity\_assume\_role\_arns) | List of ARNs assumable by the pod identity role. Applied only if `pod_identity_assume_role_enabled` is `true`. Defaults to `[]`. | `list(string)` |
 | <a name="input_pod_identity_assume_role_enabled"></a> [pod\_identity\_assume\_role\_enabled](#input\_pod\_identity\_assume\_role\_enabled) | Whether pod identity is allowed to assume role defined by `pod_identity_assume_role_arn`. Mutually exclusive with `pod_identity_policy_enabled`. Defaults to `false`. | `bool` |

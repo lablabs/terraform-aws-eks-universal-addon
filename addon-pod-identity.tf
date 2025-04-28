@@ -8,11 +8,11 @@ module "addon-pod-identity" {
 
   cluster_name = var.cluster_name != null ? var.cluster_name : try(each.value.cluster_name, null)
   # TODO: Do I need this?
-  rbac_create = var.pi_rbac_create != null ? var.pi_rbac_create : try(each.value.pi_rbac_create, true)
+  rbac_create = var.rbac_create != null ? var.rbac_create : try(each.value.rbac_create, true)
   # TODO: Do I need this?
-  service_account_create    = var.pi_service_account_create != null ? var.pi_service_account_create : try(each.value.pi_service_account_create, true)
-  service_account_name      = var.pi_service_account_name != null ? var.pi_service_account_name : try(each.value.pi_service_account_name, each.key)
-  service_account_namespace = var.pi_service_account_namespace != null ? var.pi_service_account_namespace : try(each.value.pi_service_account_namespace, local.addon_namespace)
+  service_account_create    = var.service_account_create != null ? var.service_account_create : try(each.value.service_account_create, true)
+  service_account_name      = var.service_account_name != null ? var.service_account_name : try(each.value.service_account_name, each.key)
+  service_account_namespace = var.service_account_namespace != null ? var.service_account_namespace : try(each.value.service_account_namespace, local.addon_namespace)
 
   pod_identity_role_create      = var.pod_identity_role_create != null ? var.pod_identity_role_create : try(each.value.pod_identity_role_create, true)
   pod_identity_role_name_prefix = var.pod_identity_role_name_prefix != null ? var.pod_identity_role_name_prefix : try(each.value.pod_identity_role_name_prefix, "${each.key}-epi")
