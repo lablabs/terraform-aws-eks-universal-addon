@@ -50,9 +50,10 @@ See [basic example](examples/basic) for further information.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.14 |
-| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.14 |
-| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | v0.0.14 |
+| <a name="module_addon"></a> [addon](#module\_addon) | ./modules/addon | n/a |
+| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | ./modules/addon-irsa | n/a |
+| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | ./modules/addon-oidc | n/a |
+| <a name="module_addon-pod-identity"></a> [addon-pod-identity](#module\_addon-pod-identity) | ./modules/addon-pod-identity | n/a |
 ## Resources
 
 | Name | Type |
@@ -64,6 +65,7 @@ See [basic example](examples/basic) for further information.
 
 | Name | Description | Type |
 |------|-------------|------|
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | The name of the cluster | `string` |
 | <a name="input_argo_apiversion"></a> [argo\_apiversion](#input\_argo\_apiversion) | ArgoCD Application apiVersion. Defaults to `argoproj.io/v1alpha1`. | `string` |
 | <a name="input_argo_destination_server"></a> [argo\_destination\_server](#input\_argo\_destination\_server) | Destination server for ArgoCD Application. Defaults to `https://kubernetes.default.svc`. | `string` |
 | <a name="input_argo_enabled"></a> [argo\_enabled](#input\_argo\_enabled) | If set to `true`, the module will be deployed as ArgoCD Application, otherwise it will be deployed as a Helm release. Defaults to `false`. | `bool` |
@@ -158,6 +160,20 @@ See [basic example](examples/basic) for further information.
 | <a name="input_oidc_role_name"></a> [oidc\_role\_name](#input\_oidc\_role\_name) | OIDC role name. The value is prefixed by `oidc_role_name_prefix`. Either `oidc_role_name` or `oidc_role_name_prefix` must be set. Defaults to `""`. | `string` |
 | <a name="input_oidc_role_name_prefix"></a> [oidc\_role\_name\_prefix](#input\_oidc\_role\_name\_prefix) | OIDC role name prefix. Either `oidc_role_name_prefix` or `oidc_role_name` must be set. Defaults to `""`. | `string` |
 | <a name="input_oidc_tags"></a> [oidc\_tags](#input\_oidc\_tags) | OIDC resources tags. Defaults to `{}`. | `map(string)` |
+| <a name="input_pi_rbac_create"></a> [pi\_rbac\_create](#input\_pi\_rbac\_create) | Whether to create and use RBAC resources. Defaults to `true`. | `bool` |
+| <a name="input_pi_service_account_create"></a> [pi\_service\_account\_create](#input\_pi\_service\_account\_create) | Whether to create Service Account. Defaults to `true`. | `bool` |
+| <a name="input_pi_service_account_name"></a> [pi\_service\_account\_name](#input\_pi\_service\_account\_name) | The Kubernetes Service Account name. Defaults to the addon name. Defaults to `""`. | `string` |
+| <a name="input_pi_service_account_namespace"></a> [pi\_service\_account\_namespace](#input\_pi\_service\_account\_namespace) | The Kubernetes Service Account namespace. Defaults to the addon namespace. Defaults to `""`. | `string` |
+| <a name="input_pod_identity_additional_policies"></a> [pod\_identity\_additional\_policies](#input\_pod\_identity\_additional\_policies) | Map of the additional policies to be attached to pod identity role. Where key is arbitrary id and value is policy ARN. Defaults to `{}`. | `map(string)` |
+| <a name="input_pod_identity_assume_role_arns"></a> [pod\_identity\_assume\_role\_arns](#input\_pod\_identity\_assume\_role\_arns) | List of ARNs assumable by the pod identity role. Applied only if `pod_identity_assume_role_enabled` is `true`. Defaults to `[]`. | `list(string)` |
+| <a name="input_pod_identity_assume_role_enabled"></a> [pod\_identity\_assume\_role\_enabled](#input\_pod\_identity\_assume\_role\_enabled) | Whether pod identity is allowed to assume role defined by `pod_identity_assume_role_arn`. Mutually exclusive with `pod_identity_policy_enabled`. Defaults to `false`. | `bool` |
+| <a name="input_pod_identity_permissions_boundary"></a> [pod\_identity\_permissions\_boundary](#input\_pod\_identity\_permissions\_boundary) | ARN of the policy that is used to set the permissions boundary for the pod identity role. Defaults to `null`. | `string` |
+| <a name="input_pod_identity_policy"></a> [pod\_identity\_policy](#input\_pod\_identity\_policy) | AWS IAM policy JSON document to be attached to the pod identity role. Applied only if `pod_identity_policy_enabled` is `true`. Defaults to `""`. | `string` |
+| <a name="input_pod_identity_policy_enabled"></a> [pod\_identity\_policy\_enabled](#input\_pod\_identity\_policy\_enabled) | Whether to create IAM policy specified by `pod_identity_policy`. Mutually exclusive with `pod_identity_assume_role_enabled`. Defaults to `false`. | `bool` |
+| <a name="input_pod_identity_role_create"></a> [pod\_identity\_role\_create](#input\_pod\_identity\_role\_create) | Whether to create pod identity role and annotate Service Account. Defaults to `true`. | `bool` |
+| <a name="input_pod_identity_role_name"></a> [pod\_identity\_role\_name](#input\_pod\_identity\_role\_name) | Pod identity role name. The value is prefixed by `pod_identity_role_name_prefix`. Either `pod_identity_role_name` or `pod_identity_role_name_prefix` must be set. Defaults to `""`. | `string` |
+| <a name="input_pod_identity_role_name_prefix"></a> [pod\_identity\_role\_name\_prefix](#input\_pod\_identity\_role\_name\_prefix) | Pod identity role name prefix. Either `pod_identity_role_name_prefix` or `pod_identity_role_name` must be set. Defaults to `""`. | `string` |
+| <a name="input_pod_identity_tags"></a> [pod\_identity\_tags](#input\_pod\_identity\_tags) | Pod identity resources tags. Defaults to `{}`. | `map(string)` |
 | <a name="input_rbac_create"></a> [rbac\_create](#input\_rbac\_create) | Whether to create and use RBAC resources. Defaults to `true`. | `bool` |
 | <a name="input_service_account_create"></a> [service\_account\_create](#input\_service\_account\_create) | Whether to create Service Account. Defaults to `true`. | `bool` |
 | <a name="input_service_account_name"></a> [service\_account\_name](#input\_service\_account\_name) | The Kubernetes Service Account name. Defaults to the addon name. Defaults to `""`. | `string` |
@@ -171,6 +187,7 @@ See [basic example](examples/basic) for further information.
 | <a name="output_addon"></a> [addon](#output\_addon) | The addon module outputs |
 | <a name="output_addon_irsa"></a> [addon\_irsa](#output\_addon\_irsa) | The addon IRSA module outputs |
 | <a name="output_addon_oidc"></a> [addon\_oidc](#output\_addon\_oidc) | The addon oidc module outputs |
+| <a name="output_addon_pod_identity"></a> [addon\_pod\_identity](#output\_addon\_pod\_identity) | The addon pod identity module outputs |
 ## Contributing and reporting issues
 
 Feel free to create an issue in this repository if you have questions, suggestions or feature requests.

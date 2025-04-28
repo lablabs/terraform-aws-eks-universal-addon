@@ -31,6 +31,13 @@ locals {
     }
   }
 
+  # FIXME config: add addon pod identity configuration here or remove if not needed
+  addon_pod_identity = {
+    (local.addon.name) = {
+      # FIXME config: add default pod identity overrides here or leave empty if not needed, but make sure to keep at least one key
+    }
+  }
+
   addon_values = yamlencode({
     # FIXME config: add default values here
   })
