@@ -16,7 +16,6 @@ jobs:
         with:
           persist-credentials: false
 
-
       - name: Generate GitHub App token
         id: lara-renovate-app-token
         uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2.0.2
