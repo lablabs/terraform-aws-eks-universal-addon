@@ -4,6 +4,7 @@
   ],
   "enabledManagers": [
     "asdf",
+    "pip_requirements",
     "github-actions",
     "custom.regex"
   ],
