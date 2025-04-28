@@ -107,7 +107,7 @@ variable "argo_helm_wait_backoff_limit" {
 
 variable "argo_helm_wait_kubectl_version" {
   type        = string
-  default     = "1.32.3" # renovate: datasource=github-releases depName=kubernetes/kubernetes
+  default     = "1.33.0" # renovate: datasource=github-releases depName=kubernetes/kubernetes
   description = "Version of kubectl to use for ArgoCD Application wait job."
 }
 
