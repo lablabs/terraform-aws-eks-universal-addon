@@ -5,7 +5,6 @@
   "enabledManagers": [
     "asdf",
     "pip_requirements",
-    "pre-commit",
     "github-actions",
     "custom.regex"
   ],
@@ -34,12 +33,22 @@
       "datasourceTemplate": "{{datasource}}",
       "depNameTemplate": "{{depName}}",
       "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/)\\.pre-commit-config\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?)\\s*depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s+rev:\\s*[\"']?(?<currentValue>.*?)[\"']?(?:^|\\s|\\r\\n|\\r|\\n|$)",
+        "#\\s*renovate:\\s*datasource=(?<datasource>.*?)\\s*depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s+rev:\\s*[\"']?(?<currentDigest>.*?)[\"']?\\s*#\\s*(?<currentValue>.*?)(?:^|\\s|\\r\\n|\\r|\\n|$)"
+      ],
+      "datasourceTemplate": "{{datasource}}",
+      "depNameTemplate": "{{depName}}",
+      "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
     }
   ],
   "pinDigests": true,
-  "pre-commit": {
-    "enabled": true
-  },
   "packageRules": [
     {
       "matchPackageNames": [

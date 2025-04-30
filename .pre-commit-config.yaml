@@ -1,5 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
+    # renovate: datasource=github-tags depName=pre-commit/pre-commit-hooks
     rev: cef0300fd0fc4d2a87a85fa2093c6b283ea36f4b # v5.0.0 # pragma: allowlist secret
     hooks:
       - id: trailing-whitespace
@@ -11,6 +12,7 @@ repos:
       - id: end-of-file-fixer
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
+    # renovate: datasource=github-releases depName=antonbabenko/pre-commit-terraform
     rev: 55d0143972eec4905fdaea2f444f1e88218f9dce # v1.96.3 # pragma: allowlist secret
     hooks:
       - id: terraform_validate
@@ -32,6 +34,7 @@ repos:
           - "--args=--config=.terraform-docs.yml"
 
   - repo: https://github.com/Yelp/detect-secrets
+    # renovate: datasource=github-releases depName=Yelp/detect-secrets
     rev: 01886c8a910c64595c47f186ca1ffc0b77fa5458 # v1.5.0 # pragma: allowlist secret
     hooks:
       - id: detect-secrets
@@ -39,7 +42,8 @@ repos:
         exclude: terraform.tfstate
 
   - repo: https://github.com/woodruffw/zizmor-pre-commit
-    rev: 07a06156e31897fbb5ba0e22a961e8e3c2a0677b # v.1.16.0 # pragma: allowlist secret
+    # renovate: datasource=github-releases depName=woodruffw/zizmor-pre-commit
+    rev: 07a06156e31897fbb5ba0e22a961e8e3c2a0677b # v1.16.0 # pragma: allowlist secret
     hooks:
       - id: zizmor
 
