@@ -61,8 +61,8 @@ resource "aws_eks_pod_identity_association" "pod_identity" {
   count = local.pod_identity_role_create ? 1 : 0
 
   cluster_name    = var.cluster_name
-  namespace       = local.service_account_namespace
-  service_account = local.service_account_name
+  namespace       = var.service_account_namespace
+  service_account = var.service_account_name
   role_arn        = aws_iam_role.pod_identity[0].arn
   tags            = var.pod_identity_tags
 }

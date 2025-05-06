@@ -8,7 +8,8 @@ output "pod_identity_role_enabled" {
   value       = local.pod_identity_role_create
 }
 
+# TODO: Add pod identity role attributes?
 output "iam_role_attributes" {
   description = "IAM role attributes"
-  value       = try(aws_iam_role.this[0], {})
+  value       = try(aws_iam_role.irsa[0], {})
 }
