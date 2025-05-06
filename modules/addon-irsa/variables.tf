@@ -6,12 +6,12 @@ variable "enabled" {
 
 variable "cluster_identity_oidc_issuer" {
   type        = string
-  description = "The OIDC Identity issuer for the cluster (required)."
+  description = "The OIDC Identity issuer for the cluster (required for IRSA)."
 }
 
 variable "cluster_identity_oidc_issuer_arn" {
   type        = string
-  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account (required)."
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account (required for IRSA)."
 }
 
 variable "rbac_create" {
@@ -113,8 +113,7 @@ variable "irsa_assume_role_policy_condition_values" {
 
 variable "cluster_name" {
   type        = string
-  default     = ""
-  description = "The name of the cluster. This is mandatory when pod identity is enabled."
+  description = "The name of the cluster (required for pod identity)."
 }
 
 variable "pod_identity_role_create" {
@@ -138,7 +137,7 @@ variable "pod_identity_role_name" {
 variable "pod_identity_policy_enabled" {
   type        = bool
   default     = false
-  description = "Whether to create IAM policy specified by `pod_identity_policy`. Mutually exclusive with `pod_identity_assume_role_enabled`."
+  description = "Whether to create IAM policy specified by `pod_identity_policy`."
 }
 
 variable "pod_identity_policy" {
@@ -157,4 +156,10 @@ variable "pod_identity_additional_policies" {
   type        = map(string)
   default     = {}
   description = "Map of the additional policies to be attached to pod identity role. Where key is arbitrary id and value is policy ARN."
+}
+
+variable "pod_identity_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Pod identity resources tags."
 }
