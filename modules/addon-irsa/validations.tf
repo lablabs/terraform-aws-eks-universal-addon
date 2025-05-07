@@ -18,7 +18,7 @@ resource "terraform_data" "validations" {
     }
 
     precondition {
-      condition = !local.irsa_role_create || !var.irsa_policy_enabled || var.irsa_policy != ""
+      condition     = !local.irsa_role_create || !var.irsa_policy_enabled || var.irsa_policy != ""
       error_message = "The `irsa_policy` variable must be set when `irsa_policy_enabled` is set to `true`."
     }
 
@@ -39,12 +39,12 @@ resource "terraform_data" "validations" {
 
     # Pod identity
     precondition {
-      condition = !local.pod_identity_role_create || var.cluster_name != ""
+      condition     = !local.pod_identity_role_create || var.cluster_name != ""
       error_message = "The `cluster_name` variable must be set when `pod_identity_role_create` is set to `true`."
     }
 
     precondition {
-      condition = !local.pod_identity_role_create || !var.pod_identity_policy_enabled || var.pod_identity_policy != ""
+      condition     = !local.pod_identity_role_create || !var.pod_identity_policy_enabled || var.pod_identity_policy != ""
       error_message = "The `pod_identity_policy` variable must be set when `pod_identity_policy_enabled` is set to `true`."
     }
 
