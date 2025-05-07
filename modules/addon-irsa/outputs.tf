@@ -8,8 +8,17 @@ output "pod_identity_role_enabled" {
   value       = local.pod_identity_role_create
 }
 
-# TODO: Add pod identity role attributes?
 output "iam_role_attributes" {
   description = "IAM role attributes"
+  value       = try(coalesce(one(aws_iam_role.irsa[*]), one(aws_iam_role.pod_identity[*])), {})
+}
+
+output "iam_irsa_role_attributes" {
+  description = "IAM role attributes"
   value       = try(aws_iam_role.irsa[0], {})
+}
+
+output "iam_pod_identity_role_attributes" {
+  description = "IAM role attributes"
+  value       = try(aws_iam_role.pod_identity[0], {})
 }
