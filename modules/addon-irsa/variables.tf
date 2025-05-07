@@ -6,11 +6,13 @@ variable "enabled" {
 
 variable "cluster_identity_oidc_issuer" {
   type        = string
+  default     = ""
   description = "The OIDC Identity issuer for the cluster (required for IRSA)."
 }
 
 variable "cluster_identity_oidc_issuer_arn" {
   type        = string
+  default     = ""
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a Service Account (required for IRSA)."
 }
 
@@ -113,6 +115,7 @@ variable "irsa_assume_role_policy_condition_values" {
 
 variable "cluster_name" {
   type        = string
+  default     = ""
   description = "The name of the cluster (required for pod identity)."
 }
 
