@@ -8,7 +8,7 @@ locals {
   ] : [] # we want to use the default values only if the Service Account Namespace and name are defined
 }
 
-data "aws_iam_policy_document" "this_irsa_assume" {
+data "aws_iam_policy_document" "irsa_assume" {
   count = local.irsa_role_create && local.irsa_assume_role_enabled ? 1 : 0
 
   statement {
@@ -25,12 +25,12 @@ resource "aws_iam_policy" "irsa" {
 
   name   = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
-  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_irsa_assume[0].json : var.irsa_policy
+  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.irsa_assume[0].json : var.irsa_policy
 
   tags = var.irsa_tags
 }
 
-data "aws_iam_policy_document" "this_irsa" {
+data "aws_iam_policy_document" "irsa" {
   count = local.irsa_role_create ? 1 : 0
 
   statement {
@@ -54,7 +54,7 @@ resource "aws_iam_role" "irsa" {
   count = local.irsa_role_create ? 1 : 0
 
   name                 = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy   = data.aws_iam_policy_document.this_irsa[0].json
+  assume_role_policy   = data.aws_iam_policy_document.irsa[0].json
   permissions_boundary = var.irsa_permissions_boundary
 
   tags = var.irsa_tags

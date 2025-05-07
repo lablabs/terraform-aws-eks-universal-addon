@@ -5,7 +5,7 @@ locals {
 
 }
 
-data "aws_iam_policy_document" "this_pod_identity" {
+data "aws_iam_policy_document" "pod_identity" {
   count = local.pod_identity_role_create ? 1 : 0
 
   statement {
@@ -28,7 +28,7 @@ resource "aws_iam_policy" "pod_identity" {
 
   name   = local.pod_identity_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
-  policy = local.pod_identity_policy_enabled ? data.aws_iam_policy_document.this_pod_identity[0].json : var.pod_identity_policy
+  policy = local.pod_identity_policy_enabled ? data.aws_iam_policy_document.pod_identity[0].json : var.pod_identity_policy
 
   tags = var.pod_identity_tags
 }
@@ -37,7 +37,7 @@ resource "aws_iam_role" "pod_identity" {
   count = local.pod_identity_role_create ? 1 : 0
 
   name                 = local.pod_identity_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy   = data.aws_iam_policy_document.this_pod_identity[0].json
+  assume_role_policy   = data.aws_iam_policy_document.pod_identity[0].json
   permissions_boundary = var.pod_identity_permissions_boundary
 
   tags = var.pod_identity_tags
