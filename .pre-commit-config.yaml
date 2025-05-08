@@ -47,12 +47,9 @@ repos:
     hooks:
       - id: zizmor
 
-  - repo: local
+  - repo: https://github.com/lablabs/luactl
+    rev: 9a626b135efaf274be738c73cd00261c78cdde34 # v0.0.1 # pragma: allowlist secret
     hooks:
-      - id: sync-variables
-        name: Sync module variables
-        entry: ./scripts/sync-variables.py
-        language: system
-        types: [python]
-        always_run: true
-        pass_filenames: false
+      - id: sync
+        name: Luactl sync variables
+        files: addon.*\.tf$
