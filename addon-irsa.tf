@@ -6,29 +6,29 @@ module "addon-irsa" {
 
   enabled = var.enabled
 
-  cluster_identity_oidc_issuer     = var.cluster_identity_oidc_issuer != null ? var.cluster_identity_oidc_issuer : try(each.value.cluster_identity_oidc_issuer, "")
-  cluster_identity_oidc_issuer_arn = var.cluster_identity_oidc_issuer_arn != null ? var.cluster_identity_oidc_issuer_arn : try(each.value.cluster_identity_oidc_issuer_arn, "")
+  cluster_identity_oidc_issuer     = var.cluster_identity_oidc_issuer != null ? var.cluster_identity_oidc_issuer : lookup(local.addon, "cluster_identity_oidc_issuer", null)
+  cluster_identity_oidc_issuer_arn = var.cluster_identity_oidc_issuer_arn != null ? var.cluster_identity_oidc_issuer_arn : lookup(local.addon, "cluster_identity_oidc_issuer_arn", null)
 
-  rbac_create               = var.rbac_create != null ? var.rbac_create : try(each.value.rbac_create, true)
-  service_account_create    = var.service_account_create != null ? var.service_account_create : try(each.value.service_account_create, true)
-  service_account_name      = var.service_account_name != null ? var.service_account_name : try(each.value.service_account_name, each.key)
-  service_account_namespace = var.service_account_namespace != null ? var.service_account_namespace : try(each.value.service_account_namespace, local.addon_namespace)
+  rbac_create               = var.rbac_create != null ? var.rbac_create : lookup(local.addon, "rbac_create", true)
+  service_account_create    = var.service_account_create != null ? var.service_account_create : lookup(local.addon, "service_account_create", true)
+  service_account_name      = var.service_account_name != null ? var.service_account_name : lookup(local.addon, "service_account_name", "")
+  service_account_namespace = var.service_account_namespace != null ? var.service_account_namespace : lookup(local.addon, "service_account_namespace", "")
 
-  irsa_role_create      = var.irsa_role_create != null ? var.irsa_role_create : try(each.value.irsa_role_create, true)
-  irsa_role_name_prefix = var.irsa_role_name_prefix != null ? var.irsa_role_name_prefix : try(each.value.irsa_role_name_prefix, "${each.key}-irsa")
-  irsa_role_name        = var.irsa_role_name != null ? var.irsa_role_name : try(each.value.irsa_role_name, local.addon_name)
+  irsa_role_create      = var.irsa_role_create != null ? var.irsa_role_create : lookup(local.addon, "irsa_role_create", true)
+  irsa_role_name_prefix = var.irsa_role_name_prefix != null ? var.irsa_role_name_prefix : lookup(local.addon, "irsa_role_name_prefix", "")
+  irsa_role_name        = var.irsa_role_name != null ? var.irsa_role_name : lookup(local.addon, "irsa_role_name", "")
 
-  irsa_policy_enabled       = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : try(each.value.irsa_policy_enabled, false)
-  irsa_policy               = var.irsa_policy != null ? var.irsa_policy : try(each.value.irsa_policy, "")
-  irsa_assume_role_enabled  = var.irsa_assume_role_enabled != null ? var.irsa_assume_role_enabled : try(each.value.irsa_assume_role_enabled, false)
-  irsa_assume_role_arns     = var.irsa_assume_role_arns != null ? var.irsa_assume_role_arns : try(each.value.irsa_assume_role_arns, [])
-  irsa_permissions_boundary = var.irsa_permissions_boundary != null ? var.irsa_permissions_boundary : try(each.value.irsa_permissions_boundary, null)
-  irsa_additional_policies  = var.irsa_additional_policies != null ? var.irsa_additional_policies : lookup(each.value, "irsa_additional_policies", tomap({}))
+  irsa_policy_enabled       = var.irsa_policy_enabled != null ? var.irsa_policy_enabled : lookup(local.addon, "irsa_policy_enabled", false)
+  irsa_policy               = var.irsa_policy != null ? var.irsa_policy : lookup(local.addon, "irsa_policy", "")
+  irsa_assume_role_enabled  = var.irsa_assume_role_enabled != null ? var.irsa_assume_role_enabled : lookup(local.addon, "irsa_assume_role_enabled", false)
+  irsa_assume_role_arns     = var.irsa_assume_role_arns != null ? var.irsa_assume_role_arns : lookup(local.addon, "irsa_assume_role_arns", [])
+  irsa_permissions_boundary = var.irsa_permissions_boundary != null ? var.irsa_permissions_boundary : lookup(local.addon, "irsa_permissions_boundary", null)
+  irsa_additional_policies  = var.irsa_additional_policies != null ? var.irsa_additional_policies : lookup(local.addon, "irsa_additional_policies", tomap({}))
 
-  irsa_assume_role_policy_condition_test   = var.irsa_assume_role_policy_condition_test != null ? var.irsa_assume_role_policy_condition_test : try(each.value.irsa_assume_role_policy_condition_test, "StringEquals")
-  irsa_assume_role_policy_condition_values = var.irsa_assume_role_policy_condition_values != null ? var.irsa_assume_role_policy_condition_values : try(each.value.irsa_assume_role_policy_condition_values, [])
+  irsa_assume_role_policy_condition_test   = var.irsa_assume_role_policy_condition_test != null ? var.irsa_assume_role_policy_condition_test : lookup(local.addon, "irsa_assume_role_policy_condition_test", "StringEquals")
+  irsa_assume_role_policy_condition_values = var.irsa_assume_role_policy_condition_values != null ? var.irsa_assume_role_policy_condition_values : lookup(local.addon, "irsa_assume_role_policy_condition_values", [])
 
-  irsa_tags = var.irsa_tags != null ? var.irsa_tags : try(each.value.irsa_tags, tomap({}))
+  irsa_tags = var.irsa_tags != null ? var.irsa_tags : lookup(local.addon, "irsa_tags", tomap({}))
 }
 
 output "addon_irsa" {
