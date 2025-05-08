@@ -117,7 +117,7 @@ variable "argo_source_type" {
   description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`."
 
   validation {
-    condition     = contains(["helm", "kustomize", "directory"], var.argo_source_type)
+    condition     = contains(["helm", "kustomize", "directory"], coalesce(var.argo_source_type, "helm"))
     error_message = "Source type must be either `helm`, `kustomize`, or `directory`."
   }
 }
