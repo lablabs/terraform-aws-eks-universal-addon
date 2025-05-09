@@ -28,7 +28,7 @@ resource "aws_iam_policy" "pod_identity" {
 
   name   = local.pod_identity_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
-  policy = local.pod_identity_policy_enabled ? data.aws_iam_policy_document.pod_identity[0].json : var.pod_identity_policy
+  policy = var.pod_identity_policy
 
   tags = var.pod_identity_tags
 }
