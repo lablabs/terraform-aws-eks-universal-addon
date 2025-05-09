@@ -13,7 +13,7 @@ output "iam_role_attributes" {
   value       = try(coalesce(one(aws_iam_role.irsa[*]), one(aws_iam_role.pod_identity[*])), {})
 }
 
-output "iam_irsa_role_attributes" {
+output "irsa_iam_role_attributes" {
   description = "IAM role attributes"
   value       = try(aws_iam_role.irsa[0], {})
 }
