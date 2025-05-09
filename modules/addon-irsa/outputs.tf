@@ -18,7 +18,7 @@ output "irsa_iam_role_attributes" {
   value       = try(aws_iam_role.irsa[0], {})
 }
 
-output "iam_pod_identity_role_attributes" {
+output "pod_identity_iam_role_attributes" {
   description = "IAM role attributes"
   value       = try(aws_iam_role.pod_identity[0], {})
 }
