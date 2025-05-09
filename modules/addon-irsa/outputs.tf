@@ -14,11 +14,11 @@ output "iam_role_attributes" {
 }
 
 output "irsa_iam_role_attributes" {
-  description = "IAM role attributes"
+  description = "IAM role attributes for IRSA"
   value       = try(aws_iam_role.irsa[0], {})
 }
 
 output "pod_identity_iam_role_attributes" {
-  description = "IAM role attributes"
+  description = "IAM role attributes for pod identity"
   value       = try(aws_iam_role.pod_identity[0], {})
 }
