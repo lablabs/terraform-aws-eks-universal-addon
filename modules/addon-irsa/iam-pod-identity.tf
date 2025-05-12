@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "pod_identity" {
 resource "aws_iam_policy" "pod_identity" {
   count = local.pod_identity_role_create && local.pod_identity_policy_enabled ? 1 : 0
 
-  description = "Policy for ${var.service_account_name} service"
+  description = "Policy for ${local.irsa_role_name} addon"
   name   = local.pod_identity_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
   policy = var.pod_identity_policy
