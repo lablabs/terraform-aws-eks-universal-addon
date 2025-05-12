@@ -8,7 +8,7 @@ locals {
   ] : [] # we want to use the default values only if the Service Account Namespace and name are defined
 }
 
-data "aws_iam_policy_document" "this_assume" {
+data "aws_iam_policy_document" "irsa_assume" {
   count = local.irsa_role_create && local.irsa_assume_role_enabled ? 1 : 0
 
   statement {
@@ -20,17 +20,18 @@ data "aws_iam_policy_document" "this_assume" {
   }
 }
 
-resource "aws_iam_policy" "this" {
+resource "aws_iam_policy" "irsa" {
   count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
 
+  description = "Policy for ${local.irsa_role_name} addon"
   name   = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
-  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.this_assume[0].json : var.irsa_policy
+  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.irsa_assume[0].json : var.irsa_policy
 
   tags = var.irsa_tags
 }
 
-data "aws_iam_policy_document" "this_irsa" {
+data "aws_iam_policy_document" "irsa" {
   count = local.irsa_role_create ? 1 : 0
 
   statement {
@@ -50,26 +51,26 @@ data "aws_iam_policy_document" "this_irsa" {
   }
 }
 
-resource "aws_iam_role" "this" {
+resource "aws_iam_role" "irsa" {
   count = local.irsa_role_create ? 1 : 0
 
   name                 = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy   = data.aws_iam_policy_document.this_irsa[0].json
+  assume_role_policy   = data.aws_iam_policy_document.irsa[0].json
   permissions_boundary = var.irsa_permissions_boundary
 
   tags = var.irsa_tags
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "irsa" {
   count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
 
-  role       = aws_iam_role.this[0].name
-  policy_arn = aws_iam_policy.this[0].arn
+  role       = aws_iam_role.irsa[0].name
+  policy_arn = aws_iam_policy.irsa[0].arn
 }
 
-resource "aws_iam_role_policy_attachment" "this_additional" {
+resource "aws_iam_role_policy_attachment" "irsa_additional" {
   for_each = local.irsa_role_create ? var.irsa_additional_policies : {}
 
-  role       = aws_iam_role.this[0].name
+  role       = aws_iam_role.irsa[0].name
   policy_arn = each.value
 }
