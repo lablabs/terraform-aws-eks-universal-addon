@@ -1,16 +1,16 @@
 moved {
-  from = aws_iam_policy.this[0]
-  to   = aws_iam_policy.irsa[0]
+  from = aws_iam_policy.this
+  to   = aws_iam_policy.irsa
 }
 
 moved {
-  from = aws_iam_role.this[0]
-  to   = aws_iam_role.irsa[0]
+  from = aws_iam_role.this
+  to   = aws_iam_role.irsa
 }
 
 moved {
-  from = aws_iam_role_policy_attachment.this[0]
-  to   = aws_iam_role_policy_attachment.irsa[0]
+  from = aws_iam_role_policy_attachment.this
+  to   = aws_iam_role_policy_attachment.irsa
 }
 
 moved {
