@@ -13,7 +13,7 @@ repos:
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     # renovate: datasource=github-releases depName=antonbabenko/pre-commit-terraform
-    rev: 55d0143972eec4905fdaea2f444f1e88218f9dce # v1.96.3 # pragma: allowlist secret
+    rev: 521ada54e82bdee23c6a1f42a83cd22898f1efd4 # v1.99.0 # pragma: allowlist secret
     hooks:
       - id: terraform_validate
       - id: terraform_fmt
