@@ -24,9 +24,9 @@ resource "aws_iam_policy" "irsa" {
   count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
 
   description = "Policy for ${local.irsa_role_name} addon"
-  name   = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
-  path   = "/"
-  policy = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.irsa_assume[0].json : var.irsa_policy
+  name        = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
+  path        = "/"
+  policy      = var.irsa_assume_role_enabled ? data.aws_iam_policy_document.irsa_assume[0].json : var.irsa_policy
 
   tags = var.irsa_tags
 }

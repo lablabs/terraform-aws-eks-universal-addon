@@ -29,9 +29,9 @@ module "addon_installation_helm_pod_identity" {
   argo_enabled      = false
   argo_helm_enabled = false
 
-  cluster_name     = module.eks_cluster.eks_cluster_id
+  cluster_name = module.eks_cluster.eks_cluster_id
 
-  irsa_role_create = false
+  irsa_role_create         = false
   pod_identity_role_create = true
 
   values = yamlencode({
