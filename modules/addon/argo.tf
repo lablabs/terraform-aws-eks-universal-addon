@@ -1,4 +1,6 @@
 locals {
+  argo_application_enabled = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == false ? 1 : 0
+
   argo_application_source_helm_enabled      = var.argo_source_type == "helm" ? true : false
   argo_application_source_kustomize_enabled = var.argo_source_type == "kustomize" ? true : false
   argo_application_source_directory_enabled = var.argo_source_type == "directory" ? true : false
@@ -47,11 +49,11 @@ locals {
   }
 }
 
-resource "kubernetes_manifest" "this" {
-  count = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == false ? 1 : 0
+data "utils_deep_merge_yaml" "argo_application_manifest" {
+  count = local.argo_application_enabled
 
-  manifest = merge(
-    {
+  input = compact([
+    yamlencode({
       apiVersion = var.argo_apiversion
       kind       = "Application"
       metadata = merge(
@@ -61,15 +63,28 @@ resource "kubernetes_manifest" "this" {
           namespace = var.argo_namespace
         },
       )
+    }),
+    yamlencode({
       spec = merge(
         local.argo_application_spec,
-        var.argo_spec
+        var.argo_spec_override
       )
-    },
-    length(var.argo_operation) > 0 ? {
-      operation = var.argo_operation
-    } : {},
-  )
+    }),
+    yamlencode({
+      spec = var.argo_spec
+    }),
+    yamlencode(
+      length(var.argo_operation) > 0 ? {
+        operation = var.argo_operation
+      } : {}
+    )
+  ])
+}
+
+resource "kubernetes_manifest" "this" {
+  count = local.argo_application_enabled
+
+  manifest = yamldecode(data.utils_deep_merge_yaml.argo_application_manifest[0].output)
 
   computed_fields = var.argo_kubernetes_manifest_computed_fields
 

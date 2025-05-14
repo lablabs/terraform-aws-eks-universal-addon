@@ -179,7 +179,13 @@ variable "argo_apiversion" {
 variable "argo_spec" {
   type        = any
   default     = {}
-  description = "ArgoCD Application spec configuration. Override or create additional spec parameters."
+  description = "ArgoCD Application spec configuration. Configuration is extended by deep merging with the default spec parameters."
+}
+
+variable "argo_spec_override" {
+  type        = any
+  default     = {}
+  description = "ArgoCD Application spec configuration. Configuration is overriden by merging natively with the default spec parameters."
 }
 
 variable "argo_operation" {
