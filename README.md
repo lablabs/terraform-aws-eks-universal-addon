@@ -10,28 +10,28 @@ A Terraform module to deploy the universal addon on Amazon EKS cluster.
 
 This addon can be used in two ways:
 
-1. **Using the sub modules, i.e. `addon` directly**: This is the recommended way when creating an addon would be just a wrapper without any additional configuration. i.e. IAM policy, Helm configuration.
+1. **Using the sub modules, i.e. `addon` directly**: This is the recommended way when creating an addon as a simple wrapper without any additional configuration. i.e. no IAM policy, no default Helm values configuration.
 2. **Using the module as a template**: This is the recommended way when an addon would add additional configuration, i.e. multiple IRSA roles.
 
 ### Template usage
 
 1. Hit "Use this template" button on the top right corner of this page.
-2. Look for `# FIXME config` comments in the code and update the values to your needs.
-3. Update .templatesyncignore file to exclude the files you don't want to sync with this template, i.e. add IRSA/OIDC files when not using them.
+2. Look for `# FIXME config` comments in the code and update the values according to your needs.
+3. Update .templatesyncignore file to exclude the files you don't want to sync with this template, i.e. add IRSA/OIDC files to the `.templatesyncignore` file when not using them.
 4. Remove `modules` folder as modules within should be used from this repository.
-5. Remove files that are already excluded in `.templatesyncignore` file, i.e. Renovate configuration and workflows.
-6. Update examples in the `examples` folder to your needs.
+5. Remove files that are already excluded in `.templatesyncignore` file and not needed for the addon, i.e. `renovate.json`, `.github/workflows/renovate.yaml`, `variables-addon-irsa.tf` (if IRSA is not used)`.
+6. Update examples in the `examples` folder according to your needs.
 7. Run pre-commit hooks to validate the code and refresh README file.
 
 ### Template sync
 
 There is a GitHub Action workflow running every night that will automatically sync code with this template using main branch of this repository. It will create a PR with the changes. You can also trigger it manually when needed.
-To enabled the workflow GitHub Actions secrets and GitHub Application must be allowed for the repository. Contact the repository owner to enable it.
+To enabled the workflow GitHub Actions secrets and GitHub Application must be allowed for the repository. Contact the repository owner to set it up.
 
 ## Development
 
 1. When modifying modules in the `modules` folder, release them using semantic versioning, i.e. `v0.0.1`, `v0.1.0`, `v1.0.0`. Afterwards create another PR to update the version in the `addon*.tf` files.
-2. When adding variable into `variables.tf` in the `modules` folder add `nullable = false` to the variables when the default value is NOT `null`.
+2. When adding variable into `variables.tf` in the `modules` folder add `nullable = false` to the variables when the default value is NOT `null`.`
 
 ---
 
