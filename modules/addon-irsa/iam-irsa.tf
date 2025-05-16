@@ -1,15 +1,13 @@
 locals {
-  irsa_role_create         = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
-  irsa_role_name           = trim("${var.irsa_role_name_prefix}-${var.irsa_role_name}", "-")
-  irsa_policy_enabled      = var.irsa_policy_enabled && length(var.irsa_policy) > 0
-  irsa_assume_role_enabled = var.irsa_assume_role_enabled && length(var.irsa_assume_role_arns) > 0
+  irsa_role_create = var.enabled && var.rbac_create && var.service_account_create && var.irsa_role_create
+  irsa_role_name   = trim("${var.irsa_role_name_prefix}-${var.irsa_role_name}", "-")
   irsa_assume_role_policy_condition_values_default = length(var.service_account_namespace) > 0 && length(var.service_account_name) > 0 ? [
     format("system:serviceaccount:%s:%s", var.service_account_namespace, var.service_account_name)
   ] : [] # we want to use the default values only if the Service Account Namespace and name are defined
 }
 
 data "aws_iam_policy_document" "irsa_assume" {
-  count = local.irsa_role_create && local.irsa_assume_role_enabled ? 1 : 0
+  count = local.irsa_role_create && var.irsa_assume_role_enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -21,7 +19,7 @@ data "aws_iam_policy_document" "irsa_assume" {
 }
 
 resource "aws_iam_policy" "irsa" {
-  count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
+  count = local.irsa_role_create && (var.irsa_policy_enabled || var.irsa_assume_role_enabled) ? 1 : 0
 
   description = "Policy for ${local.irsa_role_name} addon"
   name        = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
@@ -62,7 +60,7 @@ resource "aws_iam_role" "irsa" {
 }
 
 resource "aws_iam_role_policy_attachment" "irsa" {
-  count = local.irsa_role_create && (local.irsa_policy_enabled || local.irsa_assume_role_enabled) ? 1 : 0
+  count = local.irsa_role_create && (var.irsa_policy_enabled || var.irsa_assume_role_enabled) ? 1 : 0
 
   role       = aws_iam_role.irsa[0].name
   policy_arn = aws_iam_policy.irsa[0].arn

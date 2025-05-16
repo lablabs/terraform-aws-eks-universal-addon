@@ -1,6 +1,5 @@
 resource "terraform_data" "validations" {
   lifecycle {
-
     # IRSA
     precondition {
       condition = !local.irsa_role_create || (

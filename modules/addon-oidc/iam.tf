@@ -1,9 +1,7 @@
 locals {
-  oidc_provider_create     = var.enabled && var.oidc_provider_create
-  oidc_role_create         = var.enabled && var.oidc_role_create
-  oidc_role_name           = trim("${var.oidc_role_name_prefix}-${var.oidc_role_name}", "-")
-  oidc_policy_enabled      = var.oidc_policy_enabled && length(var.oidc_policy) > 0
-  oidc_assume_role_enabled = var.oidc_assume_role_enabled && length(var.oidc_assume_role_arns) > 0
+  oidc_provider_create = var.enabled && var.oidc_provider_create
+  oidc_role_create     = var.enabled && var.oidc_role_create
+  oidc_role_name       = trim("${var.oidc_role_name_prefix}-${var.oidc_role_name}", "-")
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
@@ -17,7 +15,7 @@ resource "aws_iam_openid_connect_provider" "this" {
 }
 
 data "aws_iam_policy_document" "this_assume" {
-  count = local.oidc_role_create && local.oidc_assume_role_enabled ? 1 : 0
+  count = local.oidc_role_create && var.oidc_assume_role_enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -29,7 +27,7 @@ data "aws_iam_policy_document" "this_assume" {
 }
 
 resource "aws_iam_policy" "this" {
-  count = local.oidc_role_create && (local.oidc_policy_enabled || local.oidc_assume_role_enabled) ? 1 : 0
+  count = local.oidc_role_create && (var.oidc_policy_enabled || var.oidc_assume_role_enabled) ? 1 : 0
 
   name   = local.oidc_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path   = "/"
@@ -69,7 +67,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  count = local.oidc_role_create && (local.oidc_policy_enabled || local.oidc_assume_role_enabled) ? 1 : 0
+  count = local.oidc_role_create && (var.oidc_policy_enabled || var.oidc_assume_role_enabled) ? 1 : 0
 
   role       = aws_iam_role.this[0].name
   policy_arn = aws_iam_policy.this[0].arn

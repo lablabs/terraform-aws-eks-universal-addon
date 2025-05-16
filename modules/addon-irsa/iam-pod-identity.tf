@@ -1,8 +1,6 @@
 locals {
-  pod_identity_role_create    = var.enabled && var.rbac_create && var.service_account_create && var.pod_identity_role_create
-  pod_identity_role_name      = trim("${var.pod_identity_role_name_prefix}-${var.pod_identity_role_name}", "-")
-  pod_identity_policy_enabled = var.pod_identity_policy_enabled && length(var.pod_identity_policy) > 0
-
+  pod_identity_role_create = var.enabled && var.rbac_create && var.service_account_create && var.pod_identity_role_create
+  pod_identity_role_name   = trim("${var.pod_identity_role_name_prefix}-${var.pod_identity_role_name}", "-")
 }
 
 data "aws_iam_policy_document" "pod_identity" {
@@ -24,7 +22,7 @@ data "aws_iam_policy_document" "pod_identity" {
 }
 
 resource "aws_iam_policy" "pod_identity" {
-  count = local.pod_identity_role_create && local.pod_identity_policy_enabled ? 1 : 0
+  count = local.pod_identity_role_create && var.pod_identity_policy_enabled ? 1 : 0
 
   description = "Policy for ${local.irsa_role_name} addon"
   name        = local.pod_identity_role_name # tflint-ignore: aws_iam_policy_invalid_name
@@ -45,7 +43,7 @@ resource "aws_iam_role" "pod_identity" {
 }
 
 resource "aws_iam_role_policy_attachment" "pod_identity" {
-  count = local.pod_identity_role_create && local.pod_identity_policy_enabled ? 1 : 0
+  count = local.pod_identity_role_create && var.pod_identity_policy_enabled ? 1 : 0
 
   role       = aws_iam_role.pod_identity[0].name
   policy_arn = aws_iam_policy.pod_identity[0].arn
