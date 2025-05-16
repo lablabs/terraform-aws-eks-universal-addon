@@ -26,7 +26,7 @@
  * ### Template sync
  *
  * There is a GitHub Action workflow running every night that will automatically sync code with this template using main branch of this repository. It will create a PR with the changes. You can also trigger it manually when needed.
- * To enabled the workflow GitHub Actions secrets and GitHub Application must be allowed for the repository. Contact the repository owner to set it up.
+ * To enable the workflow GitHub Actions secrets and GitHub Application must be allowed for the repository. Contact the repository owner to set it up.
  *
  * ## Development
  *
