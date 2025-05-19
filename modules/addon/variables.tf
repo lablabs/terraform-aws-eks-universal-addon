@@ -209,12 +209,14 @@ variable "argo_spec" {
   type        = any
   default     = {}
   description = "ArgoCD Application spec configuration. Configuration is extended by deep merging with the default spec parameters."
+  nullable    = false
 }
 
 variable "argo_spec_override" {
   type        = any
   default     = {}
   description = "ArgoCD Application spec configuration. Configuration is overriden by merging natively with the default spec parameters."
+  nullable    = false
 }
 
 variable "argo_operation" {
