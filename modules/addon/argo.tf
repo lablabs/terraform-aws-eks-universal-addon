@@ -49,11 +49,26 @@ locals {
   }
 }
 
-data "utils_deep_merge_yaml" "argo_application_manifest" {
+data "utils_deep_merge_yaml" "argo_application_spec" {
   count = local.argo_application_enabled
 
   input = compact([
-    yamlencode({
+    yamlencode(
+      merge(
+        local.argo_application_spec,
+        var.argo_spec_override
+      )
+    ),
+    yamlencode(var.argo_spec),
+  ])
+}
+
+resource "kubernetes_manifest" "this" {
+  count = local.argo_application_enabled
+
+  manifest = merge(
+    # the whole manifest cannot be deep merged (defers result to apply phase) due to kuberenetes_manifest CRD validation is happenning during the plan phase
+    {
       apiVersion = var.argo_apiversion
       kind       = "Application"
       metadata = merge(
@@ -63,28 +78,12 @@ data "utils_deep_merge_yaml" "argo_application_manifest" {
           namespace = var.argo_namespace
         },
       )
-    }),
-    yamlencode({
-      spec = merge(
-        local.argo_application_spec,
-        var.argo_spec_override
-      )
-    }),
-    yamlencode({
-      spec = var.argo_spec
-    }),
-    yamlencode(
-      length(var.argo_operation) > 0 ? {
-        operation = var.argo_operation
-      } : {}
-    )
-  ])
-}
-
-resource "kubernetes_manifest" "this" {
-  count = local.argo_application_enabled
-
-  manifest = yamldecode(data.utils_deep_merge_yaml.argo_application_manifest[0].output)
+      spec = yamldecode(data.utils_deep_merge_yaml.argo_application_spec[0].output)
+    },
+    length(var.argo_operation) > 0 ? {
+      operation = var.argo_operation
+    } : {}
+  )
 
   computed_fields = var.argo_kubernetes_manifest_computed_fields
 

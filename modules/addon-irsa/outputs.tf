@@ -1,3 +1,18 @@
+output "rbac_create" {
+  description = "Whether RBAC resources are created and used"
+  value       = var.rbac_create
+}
+
+output "service_account_create" {
+  description = "Whether Service Account is created"
+  value       = var.service_account_create
+}
+
+output "service_account_name" {
+  description = "Service Account name"
+  value       = var.service_account_name
+}
+
 output "irsa_role_enabled" {
   description = "Whether IRSA role is enabled"
   value       = local.irsa_role_create
