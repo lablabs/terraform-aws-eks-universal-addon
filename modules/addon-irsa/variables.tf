@@ -36,14 +36,14 @@ variable "service_account_create" {
 variable "service_account_name" {
   type        = string
   default     = ""
-  description = "The Kubernetes Service Account name. Defaults to the addon name."
+  description = "The Kubernetes Service Account name."
   nullable    = false
 }
 
 variable "service_account_namespace" {
   type        = string
   default     = ""
-  description = "The Kubernetes Service Account namespace. Defaults to the addon namespace."
+  description = "The Kubernetes Service Account namespace."
   nullable    = false
 }
 
