@@ -59,6 +59,10 @@ locals {
   }
 
   addon_values = yamlencode({
-    # FIXME config: add default values here
+    # FIXME config: add default values here or leave empty if not needed
   })
+
+  addon_depends_on = [
+    # FIXME config: add dependencies here, i.e. CRDs, or leave empty if not needed
+  ]
 }
