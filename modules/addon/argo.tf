@@ -5,15 +5,16 @@ locals {
   argo_application_source_kustomize_enabled      = var.argo_source_type == "kustomize" ? true : false
   argo_application_source_directory_enabled      = var.argo_source_type == "directory" ? true : false
   argo_application_source_helm_directory_enabled = var.argo_source_type == "helm-directory" ? true : false
+  argo_application_source_helm_based             = local.argo_application_source_helm_enabled || local.argo_application_source_helm_directory_enabled
 
-  argo_application_name = local.argo_application_source_helm_enabled ? var.helm_release_name : var.argo_name
+  argo_application_name = local.argo_application_source_helm_based ? var.helm_release_name : var.argo_name
   argo_application_source = {
-    repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
-    targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
+    repoURL        = local.argo_application_source_helm_based ? var.helm_repo_url : var.argo_source_repo_url
+    targetRevision = local.argo_application_source_helm_based ? var.helm_chart_version : var.argo_source_target_revision
 
     # Helm source
-    chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
-    helm = (local.argo_application_source_helm_enabled || local.argo_application_source_helm_directory_enabled) ? merge(
+    chart = local.argo_application_source_helm_based ? var.helm_chart_name : null
+    helm = local.argo_application_source_helm_based ? merge(
       {
         releaseName = var.helm_release_name
         skipCrds    = var.helm_skip_crds
