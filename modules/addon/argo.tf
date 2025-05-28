@@ -13,7 +13,7 @@ locals {
     targetRevision = local.argo_application_source_helm_based ? var.helm_chart_version : var.argo_source_target_revision
 
     # Helm source
-    chart = local.argo_application_source_helm_based ? var.helm_chart_name : null
+    chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
     helm = local.argo_application_source_helm_based ? merge(
       {
         releaseName = var.helm_release_name
@@ -25,7 +25,7 @@ locals {
       } : {}
     ) : null
 
-    # Kustomize or directory source
+    # Kustomize, Helm directory or directory source
     path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
     kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
     directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
