@@ -9,6 +9,7 @@ locals {
   argo_application_source = {
     repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
     targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
+    path           = var.argo_source_path
 
     # Helm source
     chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
@@ -23,7 +24,6 @@ locals {
       } : {}
     ) : null
 
-    path = try(var.argo_source_path, null)
     # Kustomize or directory source
     kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
     directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
