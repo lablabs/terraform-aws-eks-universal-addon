@@ -3,7 +3,7 @@ resource "terraform_data" "validations" {
     precondition {
       condition = !local.argo_application_source_helm_enabled || (
         var.helm_repo_url != ""
-        && var.helm_chart_name != ""
+        && (var.helm_chart_name != "" || var.argo_source_path != "")
         && var.helm_chart_version != ""
         && var.helm_release_name != ""
       )

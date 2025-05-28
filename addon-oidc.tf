@@ -2,7 +2,7 @@
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.18"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.19"
 
   enabled = var.enabled
 
