@@ -1,19 +1,19 @@
 locals {
   argo_application_enabled = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == false ? 1 : 0
 
-  argo_application_source_helm_enabled      = var.argo_source_type == "helm" ? true : false
-  argo_application_source_kustomize_enabled = var.argo_source_type == "kustomize" ? true : false
-  argo_application_source_directory_enabled = var.argo_source_type == "directory" ? true : false
+  argo_application_source_helm_enabled           = var.argo_source_type == "helm" ? true : false
+  argo_application_source_kustomize_enabled      = var.argo_source_type == "kustomize" ? true : false
+  argo_application_source_directory_enabled      = var.argo_source_type == "directory" ? true : false
+  argo_application_source_helm_directory_enabled = var.argo_source_type == "helm-directory" ? true : false
 
   argo_application_name = local.argo_application_source_helm_enabled ? var.helm_release_name : var.argo_name
   argo_application_source = {
     repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
     targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
-    path           = var.argo_source_path != "" ? var.argo_source_path : null
 
     # Helm source
     chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
-    helm = local.argo_application_source_helm_enabled ? merge(
+    helm = (local.argo_application_source_helm_enabled || local.argo_application_source_helm_directory_enabled) ? merge(
       {
         releaseName = var.helm_release_name
         skipCrds    = var.helm_skip_crds
@@ -25,6 +25,7 @@ locals {
     ) : null
 
     # Kustomize or directory source
+    path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
     kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
     directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
   }
