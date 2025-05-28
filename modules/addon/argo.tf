@@ -9,7 +9,7 @@ locals {
   argo_application_source = {
     repoURL        = local.argo_application_source_helm_enabled ? var.helm_repo_url : var.argo_source_repo_url
     targetRevision = local.argo_application_source_helm_enabled ? var.helm_chart_version : var.argo_source_target_revision
-    path           = var.argo_source_path
+    path           = var.argo_source_path != "" ? var.argo_source_path : null
 
     # Helm source
     chart = local.argo_application_source_helm_enabled ? var.helm_chart_name : null
