@@ -23,8 +23,8 @@ locals {
       } : {}
     ) : null
 
+    path = try(var.argo_source_path, null)
     # Kustomize or directory source
-    path      = !local.argo_application_source_helm_enabled ? var.argo_source_path : null
     kustomize = local.argo_application_source_kustomize_enabled ? length(var.settings) > 0 ? var.settings : null : null
     directory = local.argo_application_source_directory_enabled ? length(var.settings) > 0 ? var.settings : null : null
   }
