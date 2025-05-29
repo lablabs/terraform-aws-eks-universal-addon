@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "irsa_policy" {
 
   source_policy_documents = compact([
     var.irsa_policy,
-    data.aws_iam_policy_document.irsa_assume[0].json
+    one(data.aws_iam_policy_document.irsa_assume[*].json)
   ])
 }
 

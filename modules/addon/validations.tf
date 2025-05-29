@@ -30,7 +30,7 @@ resource "terraform_data" "validations" {
         && var.helm_chart_version != ""
         && var.helm_release_name != ""
       )
-      error_message = "The `helm_repo_url`, `helm_chart_name` (or `argo_source_path`), `helm_chart_version`, and `helm_release_name` variables must be set when argo_source_type is set to `helm-directory`."
+      error_message = "The `helm_repo_url`, `argo_source_path`, `helm_chart_version`, and `helm_release_name` variables must be set when argo_source_type is set to `helm-directory`."
     }
   }
 }
