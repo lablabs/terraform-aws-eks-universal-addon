@@ -71,7 +71,7 @@ variable "irsa_role_name" {
 variable "irsa_policy_enabled" {
   type        = bool
   default     = false
-  description = "Whether to create IAM policy specified by `irsa_policy`. Mutually exclusive with `irsa_assume_role_enabled`."
+  description = "Whether to create IAM policy specified by `irsa_policy`."
   nullable    = false
 }
 
@@ -85,7 +85,7 @@ variable "irsa_policy" {
 variable "irsa_assume_role_enabled" {
   type        = bool
   default     = false
-  description = "Whether IRSA is allowed to assume role defined by `irsa_assume_role_arn`. Mutually exclusive with `irsa_policy_enabled`."
+  description = "Whether IRSA is allowed to assume role defined by `irsa_assume_role_arn`."
   nullable    = false
 }
 
