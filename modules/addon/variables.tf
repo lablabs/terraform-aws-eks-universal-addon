@@ -137,7 +137,7 @@ variable "argo_source_type" {
   nullable    = false
 
   validation {
-    condition     = contains(["helm", "kustomize", "directory"], var.argo_source_type)
+    condition     = contains(["helm", "kustomize", "directory", "helm-directory"], var.argo_source_type)
     error_message = "Source type must be either `helm`, `kustomize`, or `directory`."
   }
 }
