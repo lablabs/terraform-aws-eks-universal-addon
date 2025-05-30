@@ -2,13 +2,13 @@
 module "addon-oidc" {
   for_each = local.addon_oidc
 
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.19"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc?ref=v0.0.21"
 
   enabled = var.enabled
 
   oidc_provider_create  = var.oidc_provider_create != null ? var.oidc_provider_create : try(each.value.oidc_provider_create, null)
   oidc_role_create      = var.oidc_role_create != null ? var.oidc_role_create : try(each.value.oidc_role_create, null)
-  oidc_role_name_prefix = var.oidc_role_name_prefix != null ? var.oidc_role_name_prefix : try(each.value.oidc_role_name_prefix, "${each.key}-oidc")
+  oidc_role_name_prefix = var.oidc_role_name_prefix != null ? var.oidc_role_name_prefix : try(each.value.oidc_role_name_prefix, "${local.addon.name}-oidc")
   oidc_role_name        = var.oidc_role_name != null ? var.oidc_role_name : try(each.value.oidc_role_name, local.addon_name)
 
   oidc_policy_enabled                        = var.oidc_policy_enabled != null ? var.oidc_policy_enabled : try(each.value.oidc_policy_enabled, null)
@@ -29,6 +29,6 @@ module "addon-oidc" {
 }
 
 output "addon_oidc" {
-  description = "The addon oidc module outputs"
+  description = "The OIDC addon module outputs"
   value       = module.addon-oidc
 }
