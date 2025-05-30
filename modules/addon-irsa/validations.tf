@@ -10,13 +10,6 @@ resource "terraform_data" "validations" {
     }
 
     precondition {
-      condition = !local.irsa_role_create || !(
-        var.irsa_policy_enabled && var.irsa_assume_role_enabled
-      )
-      error_message = "The `irsa_policy_enabled` and `irsa_assume_role_enabled` cannot both be true at the same time."
-    }
-
-    precondition {
       condition     = !local.irsa_role_create || !var.irsa_policy_enabled || var.irsa_policy != ""
       error_message = "The `irsa_policy` variable must be set when `irsa_policy_enabled` is set to `true`."
     }
