@@ -56,3 +56,18 @@ repos:
         types: [python]
         always_run: true
         pass_filenames: false
+
+      - id: helm-lint
+        name: Helm Lint
+        entry: bash -c 'for chart in charts/*; do [ -f "$chart/Chart.yaml" ] && helm lint "$chart" || true; done'
+        language: system
+        types: [yaml]
+        always_run: true
+
+      - id: helm-docs
+        name: Generate Helm Chart README with helm-docs
+        entry: bash -c 'find . -type f -name Chart.yaml | grep . && helm-docs -c charts || echo "No Helm chart found, skipping helm-docs."'
+        language: system
+        types: [yaml]
+        pass_filenames: false
+        always_run: true
