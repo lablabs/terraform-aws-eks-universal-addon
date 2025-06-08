@@ -13,7 +13,7 @@ concurrency:
 
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
-  ASDF_VERSION: 31e8c93004abd76253d186b8896785895069749b # v0.15.0 # pragma: allowlist secret
+  ASDF_VERSION: 80fffd86853fbfcc31e6a52aee99f8ab3d5fae9f # v0.18.0 # pragma: allowlist secret
 
 jobs:
   universal-addon:
