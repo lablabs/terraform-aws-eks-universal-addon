@@ -133,12 +133,12 @@ variable "argo_helm_wait_kubectl_version" {
 variable "argo_source_type" {
   type        = string
   default     = "helm"
-  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, or `directory`."
+  description = "Source type for ArgoCD Application. Can be either `helm`, `kustomize`, `directory` or `helm-directory`."
   nullable    = false
 
   validation {
     condition     = contains(["helm", "kustomize", "directory", "helm-directory"], var.argo_source_type)
-    error_message = "Source type must be either `helm`, `kustomize`, or `directory`."
+    error_message = "Source type must be either `helm`, `kustomize`, `directory` or `helm-directory`."
   }
 }
 
@@ -236,7 +236,7 @@ variable "argo_helm_values" {
 variable "argo_kubernetes_manifest_computed_fields" {
   type        = list(string)
   default     = ["metadata.labels", "metadata.annotations", "metadata.finalizers"]
-  description = "List of paths of fields to be handled as \"computed\". The user-configured value for the field will be overridden by any different value returned by the API after apply."
+  description = "List of paths of fields to be handled as `computed`. The user-configured value for the field will be overridden by any different value returned by the API after apply."
   nullable    = false
 }
 
