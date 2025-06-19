@@ -48,7 +48,7 @@ repos:
       - id: zizmor
 
   - repo: https://github.com/lablabs/luactl
-    rev: 9a626b135efaf274be738c73cd00261c78cdde34 # v0.0.1 # pragma: allowlist secret
+    rev: 818d633e5f41c26a47bb31307535de89c6aba73d # v0.0.1 # pragma: allowlist secret
     hooks:
       - id: sync
         name: Luactl sync variables
