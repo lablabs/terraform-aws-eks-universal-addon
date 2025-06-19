@@ -48,17 +48,23 @@
       "versioningTemplate": "{{#if versioning}}{{versioning}}{{else}}semver{{/if}}"
     }
   ],
-  "pinDigests": true,
   "packageRules": [
     {
       "matchPackageNames": [
-        "tflint"
+        "terraform-linters/tflint"
       ],
       "matchUpdateTypes": [
         "major",
         "minor"
       ],
       "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "bridgecrewio/checkov"
+      ],
+      "overrideDatasource": "docker",
+      "overridePackageName": "bridgecrew/checkov"
     }
   ]
 }

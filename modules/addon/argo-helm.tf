@@ -15,7 +15,10 @@ data "utils_deep_merge_yaml" "argo_helm_values" {
       apiVersion = var.argo_apiversion
     }),
     yamlencode({
-      spec = local.argo_application_spec
+      spec = merge(
+        local.argo_application_spec,
+        var.argo_spec_override
+      )
     }),
     yamlencode({
       spec = var.argo_spec
