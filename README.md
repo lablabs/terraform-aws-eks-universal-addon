@@ -71,15 +71,15 @@ See [basic example](examples/basic) for further information.
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | ~> 2.6 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.20 |
-| <a name="requirement_utils"></a> [utils](#requirement\_utils) | ~> 0.17 |
+| <a name="requirement_utils"></a> [utils](#requirement\_utils) | ~> 1 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | feat/variable-sync-rework |
-| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.21 |
-| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | v0.0.21 |
+| <a name="module_addon"></a> [addon](#module\_addon) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon | v0.0.22 |
+| <a name="module_addon-irsa"></a> [addon-irsa](#module\_addon-irsa) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-irsa | v0.0.22 |
+| <a name="module_addon-oidc"></a> [addon-oidc](#module\_addon-oidc) | git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon-oidc | v0.0.22 |
 ## Resources
 
 | Name | Type |
