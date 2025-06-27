@@ -68,6 +68,13 @@ variable "irsa_role_name" {
   nullable    = false
 }
 
+variable "irsa_role_additional_trust_policies" {
+  type        = map(any)
+  default     = {}
+  description = "Map of additional trust policy statements to attach to the IRSA role where map key is a statement SID and value is a statement object."
+  nullable    = false
+}
+
 variable "irsa_policy_enabled" {
   type        = bool
   default     = false
@@ -133,14 +140,14 @@ variable "irsa_assume_role_policy_condition_values" {
 variable "cluster_name" {
   type        = string
   default     = ""
-  description = "The name of the cluster (required for pod identity)."
+  description = "The name of the cluster (required for Pod Identity)."
   nullable    = false
 }
 
 variable "pod_identity_role_create" {
   type        = bool
   default     = false
-  description = "Whether to create pod identity role and annotate Service Account."
+  description = "Whether to create Pod Identity role and annotate Service Account."
   nullable    = false
 }
 
@@ -158,6 +165,12 @@ variable "pod_identity_role_name" {
   nullable    = false
 }
 
+variable "pod_identity_role_additional_trust_policies" {
+  type        = map(any)
+  default     = {}
+  description = "Additional trust policy statements to attach to the Pod Identity role where map key is a statement SID and value is a statement object."
+}
+
 variable "pod_identity_policy_enabled" {
   type        = bool
   default     = false
@@ -168,20 +181,20 @@ variable "pod_identity_policy_enabled" {
 variable "pod_identity_policy" {
   type        = string
   default     = ""
-  description = "AWS IAM policy JSON document to be attached to the pod identity role. Applied only if `pod_identity_policy_enabled` is `true`."
+  description = "AWS IAM policy JSON document to be attached to the Pod Identity role. Applied only if `pod_identity_policy_enabled` is `true`."
   nullable    = false
 }
 
 variable "pod_identity_permissions_boundary" {
   type        = string
   default     = null # Must be set to null to avoid creating a invalid permissions boundary
-  description = "ARN of the policy that is used to set the permissions boundary for the pod identity role."
+  description = "ARN of the policy that is used to set the permissions boundary for the Pod Identity role."
 }
 
 variable "pod_identity_additional_policies" {
   type        = map(string)
   default     = {}
-  description = "Map of the additional policies to be attached to pod identity role. Where key is arbitrary id and value is policy ARN."
+  description = "Map of the additional policies to be attached to Pod Identity role. Where key is arbitrary id and value is policy ARN."
   nullable    = false
 }
 

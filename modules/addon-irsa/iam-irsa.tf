@@ -56,6 +56,35 @@ data "aws_iam_policy_document" "irsa" {
       values   = coalescelist(var.irsa_assume_role_policy_condition_values, local.irsa_assume_role_policy_condition_values_default)
     }
   }
+
+  dynamic "statement" {
+    for_each = var.irsa_role_additional_trust_policies
+
+    content {
+      sid     = statement.key
+      effect  = statement.value.effect
+      actions = statement.value.actions
+
+      dynamic "principals" {
+        for_each = statement.value.principals
+
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = statement.value.condition
+
+        content {
+          test     = condition.value.test
+          variable = condition.value.variable
+          values   = condition.value.values
+        }
+      }
+    }
+  }
 }
 
 resource "aws_iam_role" "irsa" {

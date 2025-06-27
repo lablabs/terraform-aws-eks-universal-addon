@@ -19,6 +19,35 @@ data "aws_iam_policy_document" "pod_identity" {
 
     effect = "Allow"
   }
+
+  dynamic "statement" {
+    for_each = var.pod_identity_role_additional_trust_policies
+
+    content {
+      sid     = statement.key
+      effect  = statement.value.effect
+      actions = statement.value.actions
+
+      dynamic "principals" {
+        for_each = statement.value.principals
+
+        content {
+          type        = principals.value.type
+          identifiers = principals.value.identifiers
+        }
+      }
+
+      dynamic "condition" {
+        for_each = statement.value.condition
+
+        content {
+          test     = condition.value.test
+          variable = condition.value.variable
+          values   = condition.value.values
+        }
+      }
+    }
+  }
 }
 
 resource "aws_iam_policy" "pod_identity" {
