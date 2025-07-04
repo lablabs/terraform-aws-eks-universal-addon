@@ -19,7 +19,7 @@ output "irsa_role_enabled" {
 }
 
 output "pod_identity_role_enabled" {
-  description = "Whether pod identity role is enabled"
+  description = "Whether Pod Identity role is enabled"
   value       = local.pod_identity_role_create
 }
 
@@ -34,6 +34,6 @@ output "irsa_iam_role_attributes" {
 }
 
 output "pod_identity_iam_role_attributes" {
-  description = "IAM role attributes for pod identity"
+  description = "IAM role attributes for Pod Identity"
   value       = try(aws_iam_role.pod_identity[0], {})
 }
