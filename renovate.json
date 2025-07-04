@@ -51,6 +51,16 @@
   "packageRules": [
     {
       "matchPackageNames": [
+        "hashicorp/terraform"
+      ],
+      "matchUpdateTypes": [
+        "major",
+        "minor"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
         "terraform-linters/tflint"
       ],
       "matchUpdateTypes": [
