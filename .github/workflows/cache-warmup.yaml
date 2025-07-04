@@ -5,7 +5,8 @@ on:
     branches:
       - main # caches from the main branch are shared with all other branches and pull requests
 
-permissions: {}
+permissions:
+  contents: read
 
 env:
   # renovate: datasource=github-releases depName=asdf-vm/asdf
