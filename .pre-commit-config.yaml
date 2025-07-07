@@ -54,8 +54,8 @@ repos:
         args: ["--baseline", ".secrets.baseline"]
         exclude: terraform.tfstate
 
-  - repo: https://github.com/woodruffw/zizmor-pre-commit
-    # renovate: datasource=github-releases depName=woodruffw/zizmor-pre-commit
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    # renovate: datasource=github-releases depName=zizmorcore/zizmor-pre-commit
     rev: 69fa534d69454f44ddd4451b5e2da7a1c48e525b # v1.11.0 # pragma: allowlist secret
     hooks:
       - id: zizmor
