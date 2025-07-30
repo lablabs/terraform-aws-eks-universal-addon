@@ -43,6 +43,10 @@ To enable the workflow GitHub Actions secrets and GitHub Application must be all
 
 ---
 
+## Supported Terraform provider versions
+
+While we are not setting upper bound on the Terraform providers used by the addon we are testing its functionality only against versions specified in the [`.terraform.lock.hcl`](.terraform.lock.hcl) file.
+
 ## Deployment methods
 
 ### Helm
