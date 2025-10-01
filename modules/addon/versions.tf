@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.5"
+  required_version = ">= 1.8"
 
   required_providers {
     aws = {
@@ -17,6 +17,10 @@ terraform {
     utils = {
       source  = "cloudposse/utils"
       version = ">= 1"
+    }
+    lara-utils = {
+      source  = "lablabs/lara-utils"
+      version = ">= 0.1"
     }
   }
 }

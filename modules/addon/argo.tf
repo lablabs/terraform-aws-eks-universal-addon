@@ -51,20 +51,6 @@ locals {
   }
 }
 
-data "utils_deep_merge_yaml" "argo_application_spec" {
-  count = local.argo_application_enabled
-
-  input = compact([
-    yamlencode(
-      merge(
-        local.argo_application_spec,
-        var.argo_spec_override
-      )
-    ),
-    yamlencode(var.argo_spec),
-  ])
-}
-
 resource "kubernetes_manifest" "this" {
   count = local.argo_application_enabled
 
@@ -80,7 +66,13 @@ resource "kubernetes_manifest" "this" {
           namespace = var.argo_namespace
         },
       )
-      spec = yamldecode(data.utils_deep_merge_yaml.argo_application_spec[0].output)
+      spec = provider::lara-utils::deep_merge(
+        merge(
+          local.argo_application_spec,
+          var.argo_spec_override
+        ),
+        var.argo_spec
+      )
     },
     length(var.argo_operation) > 0 ? {
       operation = var.argo_operation
