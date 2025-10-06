@@ -169,6 +169,7 @@ variable "pod_identity_role_additional_trust_policies" {
   type        = map(any)
   default     = {}
   description = "Additional trust policy statements to attach to the Pod Identity role where map key is a statement SID and value is a statement object."
+  nullable    = false
 }
 
 variable "pod_identity_policy_enabled" {
