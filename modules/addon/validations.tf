@@ -1,4 +1,5 @@
 resource "terraform_data" "validations" {
+  count = var.enabled ? 1 : 0
   lifecycle {
     precondition {
       condition = !local.argo_application_source_helm_enabled || (
@@ -33,4 +34,9 @@ resource "terraform_data" "validations" {
       error_message = "The `helm_repo_url`, `argo_source_path`, `helm_chart_version`, and `helm_release_name` variables must be set when argo_source_type is set to `helm-directory`."
     }
   }
+}
+
+moved {
+  from = terraform_data.validations
+  to   = terraform_data.validations[0]
 }
