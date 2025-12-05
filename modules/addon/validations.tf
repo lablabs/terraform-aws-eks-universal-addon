@@ -35,8 +35,3 @@ resource "terraform_data" "validations" {
     }
   }
 }
-
-moved {
-  from = terraform_data.validations
-  to   = terraform_data.validations[0]
-}
