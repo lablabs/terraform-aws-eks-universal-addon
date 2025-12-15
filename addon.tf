@@ -11,7 +11,7 @@ locals {
 }
 
 module "addon" {
-  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.24"
+  source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=feat/data-source-inline"
 
   enabled = var.enabled
 
@@ -84,13 +84,11 @@ module "addon" {
 
   settings = var.settings != null ? var.settings : lookup(local.addon, "settings", null)
 
-  values = yamlencode(provider::lara-utils::deep_merge(
-    yamldecode(local.addon_values),
-    yamldecode(var.values)
-  ))
+  values = provider::lara-utils::yaml_deep_merge([local.addon_values, var.values])
 
   depends_on = [
-    local.addon_depends_on
+    local.addon_depends_on,
+    var.addon_depends_on
   ]
 }
 

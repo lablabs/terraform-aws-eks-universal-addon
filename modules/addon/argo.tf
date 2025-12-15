@@ -49,6 +49,13 @@ locals {
     syncPolicy = var.argo_sync_policy
     info       = var.argo_info
   }
+  argo_application_spec_merged = provider::lara-utils::deep_merge([
+    merge(
+      local.argo_application_spec,
+      var.argo_spec_override
+    ),
+    var.argo_spec
+  ])
 }
 
 resource "kubernetes_manifest" "this" {
@@ -66,13 +73,7 @@ resource "kubernetes_manifest" "this" {
           namespace = var.argo_namespace
         },
       )
-      spec = provider::lara-utils::deep_merge(
-        merge(
-          local.argo_application_spec,
-          var.argo_spec_override
-        ),
-        var.argo_spec
-      )
+      spec = local.argo_application_spec_merged
     },
     length(var.argo_operation) > 0 ? {
       operation = var.argo_operation
