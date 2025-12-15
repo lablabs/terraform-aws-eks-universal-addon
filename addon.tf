@@ -83,13 +83,21 @@ module "addon" {
   argo_operation                                         = var.argo_operation != null ? var.argo_operation : lookup(local.addon, "argo_operation", null)
 
   settings = var.settings != null ? var.settings : lookup(local.addon, "settings", null)
-
-  values = provider::lara-utils::yaml_deep_merge([local.addon_values, var.values])
+  values   = one(data.utils_deep_merge_yaml.values[*].output)
 
   depends_on = [
     local.addon_depends_on,
     var.addon_depends_on
   ]
+}
+
+data "utils_deep_merge_yaml" "values" {
+  count = var.enabled ? 1 : 0
+
+  input = compact([
+    local.addon_values,
+    var.values
+  ])
 }
 
 output "addon" {

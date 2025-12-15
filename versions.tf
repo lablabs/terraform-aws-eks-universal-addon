@@ -15,9 +15,9 @@ terraform {
       source  = "hashicorp/helm"
       version = ">= 2.6"
     }
-    lara-utils = {
-      source  = "lablabs/lara-utils"
-      version = ">= 0"
+    utils = {
+      source  = "cloudposse/utils"
+      version = ">= 1"
     }
   }
 }
