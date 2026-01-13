@@ -8,7 +8,6 @@ on:
 permissions:
   contents: read
   issues: read
-  security-events: read
   pull-requests: write
 
 jobs:
