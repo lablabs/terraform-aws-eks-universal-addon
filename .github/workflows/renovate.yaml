@@ -7,6 +7,9 @@ on:
 
 permissions:
   contents: read
+  issues: read
+  security-events: read
+  pull-requests: write
 
 jobs:
   renovate:
@@ -17,19 +20,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Generate GitHub App token
-        id: lara-renovate-app-token
-        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
-        with:
-          app-id: ${{ secrets.LARA_RENOVATE_APP_ID }}
-          private-key: ${{ secrets.LARA_RENOVATE_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: ${{ github.event.repository.name }}
-
       - name: Renovate
         uses: renovatebot/github-action@a889a8abcb11ef7feaafaf5e483ea01d4bf7774e # v43.0.5
         env:
           RENOVATE_REPOSITORIES: ${{ github.repository }}
           RENOVATE_ONBOARDING: false
         with:
-          token: ${{ steps.lara-renovate-app-token.outputs.token }}
+          token: ${{ secrets.GITHUB_TOKEN }}
