@@ -8,7 +8,7 @@ variable "enabled" {
 }
 
 variable "addon_depends_on" {
-  type        = any
+  type        = list(any)
   default     = []
   description = "List of resources to wait for before installing the addon. Typically used to force a dependency on another addon."
   nullable    = false
