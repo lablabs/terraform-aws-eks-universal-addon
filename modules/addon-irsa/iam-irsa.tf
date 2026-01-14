@@ -46,7 +46,7 @@ locals {
           }
           Condition = {
             for condition in statement.condition : condition.test => {
-              condition.variable = condition.values
+              (condition.variable) = condition.values
             }
           }
         }
