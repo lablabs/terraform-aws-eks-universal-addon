@@ -31,7 +31,7 @@ repos:
 
   - repo: https://github.com/lablabs/luactl
     # renovate: datasource=github-tags depName=lablabs/luactl
-    rev: 8853756704da1483a1c88827f0ee09e4caf4acc6 # v0.0.2 # pragma: allowlist secret\
+    rev: 8853756704da1483a1c88827f0ee09e4caf4acc6 # v0.0.2 # pragma: allowlist secret
     hooks:
       - id: sync # should be run before terraform_docs
         name: Luactl sync variables
