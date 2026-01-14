@@ -1,4 +1,4 @@
-# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" module. Any changes to this file might be overwritten upon the next release of that module.
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon/module/addon-irsa" module. Any changes to this file might be overwritten upon the next release of that module.
 
 variable "cluster_identity_oidc_issuer" {
   type        = string
