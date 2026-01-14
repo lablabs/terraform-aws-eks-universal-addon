@@ -1,4 +1,5 @@
 resource "terraform_data" "validations" {
+  count = var.enabled ? 1 : 0
   lifecycle {
     precondition {
       condition = !local.argo_application_source_helm_enabled || (
