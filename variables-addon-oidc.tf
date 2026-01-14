@@ -1,4 +1,4 @@
-# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon/modules/addon-oidc" module. Any changes to this file might be overwritten upon the next release of that module.
+# IMPORTANT: This file is synced with the "terraform-aws-eks-universal-addon" template. Any changes to this file might be overwritten upon the next release of the template.
 
 variable "oidc_provider_create" {
   type        = bool
