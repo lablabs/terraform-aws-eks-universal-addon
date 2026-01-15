@@ -1,52 +1,37 @@
 locals {
   pod_identity_role_create = var.enabled && var.rbac_create && var.service_account_create && var.pod_identity_role_create
   pod_identity_role_name   = trim("${var.pod_identity_role_name_prefix}-${var.pod_identity_role_name}", "-")
-}
 
-data "aws_iam_policy_document" "pod_identity" {
-  count = local.pod_identity_role_create ? 1 : 0
-
-  statement {
-    actions = [
-      "sts:AssumeRole",
-      "sts:TagSession",
-    ]
-
-    principals {
-      type        = "Service"
-      identifiers = ["pods.eks.amazonaws.com"]
-    }
-
-    effect = "Allow"
-  }
-
-  dynamic "statement" {
-    for_each = var.pod_identity_role_additional_trust_policies
-
-    content {
-      sid     = statement.key
-      effect  = statement.value.effect
-      actions = statement.value.actions
-
-      dynamic "principals" {
-        for_each = statement.value.principals
-
-        content {
-          type        = principals.value.type
-          identifiers = principals.value.identifiers
+  pod_identity_trust_policy = {
+    Version = "2012-10-17"
+    Statement = concat(
+      [
+        {
+          Effect = "Allow"
+          Action = [
+            "sts:AssumeRole",
+            "sts:TagSession",
+          ]
+          Principal = {
+            Service = "pods.eks.amazonaws.com"
+          }
         }
-      }
-
-      dynamic "condition" {
-        for_each = statement.value.condition
-
-        content {
-          test     = condition.value.test
-          variable = condition.value.variable
-          values   = condition.value.values
+      ],
+      [
+        for key, statement in var.pod_identity_role_additional_trust_policies : {
+          Sid    = key
+          Effect = statement.effect
+          Action = statement.actions
+          Principal = {
+            for principal in statement.principals : principal.type => principal.identifiers
+          }
+          Condition = {
+            for condition in statement.condition : condition.test => {
+              (condition.variable) = condition.values
+            }
+          }
         }
-      }
-    }
+    ])
   }
 }
 
@@ -65,7 +50,7 @@ resource "aws_iam_role" "pod_identity" {
   count = local.pod_identity_role_create ? 1 : 0
 
   name                 = local.pod_identity_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy   = data.aws_iam_policy_document.pod_identity[0].json
+  assume_role_policy   = jsonencode(local.pod_identity_trust_policy)
   permissions_boundary = var.pod_identity_permissions_boundary
 
   tags = var.pod_identity_tags

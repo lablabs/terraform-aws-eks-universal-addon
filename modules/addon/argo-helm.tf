@@ -2,30 +2,14 @@ locals {
   helm_argo_application_enabled      = var.enabled == true && var.argo_enabled == true && var.argo_helm_enabled == true
   helm_argo_application_wait_enabled = local.helm_argo_application_enabled && try(length(keys(var.argo_kubernetes_manifest_wait_fields)) > 0, false)
   helm_argo_application_values = compact([
-    one(data.utils_deep_merge_yaml.argo_helm_values[*].output),
+    yamlencode({
+      apiVersion  = var.argo_apiversion
+      labels      = local.argo_application_metadata.labels
+      annotations = local.argo_application_metadata.annotations
+      finalizers  = local.argo_application_metadata.finalizers
+      spec        = local.argo_application_spec_merged
+    }),
     var.argo_helm_values
-  ])
-}
-
-data "utils_deep_merge_yaml" "argo_helm_values" {
-  count = local.helm_argo_application_enabled ? 1 : 0
-
-  input = compact([
-    yamlencode({
-      apiVersion = var.argo_apiversion
-    }),
-    yamlencode({
-      spec = merge(
-        local.argo_application_spec,
-        var.argo_spec_override
-      )
-    }),
-    yamlencode({
-      spec = var.argo_spec
-    }),
-    yamlencode(
-      local.argo_application_metadata
-    )
   ])
 }
 

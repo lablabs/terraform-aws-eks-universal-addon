@@ -4,27 +4,54 @@ locals {
   irsa_assume_role_policy_condition_values_default = length(var.service_account_namespace) > 0 && length(var.service_account_name) > 0 ? [
     format("system:serviceaccount:%s:%s", var.service_account_namespace, var.service_account_name)
   ] : [] # we want to use the default values only if the Service Account Namespace and name are defined
-}
 
-data "aws_iam_policy_document" "irsa_assume" {
-  count = local.irsa_role_create && var.irsa_assume_role_enabled ? 1 : 0
-
-  statement {
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole"
-    ]
-    resources = var.irsa_assume_role_arns
+  irsa_policy = {
+    Version = "2012-10-17"
+    Statement = concat(
+      [
+        for s in try(jsondecode(var.irsa_policy).Statement, []) : s if var.irsa_policy_enabled && var.irsa_policy != null
+      ],
+      var.irsa_assume_role_enabled ? [{
+        Effect   = "Allow"
+        Action   = "sts:AssumeRole"
+        Resource = var.irsa_assume_role_arns
+      }] : []
+    )
   }
-}
 
-data "aws_iam_policy_document" "irsa_policy" {
-  count = local.irsa_role_create && (var.irsa_policy_enabled || var.irsa_assume_role_enabled) ? 1 : 0
-
-  source_policy_documents = compact([
-    var.irsa_policy,
-    one(data.aws_iam_policy_document.irsa_assume[*].json)
-  ])
+  irsa_trust_policy = {
+    Version = "2012-10-17"
+    Statement = concat(
+      [
+        {
+          Effect = "Allow"
+          Action = "sts:AssumeRoleWithWebIdentity"
+          Principal = {
+            Federated = var.cluster_identity_oidc_issuer_arn
+          }
+          Condition = {
+            (var.irsa_assume_role_policy_condition_test) = {
+              "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub" = try(coalescelist(var.irsa_assume_role_policy_condition_values, local.irsa_assume_role_policy_condition_values_default), [])
+            }
+          }
+        }
+      ],
+      [
+        for key, statement in var.irsa_role_additional_trust_policies : {
+          Sid    = key
+          Effect = statement.effect
+          Action = statement.actions
+          Principal = {
+            for principal in statement.principals : principal.type => principal.identifiers
+          }
+          Condition = {
+            for condition in statement.condition : condition.test => {
+              (condition.variable) = condition.values
+            }
+          }
+        }
+    ])
+  }
 }
 
 resource "aws_iam_policy" "irsa" {
@@ -33,65 +60,16 @@ resource "aws_iam_policy" "irsa" {
   description = "Policy for ${local.irsa_role_name} addon"
   name        = local.irsa_role_name # tflint-ignore: aws_iam_policy_invalid_name
   path        = "/"
-  policy      = data.aws_iam_policy_document.irsa_policy[0].json
+  policy      = jsonencode(local.irsa_policy)
 
   tags = var.irsa_tags
-}
-
-data "aws_iam_policy_document" "irsa" {
-  count = local.irsa_role_create ? 1 : 0
-
-  statement {
-    effect  = "Allow"
-    actions = ["sts:AssumeRoleWithWebIdentity"]
-
-    principals {
-      type        = "Federated"
-      identifiers = [var.cluster_identity_oidc_issuer_arn]
-    }
-
-    condition {
-      test     = var.irsa_assume_role_policy_condition_test
-      variable = "${replace(var.cluster_identity_oidc_issuer, "https://", "")}:sub"
-      values   = coalescelist(var.irsa_assume_role_policy_condition_values, local.irsa_assume_role_policy_condition_values_default)
-    }
-  }
-
-  dynamic "statement" {
-    for_each = var.irsa_role_additional_trust_policies
-
-    content {
-      sid     = statement.key
-      effect  = statement.value.effect
-      actions = statement.value.actions
-
-      dynamic "principals" {
-        for_each = statement.value.principals
-
-        content {
-          type        = principals.value.type
-          identifiers = principals.value.identifiers
-        }
-      }
-
-      dynamic "condition" {
-        for_each = statement.value.condition
-
-        content {
-          test     = condition.value.test
-          variable = condition.value.variable
-          values   = condition.value.values
-        }
-      }
-    }
-  }
 }
 
 resource "aws_iam_role" "irsa" {
   count = local.irsa_role_create ? 1 : 0
 
   name                 = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
-  assume_role_policy   = data.aws_iam_policy_document.irsa[0].json
+  assume_role_policy   = jsonencode(local.irsa_trust_policy)
   permissions_boundary = var.irsa_permissions_boundary
 
   tags = var.irsa_tags
