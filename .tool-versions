@@ -4,4 +4,4 @@ tflint 0.59.1
 checkov 3.2.457
 awscli 2.27.62
 pre-commit 4.5.1
-golang 1.24.3
+golang 1.26.0
