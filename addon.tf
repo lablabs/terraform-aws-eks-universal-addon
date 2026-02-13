@@ -11,7 +11,7 @@ locals {
 }
 
 module "addon" {
-  # source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=v0.0.25"
+  # source = "git::https://github.com/lablabs/terraform-aws-eks-universal-addon.git//modules/addon?ref=feat-helm-provider-3"
   source = "./modules/addon"
 
   enabled = var.enabled

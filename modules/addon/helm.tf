@@ -53,9 +53,5 @@ resource "helm_release" "this" {
     }
   ]
 
-  postrender = var.helm_postrender != null && length(var.helm_postrender) > 0 ? [
-    for name, value in var.helm_postrender : {
-      binary_path = value
-    }
-  ] : null
+  postrender = var.helm_postrender
 }
