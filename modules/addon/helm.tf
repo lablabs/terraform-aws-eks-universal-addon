@@ -39,29 +39,19 @@ resource "helm_release" "this" {
     var.values
   ])
 
-  dynamic "set" {
-    for_each = var.settings
-
-    content {
-      name  = set.key
-      value = set.value
+  set = [
+    for name, value in var.settings : {
+      name  = name
+      value = value
     }
-  }
+  ]
 
-  dynamic "set_sensitive" {
-    for_each = var.helm_set_sensitive
-
-    content {
-      name  = set_sensitive.key
-      value = set_sensitive.value
+  set_sensitive = [
+    for name, value in var.helm_set_sensitive : {
+      name  = name
+      value = value
     }
-  }
+  ]
 
-  dynamic "postrender" {
-    for_each = var.helm_postrender
-
-    content {
-      binary_path = postrender.value
-    }
-  }
+  postrender = var.helm_postrender
 }
