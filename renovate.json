@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "group:allNonMajor"
+  ],
   "labels": [
     "dependencies"
   ],
@@ -50,17 +53,8 @@
   "packageRules": [
     {
       "matchPackageNames": [
+        "terraform",
         "hashicorp/terraform"
-      ],
-      "matchUpdateTypes": [
-        "major",
-        "minor"
-      ],
-      "enabled": false
-    },
-    {
-      "matchPackageNames": [
-        "terraform-linters/tflint"
       ],
       "matchUpdateTypes": [
         "major",
