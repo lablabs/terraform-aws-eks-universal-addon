@@ -1,7 +1,3 @@
-mock_provider "aws" {}
-mock_provider "helm" {}
-mock_provider "kubernetes" {}
-
 provider "helm" {
   alias = "real"
 
@@ -12,14 +8,7 @@ provider "helm" {
   }
 }
 
-variables {
-  irsa_role_create         = false
-  oidc_role_create         = false
-  oidc_provider_create     = false
-  oidc_custom_provider_arn = "arn:aws:iam::123456789012:oidc-provider/oidc.eks.example.com/id/test"
-}
-
-run "helm_provider_check" {
+run "helm_release_v3_checks" {
   command = plan
 
   providers = {
@@ -41,7 +30,7 @@ run "helm_provider_check" {
     helm_chart_version = "0.1.0"
     helm_release_name  = "test-helm-release"
     helm_repo_url      = "https://helm.github.io/examples"
-    values             = yamlencode({})
+    values             = ""
   }
 
   assert {
