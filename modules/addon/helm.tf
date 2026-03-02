@@ -15,7 +15,7 @@ resource "helm_release" "this" {
   repository_password        = var.helm_repo_password
   devel                      = var.helm_devel
   verify                     = var.helm_package_verify
-  keyring                    = var.helm_keyring
+  keyring                    = var.helm_package_verify ? var.helm_keyring : null
   timeout                    = var.helm_timeout
   disable_webhooks           = var.helm_disable_webhooks
   reset_values               = var.helm_reset_values
@@ -32,7 +32,7 @@ resource "helm_release" "this" {
   disable_openapi_validation = var.helm_disable_openapi_validation
   dependency_update          = var.helm_dependency_update
   replace                    = var.helm_replace
-  description                = var.helm_description
+  description                = length(var.helm_description) > 0 ? var.helm_description : null
   lint                       = var.helm_lint
 
   values = compact([
