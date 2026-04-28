@@ -313,7 +313,7 @@ variable "helm_package_verify" {
 variable "helm_keyring" {
   type        = string
   default     = "~/.gnupg/pubring.gpg"
-  description = "Location of public keys used for verification. Used only if `helm_package_verify` is `true`. Used only when `helm_package_verify` is `true`."
+  description = "Location of public keys used for verification. Used only when `helm_package_verify` is `true`."
   nullable    = false
 }
 
