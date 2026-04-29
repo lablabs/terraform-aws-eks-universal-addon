@@ -7,3 +7,5 @@ README.md
 .secrets.baseline
 .github/workflows/renovate.yaml
 renovate.json
+migrations.tf
+.templatesyncignore.local
