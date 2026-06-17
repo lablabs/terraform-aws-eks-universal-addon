@@ -1,3 +1,16 @@
+locals {
+  values = var.values_sensitive != "" ? var.values_sensitive : var.values
+}
+
+# Track helm values changes across Terraform applies with structured diffs.
+# yamldecode() converts the YAML string to an HCL object, enabling native Terraform
+# diffs of individual fields (e.g., `~ cpu = "20m" -> "30m"`) instead of raw text diffs.
+# nonsensitive() is safe here since helm addon values contain no secrets.
+resource "lara-utils_terraform_data" "values" {
+  count = var.enabled && var.values_diff ? 1 : 0
+  input = nonsensitive(yamldecode(local.values))
+}
+
 resource "helm_release" "this" {
   count = var.enabled == true && var.helm_enabled == true && var.argo_enabled == false ? 1 : 0
 
@@ -36,7 +49,7 @@ resource "helm_release" "this" {
   lint                       = var.helm_lint
 
   values = compact([
-    var.values
+    local.values
   ])
 
   set = [
