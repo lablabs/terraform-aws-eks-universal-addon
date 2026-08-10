@@ -18,7 +18,7 @@ locals {
       {
         releaseName = var.helm_release_name
         skipCrds    = var.helm_skip_crds
-        values      = var.values
+        values      = local.values
       },
       length(var.settings) > 0 ? {
         parameters = [for k, v in var.settings : tomap({ forceString = true, name = k, value = v })]

@@ -67,6 +67,21 @@ variable "values" {
   nullable    = false
 }
 
+variable "values_sensitive" {
+  type        = string
+  default     = ""
+  description = "Sensitive Helm chart values in YAML format. Use for values containing secrets or sensitive data that should not appear in Terraform logs. Marked as sensitive to prevent output logging. Pair with `var.values_diff` for improved plan readability."
+  nullable    = false
+  sensitive   = true
+}
+
+variable "values_diff" {
+  type        = bool
+  default     = false
+  description = "Enable structured value diffing for improved Terraform plan output. When enabled, tracks individual field changes across applies for clearer visibility of modifications. Recommended when using `values_sensitive`."
+  nullable    = false
+}
+
 variable "argo_name" {
   type        = string
   default     = ""
