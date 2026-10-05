@@ -21,6 +21,61 @@ This addon can be used in two ways:
 1. **Using the sub modules, i.e. `addon` directly**: This is the recommended way when creating an addon as a simple wrapper without any additional configuration. i.e. no IAM policy, no default Helm values configuration.
 2. **Using the module as a template**: This is the recommended way when an addon would add additional configuration, i.e. multiple IRSA roles.
 
+### Direct usage
+
+Use `modules/addon` to deploy a Helm chart and `modules/addon-irsa` to create the IAM role when the workload needs AWS access. Pin `?ref=` to a release.
+
+```hcl
+module "<addon>-irsa" {
+  source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon-irsa?ref=v1.0.2"
+
+  cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
+  cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
+
+  service_account_name      = "<addon>" # must match the Service Account created by the chart
+  service_account_namespace = "<addon>"
+
+  irsa_role_name = "<addon>"
+  irsa_additional_policies = {
+    s3 = aws_iam_policy.<addon>.arn
+  }
+}
+
+module "<addon>" {
+  source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon?ref=v1.0.2"
+
+  namespace = "<addon>"
+
+  helm_repo_url      = "https://charts.example.com"
+  helm_chart_name    = "<addon>"
+  helm_chart_version = "1.0.0"
+  helm_release_name  = "<addon>"
+
+  values = yamlencode({
+    serviceAccount = {
+      annotations = {
+        "eks.amazonaws.com/role-arn" = module.<addon>-irsa.iam_role_attributes.arn
+      }
+    }
+  })
+
+  argo_enabled      = true
+  argo_helm_enabled = true
+  argo_sync_policy = {
+    automated   = { enabled = true }
+    syncOptions = ["CreateNamespace=true", "ServerSideApply=true"]
+  }
+}
+```
+
+Watch out for:
+
+- `namespace` has no default, and `helm_release_name` and `helm_chart_name` default to `""`. Always set all three.
+- `argo_enabled` and `argo_helm_enabled` default to `false`, which installs a plain `helm_release`. To deploy an ArgoCD Application, set both to `true` (see [Deployment methods](#deployment-methods)).
+- `addon-irsa` does not create the Service Account. It creates the IAM role only when `rbac_create`, `service_account_create` and `irsa_role_create` are all `true` (the defaults). Annotate the chart's Service Account with `iam_role_attributes.arn`.
+- For EKS Pod Identity, set `irsa_role_create = false`, `pod_identity_role_create = true` and `cluster_name`. The module then creates the Pod Identity association, so the Service Account needs no annotation.
+- Put CRD or operator dependencies into `depends_on`.
+
 ### Template usage
 
 1. Hit "Use this template" button on the top right corner of this page.
