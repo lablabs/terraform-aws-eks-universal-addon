@@ -23,7 +23,7 @@ This addon can be used in two ways:
 
 ### Direct usage
 
-Use `modules/addon` to deploy a Helm chart and `modules/addon-irsa` to create the IAM role when the workload needs AWS access. Pin `?ref=` to a release.
+Use `modules/addon` to deploy a Helm chart. Add `modules/addon-irsa` only when the workload calls AWS APIs and needs an IAM role. Use `modules/addon-irsa` alone when the chart is deployed outside of Terraform. Pin `?ref=` to a release.
 
 ```hcl
 module "<addon>-irsa" {
