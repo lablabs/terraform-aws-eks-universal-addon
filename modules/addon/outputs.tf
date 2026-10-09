@@ -12,3 +12,8 @@ output "kubernetes_application_attributes" {
   description = "ArgoCD Kubernetes manifest attributes"
   value       = try(kubernetes_manifest.this[0], {})
 }
+
+output "helm_release_values" {
+  description = "Helm release values"
+  value       = local.values
+}
