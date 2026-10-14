@@ -5,6 +5,8 @@
   "labels": [
     "dependencies"
   ],
+  "minimumReleaseAge": "7 days",
+  "internalChecksFilter": "strict",
   "enabledManagers": [
     "asdf",
     "github-actions",
@@ -68,6 +70,14 @@
       ],
       "overrideDatasource": "docker",
       "overridePackageName": "bridgecrew/checkov"
+    },
+    {
+      "description": "No cooldown for lablabs-owned packages",
+      "matchPackageNames": [
+        "lablabs/**",
+        "ghcr.io/lablabs/**"
+      ],
+      "minimumReleaseAge": "0 days"
     }
   ]
 }
