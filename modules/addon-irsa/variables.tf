@@ -75,6 +75,12 @@ variable "irsa_role_additional_trust_policies" {
   nullable    = false
 }
 
+variable "irsa_role_max_session_duration" {
+  type        = number
+  default     = 3600
+  description = "Maximum session duration (in seconds) for the IRSA role. Caps the lifetime of temporary credentials issued via AssumeRoleWithWebIdentity. AWS allows 3600-43200."
+}
+
 variable "irsa_policy_enabled" {
   type        = bool
   default     = false

@@ -71,6 +71,7 @@ resource "aws_iam_role" "irsa" {
   name                 = local.irsa_role_name # tflint-ignore: aws_iam_role_invalid_name
   assume_role_policy   = jsonencode(local.irsa_trust_policy)
   permissions_boundary = var.irsa_permissions_boundary
+  max_session_duration = var.irsa_role_max_session_duration
 
   tags = var.irsa_tags
 }
