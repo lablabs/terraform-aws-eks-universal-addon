@@ -55,6 +55,6 @@ repos:
 
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
     # renovate: datasource=github-releases depName=zizmorcore/zizmor-pre-commit
-    rev: d25b2b1dc80689fb633f21f6978bba69871181d3 # v1.31.0 # pragma: allowlist secret
+    rev: c92afdf2c6ca336aaa8f39e2bd8d48f62dbd8e1f # v1.31.1 # pragma: allowlist secret
     hooks:
       - id: zizmor
