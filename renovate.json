@@ -80,5 +80,8 @@
       ],
       "minimumReleaseAge": "0 days"
     }
-  ]
+  ],
+  "vulnerabilityAlerts": {
+    "addLabels": ["security"]
+  }
 }
