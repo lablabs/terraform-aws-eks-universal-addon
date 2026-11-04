@@ -19,7 +19,7 @@
  *
  * ```hcl
  * module "<addon>-irsa" {
- *   source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon-irsa?ref=v1.0.2"
+ *   source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon-irsa?ref=v1..2"
  *
  *   cluster_identity_oidc_issuer     = module.eks_cluster.eks_cluster_identity_oidc_issuer
  *   cluster_identity_oidc_issuer_arn = module.eks_cluster.eks_cluster_identity_oidc_issuer_arn
@@ -34,7 +34,7 @@
  * }
  *
  * module "<addon>" {
- *   source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon?ref=v1.0.2"
+ *   source = "github.com/lablabs/terraform-aws-eks-universal-addon//modules/addon?ref=v1.1.2"
  *
  *   namespace = "<addon>"
  *
