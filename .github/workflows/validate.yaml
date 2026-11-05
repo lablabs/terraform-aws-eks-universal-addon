@@ -13,7 +13,7 @@ on:
 jobs:
   extract-version:
     name: Extract min/max Terraform versions
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
       - name: Checkout
@@ -31,7 +31,7 @@ jobs:
       maxVersion: ${{ steps.terraform-min-max.outputs.maxVersion }}
 
   terraform-validate:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: extract-version
     strategy:
       matrix:
